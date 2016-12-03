@@ -1,0 +1,22 @@
+sudo: required
+services:
+- docker
+install:
+- make node_modules
+script:
+- make
+after_success:
+- docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+- export REPO=demostf/demos.tf
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
+  ; fi`
+- docker build -f Dockerfile -t $REPO:$COMMIT .
+- docker tag $REPO:$COMMIT $REPO:$TAG
+- docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+- docker push $REPO
+env:
+  global:
+  - secure: Ieqmox0X+lqLhzNCnAP9/TRbK2aokzY5LoJc5OE14k8EnFkfuGITCBVbfrS7aw/PiWgnlMaWghKKfEbHV1fxAQo+hvpLLL/wE0jvC3KXw19SRt21lHk+SDTxJGcVeXZWnJiv0Yu1b5BlSYxaP3HHu8qaaxBikjjkofFiYDJPdNz61Uj/v2xIAPIGJnmgMObiJYdP6AbQjItEl3Mz71NsVv9SDaLZuvaJUIuVnqa8NqCi8UI62QAhp75X2o9xbUKIElb/q2NTs7uy3gICvmMRjWWftwu3GuOnU0Lid82Sm8Dg3lOUgsHfVbDfrvhrYQ2mxsLhy6CLw9TtCpZZBwmOE2gvjo5jKNi57u2lnOnK8BCj6ByEuTCbr5+cRHOTbcIQ52AzNeeiYRdfAHeeI2DIZBp7D02u4/dAzFcSZT6l3jpXfZRgxpNFGf1gt7CONP3oyKrKWhq8/HCDyvZFKUEzsm0r8gtJiLaX9PNeHxfY2LAYfPLBl8jtrGZJfjxmIHyGt2O5RdcvYiUn8nCalg38Qu0QFtPuYuSqke1oPilphr4cCTNj71IDB7qbb2xHUX6Q2uemlZj0vbv99YcHUmLxJR2cjUg0fdPF6Km8n5+XzBYgiW+bCgYIHU4iP05/fa+XFfBuyUhl6XQ6OOzhHZt7auM5SYcImKbWdrXCLfPZYu4=
+  - secure: RUgRFFLqIrMhk9GV+a1B5DCSH8sOfW1/FsEuoms6D85A5ys3Hc38H24DEFdl213+DDHAj/DKrhEn/S/oBFRfImG1cyHj5yT1cOZl2VtDT4EIHy43pguK0gv/WqcUz25fqd2U4vuePLyb8bqFPwm/quCcRbOlpyUd10SYsuZgq40veDueOMl/ppZTook4szLmoHkgDT17FrszvFi94nShHJ4JsETJttkk4Foz0IEr1Nn6itSLOUkyda54dUb97E0B4DmX0rDFx9R6Z2zexw3XIZgO4TyjbVK7ZfOXCoW1ZtOQ5Y6yEDVrKZltZCUz1dLYtNZWJnWpHu/XJ1bCupMC9cFVZbvbnf7cnPhObf194tU84WPnQ37Qf1jzCrdJovAjKnJJAINb6lYNdH21ZOsdQ7/oqcizmQzi1/N0N1B7zeGsoZbt0k0GNDkGxXwqabOXUj0d7ffsSryCo35FVq9UZRPw40toOf9skb5nm2i3SsfSuo4kGe4WaIzCJq5eCLnACGuktzxPMLux6FT5gcWtWzg7DPwL4UhuKpTmv0IhV//8yeiRZYOWj1zfVfOi1Drx6VKLOphZuA+zRItb0PIzB/rRWGMvslZESPS+x9EDP+5I7bfOfQlUibGEgs+HuTce9+Mf7/pu/pCrJFfFNhYUpRdS2E7esM2TttiuQDaYPE0=
+  - secure: KyfA+hlLEzZnlw9OB1x6uUrizZj2m/khqPGkM1TOouqTsOdOY2EXMbGzWiCOBn6odn9AA+m6l/vc4vnjM1j3gKL1gmINRW10wc02c1+GNlQtov6ut1+fPaM/+9EnRqOoeLVT5Y5IGurtQVQ0zg8nd9m1DxijgmVW9V97ghxOPecKt3sRTUijZz5v1K4+3mH3IbXV2i6D9miUPjHpWoeM3wvWjArruW3jDCu7PHiTHIma1qKAMhphiBtSBOyGe8d84IPyCjN1L9cIGXl4/LfuO6UfpzGf+8PkLg4r3pOiRz3JpadjMYTO9MODRAwmX7UhTRarB+6oWeDb2eJbPg1DWVBgGnCb6DmQCX+SABY70p+b/0F1h/lj6ZY0s5UMEa4wegEKDnQsoMFk4Ir0tUZqgOduN2VrdfWpsHEQEhQPP+Bl0Pi2W4/ZoLHfsv63wDcu8xAbZb8dPIv30e9e/Rq1VkykreiZ9NguqyYaqj8ejBNwO4tqiZtmHLMQ8s9/pnCGKeufVt0f+2jr1xZ89pK5NCFVvaamFWKQTRCyilIHZ1juszHcio5QEOw/odiJvQk1NvOtPUFV8S1Bi8fTc/BU1P9PtMi0+ED14pCm3UPfXY9sNxH2WvAw7QfczsW7kwH2X7DRsOuppAFSV0VdHsxPVsq3a//FDzuCHdZRWtoSybM=
+  - COMMIT=${TRAVIS_COMMIT::8}
