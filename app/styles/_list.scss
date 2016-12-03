@@ -1,0 +1,161 @@
+div.search {
+  height: 50px;
+}
+
+$width--date: 120px;
+$width--duration: 90px;
+$width--format: 75px;
+$width--map: 180px;
+
+.demolist {
+  border: none;
+  width: 100%;
+  table-layout: fixed;
+
+  .row {
+    position: relative;
+    vertical-align: top;
+  }
+
+  div {
+    text-align: left;
+    margin: 0;
+  }
+
+  div.head div {
+    font-weight: bold;
+  }
+
+  div.row > *, div.head > * {
+    vertical-align: top;
+    position: relative;
+    display: inline-block;
+    padding: 9px;
+  }
+
+  .format, .duration {
+    text-align: right;
+  }
+
+  div.row > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .title {
+    width: calc(100% - #{$width--date} - #{$width--duration} - #{$width--format} - #{$width--map});
+  }
+
+  .date {
+    width: $width--date;
+  }
+
+  .duration {
+    width: $width--duration;
+  }
+
+  .format {
+    width: $width--format;
+  }
+
+  .map {
+    width: $width--map;
+  }
+
+  div.row.even {
+    background-color: $background--lighter;
+  }
+
+  @media (max-width: 1000px) {
+    div > .duration {
+      display: none;
+    }
+
+    .title {
+      width: calc(100% - (#{$width--date} + #{$width--format} + #{$width--map}));
+    }
+  }
+
+  @media (max-width: 850px) {
+    div > .format {
+      display: none;
+    }
+
+    .title {
+      width: calc(100% - (#{$width--date} + #{$width--map}));
+    }
+  }
+
+  @media (max-width: 700px) {
+    div > .date {
+      display: none;
+    }
+
+    .title {
+      width: calc(100% - (#{$width--map}));
+    }
+  }
+
+  @media (max-width: 500px) {
+    div > .map {
+      display: none;
+    }
+
+    div.head {
+      display: none;
+    }
+
+    .title {
+      width: 100%;
+    }
+  }
+}
+
+.listType {
+  > span {
+    vertical-align: top;
+  }
+
+  line-height: 62px;
+
+  div.Select {
+    vertical-align: middle;
+    display: inline-block;
+    width: 200px;
+    margin-top: -13px;
+
+    div.Select-placeholder {
+      padding: 4px;
+      cursor: pointer;
+    }
+
+    div.Select-control, div.Select-control:hover {
+      height: 62px;
+      border-radius: 0;
+      border: none;
+    }
+
+    .Select-arrow, .Select-value-label {
+      vertical-align: middle;
+    }
+
+    .Select-value {
+      padding-top:10px;
+    }
+  }
+
+  div.Select.is-focused {
+    div.Select-control {
+      height: 62px;
+      border-radius: 0;
+      border: 1px solid #ccc;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .list-page {
+    padding: 10px 0;
+  }
+}

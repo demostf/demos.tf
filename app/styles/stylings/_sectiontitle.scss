@@ -1,0 +1,41 @@
+section > div.title {
+  overflow: hidden;
+  padding-left: 30px;
+  margin-left: -30px;
+  margin-right: -30px;
+}
+
+section > div > h3 {
+  font-size: 22px;
+  display: inline-block;
+  padding: 0 5px;
+  position: relative;
+  margin-left: 20px;
+  margin-bottom: 0;
+  min-width: 50px;
+}
+
+section > div > h3:before,
+section > div > h3:after {
+  background: #888;
+  content: "";
+  display: block;
+  height: 2px;
+  position: absolute;
+  top: 60%;
+}
+
+section > div > h3:before {
+  width: 100%;
+  margin-left: -20px;
+  right: 100%;
+}
+
+section > div > h3:after {
+  left: 100%;
+  width: 9999%;
+}
+
+section > div > h3 + * {
+  margin-top: 10px;
+}
