@@ -52,9 +52,9 @@ export class PluginSection extends Component {
 					<li>Restart the server</li>
 				</ol>
 				<a className="pure-button pure-button-primary"
-				   href="https://demos.tf/plugin/demostf.smx">Download</a>
+				   href="https://github.com/demostf/plugin/raw/master/demostf.smx">Download</a>
 				<a className="pure-button"
-				   href="https://demos.tf/plugin/demostf.sp">Source</a>
+				   href="https://github.com/demostf/plugin/raw/master/demostf.sp">Source</a>
 			</Section>
 		);
 	}

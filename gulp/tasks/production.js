@@ -11,6 +11,6 @@ gulp.task('prod', ['clean'], function (callback) {
 	global.isProd = true;
 	process.env.NODE_ENV = 'production';
 
-	runSequence(['sass', 'imagemin', 'browserify', 'copyFonts', 'copyIndex', 'copyIcons', 'copyPlugin'], callback);
+	runSequence(['sass', 'imagemin', 'browserify', 'copyFonts', 'copyIndex', 'copyIcons'], callback);
 
 });
