@@ -22,6 +22,10 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx'],
+		alias     : {
+			'react'    : 'preact-compat',
+			'react-dom': 'preact-compat'
+		}
 	},
 	plugins: [
 		new CleanPlugin(),
@@ -49,7 +53,10 @@ module.exports = {
 				filename                 : 'service-worker.js',
 				dontCacheBustUrlsMatching: [
 					/\.(js|css)$/, // I'm cache busting js and css files myself
-				]
+				],
+				verbose                  : false,
+				logger                   : () => {
+				}
 			}
 		)
 	],
