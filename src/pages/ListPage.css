@@ -1,0 +1,44 @@
+.demolist {
+	width: 100%;
+	text-align: left;
+	border: none;
+	border-collapse: collapse;
+}
+
+.demolist th {
+	font-weight: bold;
+}
+
+.demolist td, .demolist th {
+	padding: 9px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin: 0;
+}
+
+.demolist td.date {
+	width: 120px;
+}
+
+.demolist td.duration {
+	width: 90px;
+	text-align: right;
+}
+
+.demolist td.format {
+	width: 75px;
+	text-align: right;
+}
+
+.demolist td.map {
+	width: 180px;
+}
+
+.demolist tr.even {
+	background-color: #F8F8F8;
+}
+
+.search {
+	height: 50px;
+}

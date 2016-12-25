@@ -1,20 +1,18 @@
-run=docker run -it --rm -v "$(CURDIR)":/usr/src/app -w /usr/src/app node:6
-
 all: build/js/main.js
 
 .PHONY: clean
 clean:
-	$(run) rm -rf build
-	$(run) rm -rf node_modules
+	rm -rf dist
+	rm -rf node_modules
 
 node_modules: package.json
-	$(run) npm install
+	npm install
 
 sources=$(wildcard js/*) $(wildcard js/*/*) $(wildcard css/*/*)  $(wildcard css/*)
 
 .PHONY: prod
 prod: node_modules $(sources)
-	$(run) node_modules/.bin/gulp prod
+	node node_modules/.bin/webpack --verbose --colors --display-error-details --config webpack.prod.config.js
 
 build/js/main.js: prod
 
@@ -23,5 +21,8 @@ build: prod
 
 .PHONY: watch
 watch: node_modules
-	# run inside `sh` to have proper interrupt handling
-	$(run) sh -c 'node node_modules/.bin/gulp watch'
+	node webpack.dev.server.js
+
+.PHONY: analyse
+analyse: node_modules
+	node node_modules/.bin/webpack --config webpack.prod.config.js  --profile --json | node_modules/.bin/webpack-bundle-size-analyzer
