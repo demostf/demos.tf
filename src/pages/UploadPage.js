@@ -1,16 +1,33 @@
 import React, {Component, PropTypes} from 'react';
-import {Router} from 'react-router';
 
-import DocumentTitle from 'react-document-title';
 import {Section} from '../components/Section.js';
 import {Duration} from '../components/Duration.js';
 import {DemoProvider} from '../Providers/DemoProvider.js';
 import DropZone from 'react-dropzone';
-import Demo from 'tf2-demo';
 import {Footer} from '../components/Footer.js';
 import {PluginSection} from '../components/PluginSection.js';
+import 'dataview-getstring';
 
 require('./UploadPage.css');
+require('./DemoPage.css');
+
+function parseHeader(file, cb) {
+	const reader = new FileReader();
+
+	reader.onload = function () {
+		const view = new DataView(reader.result);
+		cb({
+			'type'    : view.getString(0, 8),
+			'server'  : view.getString(16, 260),
+			'nick'    : view.getString(276, 260),
+			'map'     : view.getString(536, 260),
+			'game'    : view.getString(796, 260),
+			'duration': view.getFloat32(1056, true)
+		});
+	};
+
+	reader.readAsArrayBuffer(file);
+}
 
 export class UploadPage extends Component {
 	static page = 'upload';
@@ -23,25 +40,29 @@ export class UploadPage extends Component {
 		demoInfo: null,
 		demoFile: null,
 		demoName: null,
-		names: {red: '', blue: ''},
-		loading: false
+		names   : {red: '', blue: ''},
+		loading : false
 	};
 
-	constructor (props) {
+	constructor(props) {
 		super(props);
 		this.provider = new DemoProvider();
 	}
 
-	onDrop = (files)=> {
+	componentDidMount() {
+		document.title = "Upload - demos.tf";
+	}
+
+	onDrop = (files) => {
 		var file = files[0];
 		this.handleDemo(file);
 	};
 
 	extractTeamNames = function (name) {
-		var matches = name.match(/(\w+)_vs_(\w+)/);
+		const matches = name.match(/(\w+)_vs_(\w+)/);
 		if (matches) {
 			return {
-				red: matches[2].toUpperCase(),
+				red : matches[2].toUpperCase(),
 				blue: matches[1].toUpperCase()
 			}
 		} else {
@@ -49,32 +70,12 @@ export class UploadPage extends Component {
 		}
 	};
 
-	readDemo (file, cb) {
-		var reader = new FileReader();
-
-		// Closure to capture the file information.
-		reader.onload = (function (theFile) {
-			return function (buffer) {
-				var demo = new Demo(buffer.target.result);
-				var parser = demo.getParser();
-				try {
-					var head = parser.readHeader();
-					cb(head);
-				} catch (e) {
-					cb(null);
-				}
-			};
-		})(file);
-
-		// Read in the image file as a data URL.
-		reader.readAsArrayBuffer(file);
-	}
-
-	handleDemo = (file)=> {
+	handleDemo = (file) => {
 		this.setState({demoName: file.name, demoFile: file});
-		this.readDemo(file, head => {
+		parseHeader(file, head => {
+				console.log(head);
 				if (head.type === 'HL2DEMO') {
-					var names = this.extractTeamNames(file.name);
+					const names = this.extractTeamNames(file.name);
 					if (names) {
 						this.setState({names});
 					}
@@ -88,7 +89,7 @@ export class UploadPage extends Component {
 
 	upload = async() => {
 		this.setState({loading: true});
-		var id = await this.provider.uploadDemo(this.props.user.key, this.state.names.red || 'RED',
+		const id = await this.provider.uploadDemo(this.props.user.key, this.state.names.red || 'RED',
 			this.state.names.blue || 'BLU', this.state.demoInfo.name, this.state.demoFile);
 		this.setState({loading: false});
 		if (id) {
@@ -96,51 +97,49 @@ export class UploadPage extends Component {
 		}
 	};
 
-	render () {
-		var demoInfo = [];
+	render() {
+		let demoInfo = [];
 		if (this.state.demoInfo) {
 			demoInfo = (
 				<div className="demo-info">
 					{this.state.demoInfo.map}
 					<Duration className="time"
-							  duration={Math.floor(this.state.demoInfo.duration)}/>
+							  duration={Math.floor(this.state.demoInfo.duration)} />
 				</div>
 			);
 		}
 		return (
-			<DocumentTitle title="Upload - demos.tf">
-				<div>
-					<section className="upload">
-						<div className="teams">
-							<div className="red">
-								<input type="text" name="red"
-									   placeholder="RED"/>
-							</div>
-							<div className="blue">
-								<input type="text" name="blue"
-									   placeholder="BLU"/>
-							</div>
-							<div id="clearfix"/>
+			<div>
+				<section className="upload">
+					<div className="teams">
+						<div className="red">
+							<input type="text" name="red"
+								   placeholder="RED" />
 						</div>
-						<DropZone onDrop={this.onDrop}
-								  className="dropzone">
-							{this.state.demoName ? this.state.demoName : 'Drop files or click to upload'}
-						</DropZone>
-						{demoInfo}
-						<button onClick={this.upload}
-								className="pure-button pure-button-primary"
-								disabled={(this.state.demoInfo==null) || this.state.loading}>
-							Upload
-						</button>
-					</section>
-					<Section title="API Key">
-						<pre>{this.props.user.key}</pre>
-					</Section>
+						<div className="blue">
+							<input type="text" name="blue"
+								   placeholder="BLU" />
+						</div>
+						<div id="clearfix" />
+					</div>
+					<DropZone onDrop={this.onDrop}
+							  className="dropzone">
+						{this.state.demoName ? this.state.demoName : 'Drop files or click to upload'}
+					</DropZone>
+					{demoInfo}
+					<button onClick={this.upload}
+							className="pure-button pure-button-primary"
+							disabled={(this.state.demoInfo == null) || this.state.loading}>
+						Upload
+					</button>
+				</section>
+				<Section title="API Key">
+					<pre>{this.props.user.key}</pre>
+				</Section>
 
-					<PluginSection user={this.props.user}/>
-					<Footer/>
-				</div>
-			</DocumentTitle>
+				<PluginSection user={this.props.user} />
+				<Footer />
+			</div>
 		);
 	}
 }

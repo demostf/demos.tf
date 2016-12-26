@@ -3,7 +3,6 @@
 import React, {Component, PropTypes} from 'react';
 
 import {Link} from 'react-router';
-import DocumentTitle from 'react-document-title';
 import ReactList from 'react-list';
 
 import {DemoListProvider} from '../Providers/DemoProvider.js';
@@ -104,7 +103,7 @@ export class ListPage extends Component {
 
 	getSubjectName = async() => {
 		if (this.state.steamid) {
-			var subjectName = await this.playerProvider.getName(this.state.steamid);
+			const subjectName = await this.playerProvider.getName(this.state.steamid);
 			if (this.state.subjectName !== subjectName) {
 				this.setState({subjectName});
 			}
@@ -114,7 +113,8 @@ export class ListPage extends Component {
 	};
 
 	componentDidMount = async() => {
-		var demos = await this.provider.loadTillPage(1);
+		document.title = 'Demos - demos.tf';
+		const demos = await this.provider.loadTillPage(1);
 		await this.getSubjectName();
 		this.setState({loading: false, demos});
 	};
@@ -123,7 +123,7 @@ export class ListPage extends Component {
 		if (i > this.state.demos.length - 5 && this.provider.more) {
 			this.loadPage();
 		}
-		var demo = this.state.demos[i];
+		const demo = this.state.demos[i];
 		if (this.rowMap[demo.id]) {
 			return this.rowMap[demo.id];
 		}
@@ -186,25 +186,23 @@ export class ListPage extends Component {
 		}
 
 		return (
-			<DocumentTitle title="Demos - demos.tf">
-				<div>
-					<h1>{demoTitle}</h1>
+			<div>
+				<h1>{demoTitle}</h1>
 
-					<div className="search">
-						<FilterBar provider={this.provider}
-								   filter={this.provider.filter}
-								   onChange={this.filterChange} />
-					</div>
-
-					<ReactList
-						type="uniform"
-						itemRenderer={this.renderItem}
-						itemsRenderer={this.renderItems}
-						length={this.state.demos.length}
-					/>
-					<Footer />
+				<div className="search">
+					<FilterBar provider={this.provider}
+							   filter={this.provider.filter}
+							   onChange={this.filterChange} />
 				</div>
-			</DocumentTitle>
+
+				<ReactList
+					type="uniform"
+					itemRenderer={this.renderItem}
+					itemsRenderer={this.renderItems}
+					length={this.state.demos.length}
+				/>
+				<Footer />
+			</div>
 		);
 	}
 }

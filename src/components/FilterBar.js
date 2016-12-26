@@ -8,15 +8,21 @@ require('react-select/dist/react-select.css');
 export class FilterBar extends Component {
 	selectedUsers = [];
 
-	constructor () {
+	state = {
+		type   : '',
+		map    : '',
+		players: ''
+	};
+
+	constructor() {
 		super();
 		this.playerProvider = new PlayerProvider();
 	}
 
-	getMaps = async () => {
+	getMaps = async() => {
 		var maps = await this.props.provider.listMaps();
 		return {
-			options: maps.map(map=> {
+			options : maps.map(map => {
 				return {value: map, label: map};
 			}),
 			complete: true
@@ -31,7 +37,7 @@ export class FilterBar extends Component {
 			value = value.value;
 		}
 		if (value && value.map) {
-			value = value.map(player=>player.value);
+			value = value.map(player => player.value);
 		}
 		this.props.provider.setFilter(type, value);
 		if (this.props.onChange) {
@@ -55,13 +61,20 @@ export class FilterBar extends Component {
 					};
 				});
 				return {
-					options: users.concat(selectedUsers),
+					options : users.concat(selectedUsers),
 					complete: false
 				};
 			});
 	};
 
-	render () {
+	onInputChange = (type, value) => {
+		console.log(type, value);
+		const newState = {};
+		newState[type] = value;
+		this.setState(newState);
+	};
+
+	render() {
 		var typeOptions = [
 			{value: '4v4', label: '4v4'},
 			{value: '6v6', label: '6v6'},
@@ -85,14 +98,15 @@ export class FilterBar extends Component {
 					value={this.props.filter.type}
 					placeholder="All Types"
 					options={typeOptions}
-					onChange={value=>this.setFilter('type', value)}
+					onInputChange={value => this.onInputChange('type', value)}
+					onChange={value => this.setFilter('type', value)}
 				/>
 				<Select.Async
 					className="map"
 					value={this.props.filter.map}
 					placeholder="All Maps"
 					loadOptions={this.getMaps}
-					onChange={value=>this.setFilter('map', value)}
+					onChange={value => this.setFilter('map', value)}
 				/>
 				<Select.Async
 					className="players"
@@ -100,7 +114,7 @@ export class FilterBar extends Component {
 					value={this.props.filter['players[]']}
 					placeholder="All Players"
 					loadOptions={this.searchUsers}
-					onChange={value=>this.setFilter('players[]', value)}
+					onChange={value => this.setFilter('players[]', value)}
 					minimumInput={2}
 					cache={false}
 				/>

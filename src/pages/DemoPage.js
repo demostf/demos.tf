@@ -2,7 +2,6 @@
 
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-import DocumentTitle from 'react-document-title';
 import {fuzzyTime} from '../FuzzyTime';
 import {Duration} from '../components/Duration.js'
 import {PlayerTable} from '../components/PlayerTable.js'
@@ -46,7 +45,9 @@ export class DemoPage extends Component {
 	}
 
 	componentDidMount = async() => {
+		document.title = 'Loading - demos.tf';
 		const demo = await this.provider.getDemo(this.props.params.id);
+		document.title = demo.server + ' - demos.tf';
 		this.setState({demo});
 	};
 
@@ -81,42 +82,40 @@ export class DemoPage extends Component {
 		const demo = this.state.demo;
 		if (this.state.demo.id !== 0) {
 			return (
-				<DocumentTitle title={demo.server + ' - demos.tf'}>
-					<div>
-						<h2>{demo.server} - {demo.red}
-							&nbsp;vs&nbsp;{demo.blue}</h2>
+				<div>
+					<h2>{demo.server} - {demo.red}
+						&nbsp;vs&nbsp;{demo.blue}</h2>
 
-						<h3>{demo.name}</h3>
+					<h3>{demo.name}</h3>
 
-						<p>Demo uploaded
-							by <Link
-								to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
-							</Link> {fuzzyTime(demo.time)}
-						</p>
-						<TeamBanner redScore={demo.redScore}
-									blueScore={demo.blueScore}
-									redName={demo.red} blueName={demo.blue}
-									red={demo.redTeam} blue={demo.blueTeam} />
-						<PlayerTable players={demo.players} />
+					<p>Demo uploaded
+						by <Link
+							to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
+						</Link> {fuzzyTime(demo.time)}
+					</p>
+					<TeamBanner redScore={demo.redScore}
+								blueScore={demo.blueScore}
+								redName={demo.red} blueName={demo.blue}
+								red={demo.redTeam} blue={demo.blueTeam} />
+					<PlayerTable players={demo.players} />
 
-						<p className="demo-info">
-							<span>{demo.map}</span>
-							<Duration className="time"
-									  duration={demo.duration} />
-						</p>
+					<p className="demo-info">
+						<span>{demo.map}</span>
+						<Duration className="time"
+								  duration={demo.duration} />
+					</p>
 
-						{chatTable}
+					{chatTable}
 
-						<p className="demo-download">
-							<a className=" pure-button pure-button-primary"
-							   href={demo.url} download={demo.name}>Download</a>
-							<button className=" pure-button"
-									onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
-							</button>
-						</p>
-						<Footer />
-					</div>
-				</DocumentTitle>
+					<p className="demo-download">
+						<a className=" pure-button pure-button-primary"
+						   href={demo.url} download={demo.name}>Download</a>
+						<button className=" pure-button"
+								onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
+						</button>
+					</p>
+					<Footer />
+				</div>
 			);
 		} else {
 			return <Spinner />

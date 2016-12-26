@@ -25,3 +25,12 @@
 	vertical-align: middle;
 	line-height: 300px;
 }
+
+.demo-info {
+	font-weight: bold;
+	padding-bottom: 15px;
+}
+
+.demo-info span {
+	float: right;
+}
