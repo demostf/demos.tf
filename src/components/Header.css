@@ -44,9 +44,9 @@ header a.steam-login:before {
 	content: '';
 	box-shadow: 1px 0 0 rgba(0, 0, 0, 0.05);
 	height: inherit;
-	width: 40px;
+	width: 37px;
 	background-size: 30px 30px;
-	background: rgba(255, 255, 255, 0.08) url('../images/steam_login.png') no-repeat 0;
+	background: rgba(255, 255, 255, 0.08) url('../images/steam_login.svg') no-repeat 0;
 	bottom: 0;
 	left: 0;
 	padding: 0;
