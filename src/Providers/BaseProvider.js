@@ -1,4 +1,4 @@
-import request from 'superagent-bluebird-promise';
+const request = require('superagent-promise')(require('superagent'), Promise);
 
 export class BaseProvider {
 	base = BaseProvider.getBaseUrl();
@@ -17,7 +17,7 @@ export class BaseProvider {
 	}
 
 	request (url, params = {}) {
-		return request.get(this.getApiUrl(url)).query(params).promise();
+		return request.get(this.getApiUrl(url)).query(params).end();
 	}
 
 	formatResponse (data) {

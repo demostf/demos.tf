@@ -1,5 +1,5 @@
 import {BaseProvider} from './BaseProvider.js';
-import request from 'superagent-bluebird-promise';
+const request = require('superagent-promise')(require('superagent'), Promise);
 
 export class DemoListProvider extends BaseProvider {
 	more = true;
@@ -113,7 +113,7 @@ export class DemoProvider extends BaseProvider {
 			.field('blu', blu)
 			.field('name', name)
 			.attach("demo", demo, demo.name)
-			.promise();
+			.end();
 		var body = response.text;
 		var expected = 'STV available at: http://upload.local.demos.tf/';
 		if (body.substr(0, expected.length) === expected) {

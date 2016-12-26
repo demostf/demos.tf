@@ -7,13 +7,7 @@
 		"transform-class-properties",
 		"transform-object-rest-spread",
 		"transform-decorators-legacy",
-		"transform-runtime",
-		[
-			"transform-async-to-module-method",
-			{
-				"module": "bluebird",
-				"method": "coroutine"
-			}
-		]
+		"syntax-async-functions",
+		"transform-regenerator"
 	]
 }

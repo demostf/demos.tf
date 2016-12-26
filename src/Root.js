@@ -4,11 +4,7 @@ import React from 'react';
 import {Router, Route, browserHistory} from 'react-router';
 
 import {App} from './App';
-import {DemoPage} from './pages/DemoPage';
 import {ListPage} from './pages/ListPage';
-import {UploadPage} from './pages/UploadPage';
-import {AboutPage} from './pages/AboutPage';
-import {APIPage} from './pages/APIPage';
 import {AppContainer} from 'react-hot-loader';
 
 let lastPath = false;
@@ -23,19 +19,43 @@ let onEnter = (nextState) => {
 	}
 };
 
+const getDemoComponent = (nextState, callback) => {
+	require.ensure([], function (require) {
+		callback(null, require('./pages/DemoPage').DemoPage)
+	});
+};
+
+const getApiComponent = (nextState, callback) => {
+	require.ensure([], function (require) {
+		callback(null, require('./pages/APIPage').APIPage)
+	});
+};
+
+const getAboutComponent = (nextState, callback) => {
+	require.ensure([], function (require) {
+		callback(null, require('./pages/AboutPage').AboutPage)
+	});
+};
+
+const getUploadComponent = (nextState, callback) => {
+	require.ensure([], function (require) {
+		callback(null, require('./pages/UploadPage').UploadPage)
+	});
+};
+
 export function Root() {
 	return (
 		<Router history={browserHistory}>
 			<Route component={App} path='/' onEnter={onEnter}>
 				<Route path='/' component={ListPage} onEnter={onEnter} />
-				<Route path='/upload' component={UploadPage} onEnter={onEnter} />
+				<Route path='/upload' getComponents={getUploadComponent} onEnter={onEnter} />
 				<Route path='/profiles/:steamid' component={ListPage}
 					   onEnter={onEnter} />
 				<Route path='/uploads/:steamid' component={ListPage}
 					   onEnter={onEnter} />
-				<Route path='/about' component={AboutPage} onEnter={onEnter} />
-				<Route path='/api' component={APIPage} onEnter={onEnter} />
-				<Route path='/:id' component={DemoPage} onEnter={onEnter} />
+				<Route path='/about' getComponents={getAboutComponent} onEnter={onEnter} />
+				<Route path='/api' getComponents={getApiComponent} onEnter={onEnter} />
+				<Route path='/:id' getComponents={getDemoComponent} onEnter={onEnter} />
 			</Route>
 		</Router>
 	);
