@@ -16,9 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 	window.React = React;
 }
 
-const body = document.getElementsByTagName('body')[0];
-const root = document.createElement('div');
-body.appendChild(root);
+const root = document.getElementById('react-root');
 
 ReactDom.render((
 	<Root/>

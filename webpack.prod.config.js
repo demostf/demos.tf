@@ -15,9 +15,6 @@ module.exports = {
 		app: [
 			'./src/index.js'
 		],
-		polyfillLoader: [
-			`!./src/polyfill.js`,
-		],
 		polyfills: [
 			`babel-polyfill`,
 			`whatwg-fetch`,
@@ -54,8 +51,9 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			title: 'demos.tf',
-			chunks: ['app', 'polyfillLoader'],
-			inlineSource: '(Loader|\.css$)'
+			chunks: ['app'],
+			inlineSource: '\.css$',
+			template: '!!ejs!src/index.html'
 		}),
 		new HtmlWebpackInlineSourcePlugin(),
 		new CompressionPlugin({
@@ -68,7 +66,7 @@ module.exports = {
 				cacheId                  : 'demos-tf',
 				filename                 : 'service-worker.js',
 				dontCacheBustUrlsMatching: [
-					/\.(js|css)$/, // I'm cache busting js and css files myself
+					/\.(js|css)/, // I'm cache busting js and css files myself
 				],
 				verbose                  : false,
 				logger                   : () => {
