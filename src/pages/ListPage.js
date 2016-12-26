@@ -11,8 +11,10 @@ import {Footer} from '../components/Footer.js';
 import {FilterBar} from '../components/FilterBar.js';
 import Select from 'react-select';
 import {PlayerProvider} from '../Providers/PlayerProvider.js';
+import Spinner from 'react-spinner';
 
 require('./ListPage.css');
+require('react-spinner/react-spinner.css');
 
 export class ListPage extends Component {
 	static contextTypes = {
@@ -25,6 +27,7 @@ export class ListPage extends Component {
 		demos      : [],
 		steamid    : '',
 		isUploads  : false,
+		loading    : true,
 		subjectName: ''
 	};
 
@@ -195,12 +198,13 @@ export class ListPage extends Component {
 							   onChange={this.filterChange} />
 				</div>
 
-				<ReactList
-					type="uniform"
-					itemRenderer={this.renderItem}
-					itemsRenderer={this.renderItems}
-					length={this.state.demos.length}
-				/>
+				{!this.state.loading ?
+					(<ReactList
+						type="uniform"
+						itemRenderer={this.renderItem}
+						itemsRenderer={this.renderItems}
+						length={this.state.demos.length}
+					/>) : (<Spinner />)}
 				<Footer />
 			</div>
 		);
