@@ -8,10 +8,9 @@ export class PlayerProvider extends BaseProvider {
 		if (query.length <= 2) {
 			return [];
 		}
-		const response = await this.request('users/search', {query});
-		const users = response.body;
+		const users = await this.request('users/search', {query});
 
-		for (var user of users) {
+		for (let user of users) {
 			PlayerProvider.nameMap[user.steamid] = user.name;
 		}
 		return users;
@@ -19,8 +18,7 @@ export class PlayerProvider extends BaseProvider {
 
 	async getName (steamid) {
 		if (!PlayerProvider.nameMap[steamid]) {
-			var response = await this.request('users/' + steamid);
-			var user = response.body;
+			const user = await this.request('users/' + steamid);
 			PlayerProvider.nameMap[steamid] = user.name;
 		}
 		return PlayerProvider.nameMap[steamid];

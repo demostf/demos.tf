@@ -6,6 +6,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
 	devtool: 'source-map',
@@ -13,10 +15,17 @@ module.exports = {
 		app: [
 			'./src/index.js'
 		],
+		polyfillLoader: [
+			`!./src/polyfill.js`,
+		],
+		polyfills: [
+			`babel-polyfill`,
+			`whatwg-fetch`,
+		],
 	},
 	output : {
 		path         : path.join(__dirname, "build"),
-		filename     : "[hash].js",
+		filename     : "[name]-[hash].js",
 		libraryTarget: 'umd'
 	},
 	resolve: {
@@ -44,7 +53,15 @@ module.exports = {
 			}
 		}),
 		new HtmlWebpackPlugin({
-			title: 'demos.tf'
+			title: 'demos.tf',
+			chunks: ['app', 'polyfillLoader'],
+			inlineSource: '(Loader|\.css$)'
+		}),
+		new HtmlWebpackInlineSourcePlugin(),
+		new CompressionPlugin({
+			algorithm: "zopfli",
+			test     : /\.js$|\.html$|\.css$/,
+			threshold: 1024
 		}),
 		new SWPrecacheWebpackPlugin(
 			{

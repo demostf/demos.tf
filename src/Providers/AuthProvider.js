@@ -4,41 +4,38 @@ export class AuthProvider extends BaseProvider {
 	token = null;
 	user = null;
 
-	constructor () {
+	constructor() {
 		super();
 	}
 
-	async login () {
-		var token = await this.getToken();
+	async login() {
+		const token = await this.getToken();
 		window.location.replace(this.getApiUrl('auth/login/' + token + '/?return=' + window.location));
 	}
 
-	async logout () {
-		var token = await this.getToken();
-		var response = await this.request('auth/logout/' + token);
-		this.user = response.body;
+	async logout() {
+		const token = await this.getToken();
+		this.user = await this.request('auth/logout/' + token);
 	}
 
-	async loadAuth () {
-		var token = await this.getToken();
-		var response = await this.request('auth/get/' + token);
-		this.user = response.body;
+	async loadAuth() {
+		const token = await this.getToken();
+		this.user = await this.request('auth/get/' + token);
 		this.token = this.user.token;
 	}
 
-	async newToken () {
-		var response = await this.request('auth/token');
-		return response.text;
+	newToken() {
+		return this.request('auth/token', {}, false);
 	}
 
-	async getUser () {
+	async getUser() {
 		if (!this.user) {
 			await this.loadAuth();
 		}
 		return this.user;
 	}
 
-	async getToken () {
+	async getToken() {
 		if (!this.token) {
 			this.token = localStorage.getItem('token');
 			if (!this.token || this.token.length < 16) {

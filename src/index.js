@@ -6,7 +6,6 @@ import {Root} from './Root';
 import {AppContainer} from 'react-hot-loader';
 
 require("babel-regenerator-runtime");
-import Promise from 'promise-polyfill';
 
 // To add to window
 if (!window.Promise) {

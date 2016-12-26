@@ -1,5 +1,4 @@
 import {BaseProvider} from './BaseProvider.js';
-const request = require('superagent-promise')(require('superagent'), Promise);
 
 export class DemoListProvider extends BaseProvider {
 	more = true;
@@ -8,29 +7,29 @@ export class DemoListProvider extends BaseProvider {
 	_endPoint = 'demos';
 	cachedMaps = [];
 	filter = {
-		map: '',
-		type: '',
+		map        : '',
+		type       : '',
 		'players[]': []
 	};
 
-	get endPoint () {
+	get endPoint() {
 		return this._endPoint;
 	}
 
-	set endPoint (endPoint) {
+	set endPoint(endPoint) {
 		if (endPoint !== this._endPoint) {
 			this._endPoint = endPoint;
 			this.reset();
 		}
 	}
 
-	reset () {
+	reset() {
 		this.cachedDemos = [];
 		this.lastPage = 0;
 		this.more = true;
 	}
 
-	setFilter (type, value) {
+	setFilter(type, value) {
 		if (this.filter[type] !== value) {
 			this.filter = {
 				... this.filter
@@ -40,29 +39,29 @@ export class DemoListProvider extends BaseProvider {
 		}
 	}
 
-	constructor () {
+	constructor() {
 		super();
 	}
 
-	loadNextPage () {
+	loadNextPage() {
 		return this.loadTillPage(this.lastPage + 1);
 	}
 
-	async getDemos (page = 1) {
-		var params = this.filter;
-		
+	async getDemos(page = 1) {
+		const params = this.filter;
+
 		params.page = page;
-		var response = await this.request(this.endPoint, params);
-		var demos = response.body.map(this.formatResponse);
+		const demos = (await this.request(this.endPoint, params)).map(this.formatResponse);
 		if (demos.length < 1) {
 			this.more = false;
 		}
 		this.cachedDemos = this.cachedDemos.concat(demos);
 	}
 
-	async loadTillPage (page) {
+	async loadTillPage(page) {
 		if (page > this.lastPage && this.more) {
-			for (var i = this.lastPage + 1; i <= page; i++) {
+			let i;
+			for (i = this.lastPage + 1; i <= page; i++) {
 				await this.getDemos(i);
 			}
 			this.lastPage = i - 1;
@@ -70,52 +69,51 @@ export class DemoListProvider extends BaseProvider {
 		return this.demos;
 	}
 
-	async listMaps () {
+	async listMaps() {
 		if (this.cachedMaps.length > 0) {
 			return this.cachedMaps;
 		}
-		var response = await this.request('maps');
-		return this.cachedMaps = this.formatResponse(response.body);
+		return this.cachedMaps = await this.request('maps');
 	}
 
-	get demos () {
+	get demos() {
 		return this.cachedDemos;
 	}
 
-	async getStats () {
-		var response = await this.request('stats');
-		return response.body;
+	getStats() {
+		return this.request('stats');
 	}
 }
 
 export class DemoProvider extends BaseProvider {
 	cached = [];
 
-	async getDemo (id) {
+	async getDemo(id) {
 		if (this.cached[id]) {
 			return this.cached[id];
 		}
-		var response = await this.request('demos/' + id);
-		this.cached[id] = this.formatResponse(response.body);
+		const response = await this.request('demos/' + id);
+		this.cached[id] = this.formatResponse(response);
 		return this.cached[id];
 	}
 
-	async getChat (id) {
-		var response = await this.request('demos/' + id + '/chat');
-		return this.formatResponse(response.body);
+	getChat(id) {
+		return this.request('demos/' + id + '/chat');
 	}
 
-	async uploadDemo (key, red, blu, name, demo) {
-		var response = await request.post(this.getApiUrl('upload'))
-		//.type('form')
-			.field('key', key)
-			.field('red', red)
-			.field('blu', blu)
-			.field('name', name)
-			.attach("demo", demo, demo.name)
-			.end();
-		var body = response.text;
-		var expected = 'STV available at: http://upload.local.demos.tf/';
+	async uploadDemo(key, red, blu, name, demo) {
+		const data = new FormData();
+		data.append('key', key);
+		data.append('red', red);
+		data.append('blu', blu);
+		data.append('name', name);
+		data.append('demo', demo, demo.name);
+		const response = await fetch(this.getApiUrl('upload'), {
+			method: 'POST',
+			body  : data
+		});
+		const body = response.text;
+		const expected = 'STV available at: http://upload.local.demos.tf/';
 		if (body.substr(0, expected.length) === expected) {
 			return body.substr(expected.length);
 		}
