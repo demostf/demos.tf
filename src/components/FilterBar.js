@@ -61,13 +61,6 @@ export class FilterBar extends Component {
 			});
 	};
 
-	shouldComponentUpdate (nextProps) {
-		const filter = this.props.filter;
-		const nextFilter = nextProps.filter;
-
-		return filter !== nextFilter;
-	}
-
 	render () {
 		var typeOptions = [
 			{value: '4v4', label: '4v4'},

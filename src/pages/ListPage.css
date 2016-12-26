@@ -5,11 +5,16 @@
 	border-collapse: collapse;
 }
 
+.demolist tbody {
+	width: 100%;
+}
+
 .demolist th {
 	font-weight: bold;
 }
 
 .demolist td, .demolist th {
+	max-width: 50px;
 	padding: 9px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -40,5 +45,29 @@
 }
 
 .search {
-	height: 50px;
+	padding-bottom: 10px;
+}
+
+@media (max-width: 950px) {
+	.demolist .format {
+		display: none;
+	}
+}
+
+@media (max-width: 850px) {
+	.demolist .duration {
+		display: none;
+	}
+}
+
+@media (max-width: 750px) {
+	.demolist .date {
+		display: none;
+	}
+}
+
+@media (max-width: 550px) {
+	.demolist .map {
+		display: none;
+	}
 }

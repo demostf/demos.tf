@@ -1,5 +1,6 @@
 'use strict';
 
+const glob = require('glob');
 const webpack = require("webpack");
 const path = require("path");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -8,11 +9,12 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
 	devtool: 'source-map',
 	entry  : {
-		app: [
+		app      : [
 			'./src/index.js'
 		],
 		polyfills: [
@@ -49,11 +51,16 @@ module.exports = {
 				NODE_ENV: JSON.stringify('production')
 			}
 		}),
+		new FaviconsWebpackPlugin({
+			logo         : './src/images/logo.png',
+			title        : 'demos.tf',
+			background   : '#444'
+		}),
 		new HtmlWebpackPlugin({
-			title: 'demos.tf',
-			chunks: ['app'],
+			title       : 'demos.tf',
+			chunks      : ['app'],
 			inlineSource: '\.css$',
-			template: '!!ejs!src/index.html'
+			template    : '!!ejs!src/index.html'
 		}),
 		new HtmlWebpackInlineSourcePlugin(),
 		new CompressionPlugin({
@@ -66,10 +73,19 @@ module.exports = {
 				cacheId                  : 'demos-tf',
 				filename                 : 'service-worker.js',
 				dontCacheBustUrlsMatching: [
-					/\.(js|css)/, // I'm cache busting js and css files myself
+					/^(?=.*\.\w{1,7}$)/, // I'm cache busting js and css files myself
 				],
 				verbose                  : false,
 				logger                   : () => {
+				},
+				dynamicUrlToDependencies: {
+					'/': [
+						...glob.sync(`./src/**/*.js`),
+						...glob.sync(`./src/**/*.css`),
+						...glob.sync(`./src/**/*.svg`),
+						...glob.sync(`./src/**/*.png`),
+						`./src/index.html`
+					]
 				}
 			}
 		)
@@ -80,7 +96,7 @@ module.exports = {
 				test   : /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				loaders: [
 					'url-loader?limit=5000&hash=sha512&digest=hex&name=[hash].[ext]',
-					'image-webpack?{optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}, mozjpeg: {quality: 65}}'
+					'image-webpack'
 				]
 			},
 			{
@@ -94,4 +110,21 @@ module.exports = {
 			}
 		]
 	},
+
+	imageWebpackLoader: {
+		mozjpeg : {
+			quality: 65
+		},
+		pngquant: {
+			quality: "65-90",
+			speed  : 4
+		},
+		svgo    : {
+			plugins: [
+				{
+					removeViewBox: false
+				}
+			]
+		}
+	}
 };

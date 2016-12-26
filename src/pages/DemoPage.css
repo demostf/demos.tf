@@ -1,6 +1,7 @@
 div.teams {
 	margin: 0 -30px;
 	padding: 10px 0 0;
+	height: 72px;
 }
 
 div.teams div {
@@ -16,10 +17,21 @@ div.teams span {
 	font-size: 45px;
 }
 
+div.teams > div {
+	height: 72px;
+}
+
 div.teams .red {
 	padding-right: 15px;
 	float: left;
 	background: #a75d50;
+}
+
+div.teams .red span.name,
+div.teams .blue span.name {
+	display: inline-block;
+	overflow: hidden;
+	max-width: calc(100% - 30px);
 }
 
 div.teams .red .score {
@@ -71,6 +83,7 @@ table.players .name {
 table.players .name a {
 	text-decoration: none;
 	color: black;
+	white-space: nowrap;
 }
 
 table.players .name a:hover {
@@ -174,4 +187,14 @@ p.demo-download {
 
 p.demo-download button, p.demo-download a {
 	margin-right: 40px;
+}
+
+@media (max-width: 450px) {
+	p.demo-download button, p.demo-download a {
+		margin-right: 0;
+	}
+
+	p.demo-download button {
+		float: right;
+	}
 }

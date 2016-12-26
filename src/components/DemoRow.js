@@ -20,7 +20,7 @@ export class DemoRow extends Component {
 			formatName = '4v4';
 		}
 		return (
-			<tr key={this.props.i} className={((this.props.i % 2 === 0) ? ' even': ' odd')}>
+			<tr key={this.props.i} className={((this.props.i % 2 === 0) ? 'even': 'odd')}>
 				<td className="title">
 					<Link to={'/' + this.props.id}>
 						{this.props.server} - {this.props.red}

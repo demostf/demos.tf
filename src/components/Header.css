@@ -10,12 +10,20 @@ header {
 	z-index: 3;
 }
 
+header .main a {
+	background: url('../images/logo.svg') no-repeat 0;
+	background-size: 30px;
+	padding-left: 35px;
+	margin-left: 5px;
+}
+
 header > span {
 	left: 0;
 	top: 0;
 	z-index: 3;
 	padding: 0;
 	float: left;
+	max-width: 220px;
 }
 
 header a,
@@ -56,4 +64,18 @@ header a.steam-login {
 	line-height: 22px;
 	position: relative;
 	padding-left: 50px;
+}
+
+@media (max-width: 650px) {
+	header .upload {
+		display: none;
+	}
+}
+
+@media (max-width: 550px) {
+	header .main a{
+		width: 0;
+		overflow: hidden;
+		padding-right: 0;
+	}
 }

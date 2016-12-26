@@ -16,7 +16,7 @@ export class Header extends Component {
 				<span className="right" key="logout">
 					<a onClick={this.props.logoutHandler}>Logout</a>
 				</span>,
-				<span className="right" key="upload">
+				<span className="right upload" key="upload">
 					<Link to='/upload'>Upload</Link>
 				</span>,
 				<span className="right" key="user">
@@ -33,7 +33,7 @@ export class Header extends Component {
 
 		return (
 			<header>
-				<span key="main">
+				<span key="main" className="main">
 					<Link to="/">DEMOS.TF</Link>
 				</span>
 				<span key="about">
