@@ -34,6 +34,6 @@ if (module.hot) {
 	});
 }
 
-if (navigator && `serviceWorker` in navigator) {
+if (navigator && `serviceWorker` in navigator && location.protocol === 'https:') {
 	navigator.serviceWorker.register(`/service-worker.js`);
 }

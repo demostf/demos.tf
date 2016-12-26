@@ -2,7 +2,6 @@
 
 const webpack = require("webpack");
 const path = require("path");
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -22,12 +21,19 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx'],
+		alias     : {
+			'react'    : 'preact-compat',
+			'react-dom': 'preact-compat'
+		}
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
-			title: 'demos.tf'
-		})
+			title       : 'demos.tf',
+			chunks      : ['app'],
+			inlineSource: '\.css$',
+			template    : '!!ejs!src/index.html'
+		}),
 	],
 	module : {
 		loaders: [
