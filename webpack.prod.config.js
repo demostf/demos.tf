@@ -52,9 +52,9 @@ module.exports = {
 			}
 		}),
 		new FaviconsWebpackPlugin({
-			logo         : './src/images/logo.png',
-			title        : 'demos.tf',
-			background   : '#444'
+			logo      : './src/images/logo.png',
+			title     : 'demos.tf',
+			background: '#444'
 		}),
 		new HtmlWebpackPlugin({
 			title       : 'demos.tf',
@@ -70,15 +70,16 @@ module.exports = {
 		}),
 		new SWPrecacheWebpackPlugin(
 			{
-				cacheId                  : 'demos-tf',
-				filename                 : 'service-worker.js',
-				dontCacheBustUrlsMatching: [
+				maximumFileSizeToCacheInBytes: 500000, // ~500kb
+				cacheId                      : 'demos-tf',
+				filename                     : 'service-worker.js',
+				dontCacheBustUrlsMatching    : [
 					/^(?=.*\.\w{1,7}$)/, // I'm cache busting js and css files myself
 				],
-				verbose                  : false,
-				logger                   : () => {
+				verbose                      : false,
+				logger                       : () => {
 				},
-				dynamicUrlToDependencies: {
+				dynamicUrlToDependencies     : {
 					'/': [
 						...glob.sync(`./src/**/*.js`),
 						...glob.sync(`./src/**/*.css`),
