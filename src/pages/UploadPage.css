@@ -31,6 +31,6 @@
 	padding-bottom: 15px;
 }
 
-.demo-info span {
+.demo-info span.time {
 	float: right;
 }
