@@ -30,6 +30,7 @@ export class FilterBar extends Component {
 	};
 
 	setFilter = (type, value) => {
+		console.log(type, value);
 		if (type === 'players[]') {
 			this.selectedUsers = value;
 		}

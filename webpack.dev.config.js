@@ -5,53 +5,55 @@ const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	devtool: 'eval',
-	entry  : {
+	devtool: 'source-map',
+	entry: {
 		app: [
-			'webpack-dev-server/client?http://localhost:3000',
-			'webpack/hot/only-dev-server',
-			'react-hot-loader/patch',
+			// 'webpack-dev-server/client?http://localhost:3000',
+			// 'webpack/hot/only-dev-server',
+			// 'react-hot-loader/patch',
 			'./src/index.js'
-		],
+		]
 	},
-	output : {
-		path         : path.join(__dirname, "dist"),
-		filename     : "[name].bundle.js",
-		libraryTarget: 'umd'
+	output: {
+		path: path.join(__dirname, "build"),
+		filename: "[name]-[hash].js"
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx'],
-		alias     : {
-			'react'    : 'preact-compat',
+		extensions: ['.js', '.jsx'],
+		alias: {
+			'react': 'preact-compat',
 			'react-dom': 'preact-compat'
 		}
 	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
+		// new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
-			title       : 'demos.tf',
-			chunks      : ['app'],
+			title: 'demos.tf',
+			chunks: ['app'],
 			inlineSource: '\.css$',
-			template    : '!!ejs!src/index.html'
-		}),
+			template: '!!html-loader!src/index.html'
+		})
 	],
-	module : {
-		loaders: [
+	module: {
+		rules: [
 			{
-				test   : /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
-				loaders: [
-					'file?hash=sha512&digest=hex&name=[hash].[ext]'
+				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
+				use: [
+					'url-loader?limit=5000&hash=sha512&digest=hex&name=[hash].[ext]'
 				]
 			},
 			{
-				test   : /\.js$/,
-				loaders: ['react-hot-loader/webpack', 'babel'],
+				test: /\.js$/,
+				use: ['babel-loader'],
 				include: path.join(__dirname, 'src')
 			},
 			{
-				test  : /\.css$/,
-				loaders: ['style', 'css', 'postcss-loader?sourceMap=inline']
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader', 'postcss-loader']
 			}
 		]
+	},
+	devServer: {
+		contentBase: path.resolve(__dirname, './src')
 	},
 };

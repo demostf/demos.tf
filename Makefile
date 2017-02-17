@@ -12,7 +12,7 @@ sources=$(wildcard js/*) $(wildcard js/*/*) $(wildcard css/*/*)  $(wildcard css/
 
 .PHONY: prod
 prod: node_modules $(sources)
-	node node_modules/.bin/webpack --verbose --colors --display-error-details --config webpack.prod.config.js
+	node node_modules/.bin/webpack --colors --display-error-details --config webpack.prod.config.js
 
 build/js/main.js: prod
 
@@ -21,7 +21,7 @@ build: prod
 
 .PHONY: watch
 watch: node_modules
-	node webpack.dev.server.js
+	node node_modules/.bin/webpack-dev-server --config webpack.dev.config.js
 
 .PHONY: analyse
 analyse: node_modules
