@@ -8,7 +8,7 @@ require('./ClassIcons.css');
 
 export class PlayerTable extends Component {
 	getPlayerPairs (players) {
-		var classes = {
+		const classes = {
 			scout: {red: [], blue: []},
 			soldier: {red: [], blue: []},
 			pyro: {red: [], blue: []},
@@ -20,15 +20,17 @@ export class PlayerTable extends Component {
 			spy: {red: [], blue: []}
 		};
 
-		for (var player of players) {
-			classes[player.class][player.team].push(player);
+		for (const player of players) {
+			if (classes[player.class]) {
+				classes[player.class][player.team].push(player);
+			}
 		}
-		var sortedPlayers = [];
-		for (var className in classes) {
+		const sortedPlayers = [];
+		for (const className in classes) {
 			if (classes.hasOwnProperty(className)) {
-				var classPlayers = classes[className];
-				var length = Math.max(classPlayers.red.length, classPlayers.blue.length);
-				for (var j = 0; j < length; j++) {
+				const classPlayers = classes[className];
+				const length = Math.max(classPlayers.red.length, classPlayers.blue.length);
+				for (let j = 0; j < length; j++) {
 					sortedPlayers.push({
 						red: classPlayers.red[j] || {},
 						blue: classPlayers.blue[j] || {},
@@ -41,8 +43,8 @@ export class PlayerTable extends Component {
 	}
 
 	render () {
-		var playerPairs = this.getPlayerPairs(this.props.players);
-		var rows = playerPairs.map((pair, i) => {
+		const playerPairs = this.getPlayerPairs(this.props.players);
+		const rows = playerPairs.map((pair, i) => {
 			return (
 				<tr key={i}>
 					<td className="team red"/>

@@ -3,7 +3,7 @@ import {Duration} from './Duration.js';
 
 export class ChatTable extends Component {
 	render () {
-		var rows = this.props.messages.map((message, i) => {
+		const rows = this.props.messages.map((message, i) => {
 			return (
 				<tr key={i}>
 					<td className="user">{message.user}</td>

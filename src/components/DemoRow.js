@@ -11,8 +11,12 @@ export class DemoRow extends Component {
 	}
 
 	render () {
-		var formatName = 'Other';
-		if (this.props.playerCount <= 19 && this.props.playerCount >= 17) {
+		let formatName = 'Other';
+		if (this.props.map.indexOf('bball') !== -1) {
+			formatName = 'BBall';
+		} else if (this.props.map.indexOf('ultiduo') !== -1) {
+			formatName = 'Ultiduo';
+		} else if (this.props.playerCount <= 19 && this.props.playerCount >= 17) {
 			formatName = 'HL';
 		} else if (this.props.playerCount <= 13 && this.props.playerCount >= 11) {
 			formatName = '6v6';

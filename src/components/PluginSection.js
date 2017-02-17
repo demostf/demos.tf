@@ -4,7 +4,7 @@ import {Section} from '../components/Section.js';
 export class PluginSection extends Component {
 
 	render () {
-		var keyStep = '';
+		let keyStep = '';
 		if (!this.props.user.key) {
 			keyStep = (
 				<li>

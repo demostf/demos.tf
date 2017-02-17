@@ -20,7 +20,7 @@ export class FilterBar extends Component {
 	}
 
 	getMaps = async() => {
-		var maps = await this.props.provider.listMaps();
+		const maps = await this.props.provider.listMaps();
 		return {
 			options : maps.map(map => {
 				return {value: map, label: map};
@@ -75,14 +75,14 @@ export class FilterBar extends Component {
 	};
 
 	render() {
-		var typeOptions = [
+		const typeOptions = [
 			{value: '4v4', label: '4v4'},
 			{value: '6v6', label: '6v6'},
 			{value: 'hl', label: 'Highlander'}
 		];
 
-		var nameOptions = [];
-		for (var steamid in PlayerProvider.nameMap) {
+		const nameOptions = [];
+		for (const steamid in PlayerProvider.nameMap) {
 			if (PlayerProvider.nameMap.hasOwnProperty(steamid)) {
 				nameOptions.push({
 					value: steamid,
