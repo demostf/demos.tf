@@ -13,8 +13,8 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
 	devtool: 'source-map',
-	entry  : {
-		app      : [
+	entry: {
+		app: [
 			'./src/index.js'
 		],
 		polyfills: [
@@ -22,29 +22,50 @@ module.exports = {
 			`whatwg-fetch`,
 		],
 	},
-	output : {
-		path         : path.join(__dirname, "build"),
-		filename     : "[name]-[hash].js",
+	output: {
+		path: path.join(__dirname, "build"),
+		filename: "[name]-[hash].js",
 		libraryTarget: 'umd'
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx'],
-		alias     : {
-			'react'    : 'preact-compat',
+		mainFields: ['main'],
+		extensions: ['.js', '.jsx'],
+		alias: {
+			'react': 'preact-compat',
 			'react-dom': 'preact-compat'
 		}
 	},
 	plugins: [
-		new CleanPlugin(['build']),
-		new ExtractTextPlugin('[contenthash].css', {allChunks: true}),
-		new webpack.NoErrorsPlugin(),
-		new webpack.optimize.DedupePlugin(),
-		new webpack.optimize.OccurenceOrderPlugin(),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
+		new webpack.LoaderOptionsPlugin({
+			options: {
+				imageWebpackLoader: {
+					mozjpeg: {
+						quality: 65
+					},
+					pngquant: {
+						quality: "65-90",
+						speed: 4
+					},
+					svgo: {
+						plugins: [
+							{
+								removeViewBox: false
+							}
+						]
+					}
+				}
+			},
+			minimize: true,
+			debug: false
 		}),
+		new CleanPlugin(['build']),
+		new ExtractTextPlugin({
+			filename: '[contenthash].css',
+			allChunks: true
+		}),
+		new webpack.NoEmitOnErrorsPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin(),
+		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
 				// Useful to reduce the size of client-side libraries, e.g. react
@@ -52,34 +73,34 @@ module.exports = {
 			}
 		}),
 		new FaviconsWebpackPlugin({
-			logo      : './src/images/logo.png',
-			title     : 'demos.tf',
+			logo: './src/images/logo.png',
+			title: 'demos.tf',
 			background: '#444'
 		}),
 		new HtmlWebpackPlugin({
-			title       : 'demos.tf',
-			chunks      : ['app'],
+			title: 'demos.tf',
+			chunks: ['app'],
 			inlineSource: '\.css$',
-			template    : '!!ejs!src/index.html'
+			template: '!!html-loader!src/index.html'
 		}),
 		new HtmlWebpackInlineSourcePlugin(),
 		new CompressionPlugin({
 			algorithm: "zopfli",
-			test     : /\.js$|\.html$|\.css$/,
+			test: /\.js$|\.html$|\.css$/,
 			threshold: 1024
 		}),
 		new SWPrecacheWebpackPlugin(
 			{
 				maximumFileSizeToCacheInBytes: 500000, // ~500kb
-				cacheId                      : 'demos-tf',
-				filename                     : 'service-worker.js',
-				dontCacheBustUrlsMatching    : [
+				cacheId: 'demos-tf',
+				filename: 'service-worker.js',
+				dontCacheBustUrlsMatching: [
 					/^(?=.*\.\w{1,7}$)/, // I'm cache busting js and css files myself
 				],
-				verbose                      : false,
-				logger                       : () => {
+				verbose: false,
+				logger: () => {
 				},
-				dynamicUrlToDependencies     : {
+				dynamicUrlToDependencies: {
 					'/': [
 						...glob.sync(`./src/**/*.js`),
 						...glob.sync(`./src/**/*.css`),
@@ -91,41 +112,27 @@ module.exports = {
 			}
 		)
 	],
-	module : {
-		loaders: [
+	module: {
+		rules: [
 			{
-				test   : /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
-				loaders: [
+				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
+				use: [
 					'url-loader?limit=5000&hash=sha512&digest=hex&name=[hash].[ext]',
-					'image-webpack'
+					'image-webpack-loader'
 				]
 			},
 			{
-				test   : /\.js$/,
-				loaders: ['babel'],
+				test: /\.js$/,
+				use: ['babel-loader'],
 				include: path.join(__dirname, 'src')
 			},
 			{
-				test  : /\.css$/,
-				loader: ExtractTextPlugin.extract('style', 'css!postcss-loader')
+				test: /\.css$/,
+				use: ExtractTextPlugin.extract({
+					fallback: "style-loader",
+					use: ['css-loader', 'postcss-loader']
+				})
 			}
 		]
-	},
-
-	imageWebpackLoader: {
-		mozjpeg : {
-			quality: 65
-		},
-		pngquant: {
-			quality: "65-90",
-			speed  : 4
-		},
-		svgo    : {
-			plugins: [
-				{
-					removeViewBox: false
-				}
-			]
-		}
 	}
 };
