@@ -27,7 +27,14 @@ export class BaseProvider {
 
 	static formatParams(params) {
 		return Object.keys(params)
-			.map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+			.filter(k => params[k])
+			.map(k => {
+				if (params[k].push) {
+					return params[k].map(v => encodeURIComponent(k) + "=" + encodeURIComponent(v)).join('&');
+				} else {
+					return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+				}
+			})
 			.join('&');
 	}
 }

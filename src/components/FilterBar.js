@@ -30,7 +30,6 @@ export class FilterBar extends Component {
 	};
 
 	setFilter = (type, value) => {
-		console.log(type, value);
 		if (type === 'players[]') {
 			this.selectedUsers = value;
 		}
@@ -92,6 +91,7 @@ export class FilterBar extends Component {
 			}
 		}
 
+		console.log(this.props.filter['players[]']);
 		return (
 			<div className="filterbar">
 				<Select
@@ -101,6 +101,7 @@ export class FilterBar extends Component {
 					options={typeOptions}
 					onInputChange={value => this.onInputChange('type', value)}
 					onChange={value => this.setFilter('type', value)}
+					searchable={true}
 				/>
 				<Select.Async
 					className="map"
@@ -108,16 +109,18 @@ export class FilterBar extends Component {
 					placeholder="All Maps"
 					loadOptions={this.getMaps}
 					onChange={value => this.setFilter('map', value)}
+					searchable={true}
 				/>
 				<Select.Async
 					className="players"
 					multi={true}
-					value={this.props.filter['players[]']}
+					value={this.selectedUsers}
 					placeholder="All Players"
 					loadOptions={this.searchUsers}
 					onChange={value => this.setFilter('players[]', value)}
 					minimumInput={2}
 					cache={false}
+					searchable={true}
 				/>
 			</div>
 		);
