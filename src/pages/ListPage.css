@@ -48,6 +48,46 @@
 	padding-bottom: 10px;
 }
 
+.listType > span {
+	vertical-align: top;
+}
+
+.listType {
+	line-height: 62px;
+}
+
+.listType div.Select {
+	vertical-align: middle;
+	display: inline-block;
+	width: 200px;
+	margin-top: -13px;
+}
+
+.listType div.Select div.Select-placeholder {
+	padding: 4px;
+	cursor: pointer;
+}
+
+.listType div.Select div.Select-control, .listType div.Select-control:hover {
+	height: 62px;
+	border-radius: 0;
+	border: none;
+}
+
+.listType div.Select .Select-arrow, .Select-value-label {
+	vertical-align: middle;
+}
+
+.listType div.Select .Select-value {
+	padding-top: 10px;
+}
+
+.listType div.Select div.Select-control {
+	height: 62px;
+	border-radius: 0;
+	border: 1px solid #ccc;
+}
+
 @media (max-width: 950px) {
 	.demolist .format {
 		display: none;
