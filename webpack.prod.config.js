@@ -28,12 +28,7 @@ module.exports = {
 		libraryTarget: 'umd'
 	},
 	resolve: {
-		mainFields: ['main'],
-		extensions: ['.js', '.jsx'],
-		alias: {
-			'react': 'preact-compat',
-			'react-dom': 'preact-compat'
-		}
+		extensions: ['.js', '.jsx']
 	},
 	plugins: [
 		new webpack.LoaderOptionsPlugin({
