@@ -1,0 +1,12 @@
+.api-page section li {
+	line-height: 27px;
+}
+
+.api-page section li > a:first-child > code, .api-page section li > code:first-child {
+	font-weight: bold;
+}
+
+.api-page section li > a:first-child > code:after, .api-page section li > code:first-child:after {
+	content: ':';
+	font-weight: normal;
+}

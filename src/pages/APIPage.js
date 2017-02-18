@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import {Section} from '../components/Section.js';
 
+import './APIPage.css';
+
 export class APIPage extends Component {
 	static page = 'api';
 
@@ -10,8 +12,8 @@ export class APIPage extends Component {
 	}
 
 	render() {
-		var steamId = this.props.user.steamid ? this.props.user.steamid : '76561198024494988';
-		var listItem = {
+		const steamId = this.props.user.steamid ? this.props.user.steamid : '76561198024494988';
+		const listItem = {
 			id         : 3314,
 			url        : "https://demostf.blob.core.windows.net/demos/55be20b7adb21stvdemos220466v6-2015-08-02-15-21-bluvsred-cpgullywashfinal1.dem",
 			name       : "stvdemos/22046_6v6-2015-08-02-15-21-blu_vs_red-cp_gullywash_final1.dem",
@@ -27,7 +29,7 @@ export class APIPage extends Component {
 			playerCount: 12,
 			uploader   : 2565
 		};
-		var demoInfo = {
+		const demoInfo = {
 			id         : 314,
 			url        : "https://demostf.blob.core.windows.net/demos/5510b8e522f7cmatch-20150323-1937-cpprocessfinal.dem",
 			name       : "match-20150323-1937-cp_process_final.dem",
@@ -62,10 +64,10 @@ export class APIPage extends Component {
 			]
 		};
 
-		var listExample = JSON.stringify([listItem], null, 4);
+		let listExample = JSON.stringify([listItem], null, 4);
 		listExample = listExample.substr(0, listExample.length - 2) + ",\n    ...\n]";
 
-		var demoExample = JSON.stringify(demoInfo, null, 4);
+		let demoExample = JSON.stringify(demoInfo, null, 4);
 		demoExample = demoExample.substr(0, demoExample.length - 8) + ",\n        ...\n    ]\n}";
 		demoExample = demoExample.replace('"__REPLACE__": ""', '...');
 
