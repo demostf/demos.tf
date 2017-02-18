@@ -21,7 +21,7 @@ build: prod
 
 .PHONY: watch
 watch: node_modules
-	node node_modules/.bin/webpack-dev-server --config webpack.dev.config.js
+	node node_modules/.bin/webpack-dev-server --hot --inline --config webpack.dev.config.js
 
 .PHONY: analyse
 analyse: node_modules

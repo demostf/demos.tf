@@ -10,7 +10,7 @@ module.exports = {
 		app: [
 			// 'webpack-dev-server/client?http://localhost:3000',
 			// 'webpack/hot/only-dev-server',
-			// 'react-hot-loader/patch',
+			'react-hot-loader/patch',
 			'./src/index.js'
 		]
 	},
@@ -26,7 +26,6 @@ module.exports = {
 		// }
 	},
 	plugins: [
-		// new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			title: 'demos.tf',
 			chunks: ['app'],
@@ -44,7 +43,7 @@ module.exports = {
 			},
 			{
 				test: /\.js$/,
-				use: ['babel-loader'],
+				use: ['react-hot-loader/webpack', 'babel-loader'],
 				include: path.join(__dirname, 'src')
 			},
 			{

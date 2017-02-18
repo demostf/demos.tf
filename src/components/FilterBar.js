@@ -68,7 +68,6 @@ export class FilterBar extends Component {
 	};
 
 	onInputChange = (type, value) => {
-		console.log(type, value);
 		const newState = {};
 		newState[type] = value;
 		this.setState(newState);
@@ -91,7 +90,6 @@ export class FilterBar extends Component {
 			}
 		}
 
-		console.log(this.props.filter['players[]']);
 		return (
 			<div className="filterbar">
 				<Select
