@@ -1,8 +1,15 @@
-import {BaseProvider} from './BaseProvider.js';
+import {BaseProvider} from './BaseProvider';
+
+export interface User {
+	token: string;
+	key: string;
+	name: string;
+	steamid: string;
+}
 
 export class AuthProvider extends BaseProvider {
-	token = null;
-	user = null;
+	token: string|null;
+	user: User|null;
 
 	constructor() {
 		super();
@@ -20,19 +27,19 @@ export class AuthProvider extends BaseProvider {
 
 	async loadAuth() {
 		const token = await this.getToken();
-		this.user = await this.request('auth/get/' + token);
+		this.user = (await this.request('auth/get/' + token)) as User;
 		this.token = this.user.token;
 	}
 
-	newToken() {
+	newToken(): Promise<string> {
 		return this.request('auth/token', {}, false);
 	}
 
-	async getUser() {
+	async getUser(): Promise<User> {
 		if (!this.user) {
 			await this.loadAuth();
 		}
-		return this.user;
+		return this.user as User;
 	}
 
 	async getToken() {

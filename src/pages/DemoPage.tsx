@@ -1,40 +1,58 @@
-'use strict';
-
-import React, {Component} from 'react';
+import * as React from 'react';
 import {Link} from 'react-router';
 import {fuzzyTime} from '../FuzzyTime';
-import {Duration} from '../components/Duration.js'
-import {PlayerTable} from '../components/PlayerTable.js'
-import {TeamBanner} from '../components/TeamBanner.js'
-import {ChatTable} from '../components/ChatTable.js'
-import {DemoProvider} from '../Providers/DemoProvider.js';
-import {Footer} from '../components/Footer.js';
+import {Duration} from '../components/Duration'
+import {PlayerTable} from '../components/PlayerTable'
+import {TeamBanner} from '../components/TeamBanner'
+import {ChatTable} from '../components/ChatTable'
+import {DemoProvider} from '../Providers/DemoProvider';
+import {Footer} from '../components/Footer';
 import Spinner from 'react-spinner';
 
-require('./DemoPage.css');
+import './DemoPage.css';
+import {Demo, ChatMessage} from "../Providers/DemoProvider";
 
-export class DemoPage extends Component {
+export interface DemoPageState {
+	demo: Demo;
+	chat: ChatMessage[];
+	showChat: boolean;
+}
+
+export interface DemoPageProps {
+	provider: DemoProvider;
+	params: {
+		id: number;
+	}
+}
+
+export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 	static page = 'demo';
+	loadedChat = false;
+	provider: DemoProvider;
 
-	state = {
-		demo    : {
-			id         : 0,
-			name       : '',
-			red        : '',
-			blue       : '',
-			server     : '',
+	state: DemoPageState = {
+		demo: {
+			id: 0,
+			name: '',
+			red: '',
+			blue: '',
+			blueScore: 0,
+			redScore: 0,
+			server: '',
 			playerCount: 0,
-			players    : [],
-			duration   : 0,
-			map        : '',
-			time       : new Date(0),
-			uploader   : {
-				id     : 0,
+			players: [],
+			duration: 0,
+			map: '',
+			nick: '',
+			time: new Date(0),
+			uploader: {
+				id: 0,
 				steamid: '',
-				name   : ''
-			}
+				name: ''
+			},
+			url: ''
 		},
-		chat    : [],
+		chat: [],
 		showChat: false
 	};
 
@@ -74,7 +92,7 @@ export class DemoPage extends Component {
 		if (this.state.showChat) {
 			console.log(this.state);
 			chatTable = (
-				<ChatTable messages={this.state.chat} />
+				<ChatTable messages={this.state.chat}/>
 			);
 		} else {
 			chatTable = [];
@@ -90,19 +108,18 @@ export class DemoPage extends Component {
 
 					<p>Demo uploaded
 						by <Link
-							to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
-						</Link> {fuzzyTime(demo.time)}
+						to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
+					</Link> {fuzzyTime(demo.time.getTime())}
 					</p>
 					<TeamBanner redScore={demo.redScore}
-								blueScore={demo.blueScore}
-								redName={demo.red} blueName={demo.blue}
-								red={demo.redTeam} blue={demo.blueTeam} />
-					<PlayerTable players={demo.players} />
+					            blueScore={demo.blueScore}
+					            redName={demo.red} blueName={demo.blue}/>
+					<PlayerTable players={demo.players}/>
 
 					<p className="demo-info">
 						<span>{demo.map}</span>
 						<Duration className="time"
-								  duration={demo.duration} />
+						          duration={demo.duration}/>
 					</p>
 
 					{chatTable}
@@ -111,7 +128,7 @@ export class DemoPage extends Component {
 						<a className=" pure-button pure-button-primary"
 						   href={demo.url} download={demo.name}>Download</a>
 						<button className=" pure-button"
-								onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
+						        onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
 						</button>
 					</p>
 					<Footer />

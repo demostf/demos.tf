@@ -1,18 +1,26 @@
-import React, {Component} from 'react';
-import Select from 'react-select';
-import {PlayerProvider} from '../Providers/PlayerProvider.js'
+import * as React from 'react';
+import * as Select from 'react-select';
+import {PlayerProvider} from '../Providers/PlayerProvider'
 
-require('./FilterBar.css');
-require('react-select/dist/react-select.css');
+import './FilterBar.css';
+import 'react-select/dist/react-select.css';
+import {DemoListProvider, DemoListFilter} from "../Providers/DemoProvider";
 
-export class FilterBar extends Component {
+export interface FilterBarProps {
+	provider: DemoListProvider;
+	onChange: Function;
+	filter: DemoListFilter;
+}
+
+export interface FilterBarState {
+	type: string;
+	mpa: string;
+	players: string;
+}
+
+export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 	selectedUsers = [];
-
-	state = {
-		type   : '',
-		map    : '',
-		players: ''
-	};
+	playerProvider: PlayerProvider;
 
 	constructor() {
 		super();
@@ -22,7 +30,7 @@ export class FilterBar extends Component {
 	getMaps = async() => {
 		const maps = await this.props.provider.listMaps();
 		return {
-			options : maps.map(map => {
+			options: maps.map(map => {
 				return {value: map, label: map};
 			}),
 			complete: true
@@ -61,7 +69,7 @@ export class FilterBar extends Component {
 					};
 				});
 				return {
-					options : users.concat(selectedUsers),
+					options: users.concat(selectedUsers),
 					complete: false
 				};
 			});
@@ -74,13 +82,13 @@ export class FilterBar extends Component {
 	};
 
 	render() {
-		const typeOptions = [
+		const typeOptions: Select.Option[] = [
 			{value: '4v4', label: '4v4'},
 			{value: '6v6', label: '6v6'},
 			{value: 'hl', label: 'Highlander'}
 		];
 
-		const nameOptions = [];
+		const nameOptions: Select.Option[] = [];
 		for (const steamid in PlayerProvider.nameMap) {
 			if (PlayerProvider.nameMap.hasOwnProperty(steamid)) {
 				nameOptions.push({

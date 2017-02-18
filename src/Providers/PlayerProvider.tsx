@@ -1,4 +1,4 @@
-import {BaseProvider} from './BaseProvider.js';
+import {BaseProvider} from './BaseProvider';
 
 export class PlayerProvider extends BaseProvider {
 	static nameMap = {};

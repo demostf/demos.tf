@@ -1,27 +1,33 @@
-import React, {Component, PropTypes} from 'react';
+import * as React from 'react';
 
-import {Section} from '../components/Section.js';
-import {Duration} from '../components/Duration.js';
-import {DemoProvider} from '../Providers/DemoProvider.js';
-import DropZone from 'react-dropzone';
-import {Footer} from '../components/Footer.js';
-import {PluginSection} from '../components/PluginSection.js';
+import {Section} from '../components/Section';
+import {Duration} from '../components/Duration';
+import {DemoProvider} from '../Providers/DemoProvider';
+import * as DropZone from 'react-dropzone';
+import {Footer} from '../components/Footer';
+import {PluginSection} from '../components/PluginSection';
 import 'dataview-getstring';
 
-require('./UploadPage.css');
-require('./DemoPage.css');
+import './UploadPage.css';
+import './DemoPage.css';
+import {User} from "../Providers/AuthProvider";
+import Element = JSX.Element;
+
+export interface GetStringDataView extends DataView {
+	getString: (offset: number, length: number) => string;
+}
 
 function parseHeader(file, cb) {
 	const reader = new FileReader();
 
 	reader.onload = function () {
-		const view = new DataView(reader.result);
+		const view: GetStringDataView = new DataView(reader.result) as GetStringDataView;
 		cb({
-			'type'    : view.getString(0, 8),
-			'server'  : view.getString(16, 260),
-			'nick'    : view.getString(276, 260),
-			'map'     : view.getString(536, 260),
-			'game'    : view.getString(796, 260),
+			'type': view.getString(0, 8),
+			'server': view.getString(16, 260),
+			'nick': view.getString(276, 260),
+			'map': view.getString(536, 260),
+			'game': view.getString(796, 260),
 			'duration': view.getFloat32(1056, true)
 		});
 	};
@@ -29,19 +35,45 @@ function parseHeader(file, cb) {
 	reader.readAsArrayBuffer(file);
 }
 
-export class UploadPage extends Component {
+export interface DemoHead {
+	type: string;
+	server: string;
+	nick: string;
+	map: string;
+	game: string;
+	duration: number;
+}
+
+export interface UploadPageState {
+	loading: boolean;
+	demoInfo: null|DemoHead;
+	names: {
+		red: string;
+		blue: string;
+	}
+	demoName: string;
+	demoFile: File|null;
+}
+
+export interface UploadPageProps {
+	user: User;
+}
+
+export class UploadPage extends React.Component<UploadPageProps, UploadPageState> {
+	provider: DemoProvider;
+
 	static page = 'upload';
 
 	static contextTypes = {
-		router: PropTypes.object
+		router: React.PropTypes.object
 	};
 
-	state = {
+	state: UploadPageState = {
 		demoInfo: null,
 		demoFile: null,
-		demoName: null,
-		names   : {red: '', blue: ''},
-		loading : false
+		demoName: '',
+		names: {red: '', blue: ''},
+		loading: false
 	};
 
 	constructor(props) {
@@ -54,7 +86,7 @@ export class UploadPage extends Component {
 	}
 
 	onDrop = (files) => {
-		var file = files[0];
+		const file = files[0];
 		this.handleDemo(file);
 	};
 
@@ -62,7 +94,7 @@ export class UploadPage extends Component {
 		const matches = name.match(/(\w+)_vs_(\w+)/);
 		if (matches) {
 			return {
-				red : matches[2].toUpperCase(),
+				red: matches[2].toUpperCase(),
 				blue: matches[1].toUpperCase()
 			}
 		} else {
@@ -90,7 +122,7 @@ export class UploadPage extends Component {
 	upload = async() => {
 		this.setState({loading: true});
 		const id = await this.provider.uploadDemo(this.props.user.key, this.state.names.red || 'RED',
-			this.state.names.blue || 'BLU', this.state.demoInfo.name, this.state.demoFile);
+			this.state.names.blue || 'BLU', this.state.demoName, this.state.demoFile as File);
 		this.setState({loading: false});
 		if (id) {
 			this.context.router.transitionTo('/' + id);
@@ -98,13 +130,13 @@ export class UploadPage extends Component {
 	};
 
 	render() {
-		let demoInfo = [];
+		let demoInfo: any[]|Element = [];
 		if (this.state.demoInfo) {
 			demoInfo = (
 				<div className="demo-info">
 					{this.state.demoInfo.map}
 					<Duration className="time"
-							  duration={Math.floor(this.state.demoInfo.duration)} />
+					          duration={Math.floor(this.state.demoInfo.duration)}/>
 				</div>
 			);
 		}
@@ -114,22 +146,22 @@ export class UploadPage extends Component {
 					<div className="teams">
 						<div className="red">
 							<input type="text" name="red"
-								   placeholder="RED" />
+							       placeholder="RED"/>
 						</div>
 						<div className="blue">
 							<input type="text" name="blue"
-								   placeholder="BLU" />
+							       placeholder="BLU"/>
 						</div>
-						<div id="clearfix" />
+						<div id="clearfix"/>
 					</div>
 					<DropZone onDrop={this.onDrop}
-							  className="dropzone">
+					          className="dropzone">
 						{this.state.demoName ? this.state.demoName : 'Drop files or click to upload'}
 					</DropZone>
 					{demoInfo}
 					<button onClick={this.upload}
-							className="pure-button pure-button-primary"
-							disabled={(this.state.demoInfo == null) || this.state.loading}>
+					        className="pure-button pure-button-primary"
+					        disabled={(this.state.demoInfo == null) || this.state.loading}>
 						Upload
 					</button>
 				</section>
@@ -137,7 +169,7 @@ export class UploadPage extends Component {
 					<pre>{this.props.user.key}</pre>
 				</Section>
 
-				<PluginSection user={this.props.user} />
+				<PluginSection user={this.props.user}/>
 				<Footer />
 			</div>
 		);

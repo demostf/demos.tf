@@ -9,7 +9,7 @@ export class BaseProvider {
 		return this.base + url;
 	}
 
-	request(url, params = {}, json = true) {
+	request(url, params = {}, json = true): Promise<string|any> {
 		return fetch(this.getApiUrl(url) + '?' + BaseProvider.formatParams(params))
 			.then((response) => {
 				if (json) {

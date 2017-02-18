@@ -1,43 +1,65 @@
-'use strict';
-
-import React, {Component, PropTypes} from 'react';
+import * as React from 'react';
 
 import {Link} from 'react-router';
 import ReactList from 'react-list';
 
-import {DemoListProvider} from '../Providers/DemoProvider.js';
-import {DemoRow} from '../components/DemoRow.js';
-import {Footer} from '../components/Footer.js';
-import {FilterBar} from '../components/FilterBar.js';
-import Select from 'react-select';
-import {PlayerProvider} from '../Providers/PlayerProvider.js';
+import {DemoListProvider} from '../Providers/DemoProvider';
+import {DemoRow} from '../components/DemoRow';
+import {Footer} from '../components/Footer';
+import {FilterBar} from '../components/FilterBar';
+import * as Select from 'react-select';
+import {PlayerProvider} from '../Providers/PlayerProvider';
 import Spinner from 'react-spinner';
 
-require('./ListPage.css');
-require('react-spinner/react-spinner.css');
+import './ListPage.css';
+import 'react-spinner/react-spinner.css';
+import {DemoInfo} from "../Providers/DemoProvider";
+import Element = JSX.Element;
 
-export class ListPage extends Component {
+export interface ListPageState {
+	demos: DemoInfo[];
+	steamid: string;
+	isUploads: boolean;
+	loading: boolean;
+	subjectName: string;
+}
+
+export interface ListPageProps {
+	params: {
+		steamid?: string;
+	};
+	route: {
+		path: string;
+	}
+	demoListProvider: DemoListProvider;
+}
+
+export class ListPage extends React.Component<ListPageProps, ListPageState> {
 	static contextTypes = {
-		router: PropTypes.object
+		router: React.PropTypes.object
 	};
 
 	static page = 'list';
 
-	state = {
-		demos      : [],
-		steamid    : '',
-		isUploads  : false,
-		loading    : true,
+	endpoint: string;
+	playerProvider: PlayerProvider;
+	provider: DemoListProvider;
+
+	state: ListPageState = {
+		demos: [],
+		steamid: '',
+		isUploads: false,
+		loading: true,
 		subjectName: ''
 	};
 
 	loading = false;
 
-	rowMap = [];
+	rowMap: {[key: string]: Element} = {};
 
-	constructor(props) {
+	constructor(props: ListPageProps) {
 		super(props);
-		var params = props.params || {};
+		const params = props.params || {};
 		this.playerProvider = new PlayerProvider();
 		if (params.steamid) {
 			this.state.steamid = params.steamid;
@@ -56,7 +78,7 @@ export class ListPage extends Component {
 	}
 
 	componentWillReceiveProps(props) {
-		var params = props.params || {};
+		const params = props.params || {};
 		let isUploads = false, steamid = '';
 		this.playerProvider = new PlayerProvider();
 		if (params.steamid) {
@@ -78,7 +100,7 @@ export class ListPage extends Component {
 	filterChange = () => {
 		this.provider.reset();
 		this.setState({demos: []});
-		this.rowMap = [];
+		this.rowMap = {};
 		this.loadPage();
 	};
 
@@ -87,11 +109,11 @@ export class ListPage extends Component {
 			return;
 		}
 		this.loading = true;
-		var demos = await this.provider.loadNextPage();
+		const demos = await this.provider.loadNextPage();
 		if (this.state.demos.length === demos.length) {
 			if (this.provider.more) {
 				this.setState({demos: []});
-				this.rowMap = [];
+				this.rowMap = {};
 			} else {
 				this.loading = false;
 				return;
@@ -115,11 +137,13 @@ export class ListPage extends Component {
 		}
 	};
 
-	componentDidMount = async() => {
+	componentDidMount() {
 		document.title = 'Demos - demos.tf';
-		const demos = await this.provider.loadTillPage(1);
-		await this.getSubjectName();
-		this.setState({loading: false, demos});
+		this.provider.loadTillPage(1).then((demos) => {
+			this.getSubjectName().then(() => {
+				this.setState({loading: false, demos});
+			});
+		});
 	};
 
 	renderItem = (i) => {
@@ -138,16 +162,16 @@ export class ListPage extends Component {
 		return (
 			<table ref={ref} className="demolist">
 				<thead className="head">
-					<tr>
-						<th className="title">Title</th>
-						<th className="format">Format</th>
-						<th className="map">Map</th>
-						<th className="duration">Duration</th>
-						<th className="date">Date</th>
-					</tr>
+				<tr>
+					<th className="title">Title</th>
+					<th className="format">Format</th>
+					<th className="map">Map</th>
+					<th className="duration">Duration</th>
+					<th className="date">Date</th>
+				</tr>
 				</thead>
 				<tbody>
-					{items}
+				{items}
 				</tbody>
 			</table>
 		)
@@ -155,15 +179,15 @@ export class ListPage extends Component {
 
 	render() {
 		this.getSubjectName();
-		var demoTitle = 'Demos';
+		let demoTitle: Element|string = 'Demos';
 
 		if (this.state.steamid) {
-			var options = [
+			const options = [
 				{value: 'uploads', 'label': 'Uploads'},
 				{value: 'demos', 'label': 'Demos'}
 			];
-			var setListType = (type) => {
-				var isUploads = type.value == 'uploads';
+			const setListType = (type) => {
+				const isUploads = type.value == 'uploads';
 				if (isUploads !== this.state.isUploads) {
 					if (isUploads) {
 						this.endpoint = 'uploads/' + this.state.steamid;
@@ -179,10 +203,10 @@ export class ListPage extends Component {
 			demoTitle = (
 				<span className="listType">
 					<Select options={options}
-							clearable={false}
-							value={this.state.isUploads ? 'uploads' : 'demos'}
-							onChange={setListType}
-							searchable={false}
+					        clearable={false}
+					        value={this.state.isUploads ? 'uploads' : 'demos'}
+					        onChange={setListType}
+					        searchable={false}
 					/> {this.state.isUploads ? 'by' : 'for'} {this.state.subjectName}
 				</span>
 			);
@@ -194,8 +218,8 @@ export class ListPage extends Component {
 
 				<div className="search">
 					<FilterBar provider={this.provider}
-							   filter={this.provider.filter}
-							   onChange={this.filterChange} />
+					           filter={this.provider.filter}
+					           onChange={this.filterChange}/>
 				</div>
 
 				{!this.state.loading ?

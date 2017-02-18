@@ -1,10 +1,15 @@
-import React, {Component} from 'react';
+import * as React from 'react';
 
-import {Section} from '../components/Section.js';
+import {Section} from '../components/Section';
 
 import './APIPage.css';
+import {User} from "../Providers/AuthProvider";
 
-export class APIPage extends Component {
+export interface APIPageProps {
+	user: User;
+}
+
+export class APIPage extends React.Component<APIPageProps, {}> {
 	static page = 'api';
 
 	componentDidMount() {
@@ -14,52 +19,52 @@ export class APIPage extends Component {
 	render() {
 		const steamId = this.props.user.steamid ? this.props.user.steamid : '76561198024494988';
 		const listItem = {
-			id         : 3314,
-			url        : "https://demostf.blob.core.windows.net/demos/55be20b7adb21stvdemos220466v6-2015-08-02-15-21-bluvsred-cpgullywashfinal1.dem",
-			name       : "stvdemos/22046_6v6-2015-08-02-15-21-blu_vs_red-cp_gullywash_final1.dem",
-			server     : "TF2Pickup.net | #4.NL | 6v6 | Powered by SimRai.com",
-			duration   : 1809,
-			nick       : "SourceTV Demo",
-			map        : "cp_gullywash_final1",
-			time       : 1438523578,
-			red        : "RED",
-			blue       : "BLU",
-			redScore   : 1,
-			blueScore  : 5,
+			id: 3314,
+			url: "https://demostf.blob.core.windows.net/demos/55be20b7adb21stvdemos220466v6-2015-08-02-15-21-bluvsred-cpgullywashfinal1.dem",
+			name: "stvdemos/22046_6v6-2015-08-02-15-21-blu_vs_red-cp_gullywash_final1.dem",
+			server: "TF2Pickup.net | #4.NL | 6v6 | Powered by SimRai.com",
+			duration: 1809,
+			nick: "SourceTV Demo",
+			map: "cp_gullywash_final1",
+			time: 1438523578,
+			red: "RED",
+			blue: "BLU",
+			redScore: 1,
+			blueScore: 5,
 			playerCount: 12,
-			uploader   : 2565
+			uploader: 2565
 		};
 		const demoInfo = {
-			id         : 314,
-			url        : "https://demostf.blob.core.windows.net/demos/5510b8e522f7cmatch-20150323-1937-cpprocessfinal.dem",
-			name       : "match-20150323-1937-cp_process_final.dem",
-			server     : "UGC 6v6 Match",
-			duration   : 1809,
-			nick       : "SourceTV Demo",
-			map        : "cp_process_final",
-			time       : 1427159270,
-			red        : "TITS!",
-			blue       : "BLU",
-			redScore   : 3,
-			blueScore  : 1,
+			id: 314,
+			url: "https://demostf.blob.core.windows.net/demos/5510b8e522f7cmatch-20150323-1937-cpprocessfinal.dem",
+			name: "match-20150323-1937-cp_process_final.dem",
+			server: "UGC 6v6 Match",
+			duration: 1809,
+			nick: "SourceTV Demo",
+			map: "cp_process_final",
+			time: 1427159270,
+			red: "TITS!",
+			blue: "BLU",
+			redScore: 3,
+			blueScore: 1,
 			playerCount: 12,
-			uploader   : {
-				id     : 1052,
+			uploader: {
+				id: 1052,
 				steamid: "76561198028052915",
-				name   : "Reƒraction"
+				name: "Reƒraction"
 			},
-			players    : [
+			players: [
 				{
-					id     : 4364,
+					id: 4364,
 					user_id: 1614,
-					name   : "dankest memes",
-					team   : "red",
-					class  : "scout",
+					name: "dankest memes",
+					team: "red",
+					'class': "scout",
 					steamid: "76561198070261020",
-					avatar : "http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/4a/4a06c61bee548e1f8e81d5dcb2d3741f8ee30ac0_medium.jpg",
-					kills  : 10,
+					avatar: "http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/4a/4a06c61bee548e1f8e81d5dcb2d3741f8ee30ac0_medium.jpg",
+					kills: 10,
 					assists: 0,
-					deaths : 19
+					deaths: 19
 				}
 			]
 		};
@@ -76,7 +81,7 @@ export class APIPage extends Component {
 				<Section title="API">
 					<p>
 						Demos.tf provides a REST api that allows 3rd parties
-						to the demo information storaged on the site which
+						to the demo information stored on the site which
 						is located at.
 					</p>
 					<pre>https://api.demos.tf/</pre>
@@ -309,13 +314,15 @@ export class APIPage extends Component {
 
 				<Section title="Uploading Demos">
 					<p>
-						Demos can be uploaded by making a <code>POST</code> request to
-						<code>https://api.demos.tf/upload</code> with the following
+						Demos can be uploaded by making a <code> POST </code>
+						request to
+						<code> https://api.demos.tf/upload </code> with the following
 						fields set as form data.
 					</p>
 					<ul>
 						<li>
-							<code>key</code> the api key of the user uploading the demo
+							<code>key</code>
+							the api key of the user uploading the demo
 						</li>
 						<li>
 							<code>name</code> the name of the demo file
@@ -327,7 +334,8 @@ export class APIPage extends Component {
 							<code>blu</code> the name of the BLU team
 						</li>
 						<li>
-							<code>demo</code> the demo file to be uploaded, as form file upload
+							<code>demo</code>
+							the demo file to be uploaded, as form file upload
 						</li>
 					</ul>
 				</Section>

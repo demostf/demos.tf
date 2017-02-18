@@ -1,15 +1,46 @@
-import {BaseProvider} from './BaseProvider.js';
+import {BaseProvider} from './BaseProvider';
+
+export interface DemoInfo {
+	id: number;
+	blue: string;
+	blueScore: number;
+	red: string;
+	redScore: number;
+	duration: number;
+	map: string;
+	name: string;
+	nick: string;
+	playerCount: number;
+	server: string;
+	time: number;
+	uploader: number;
+	url: string;
+}
+
+export interface Stats {
+	demos: number;
+	players: number;
+	// uploader: number;
+}
+
+export interface DemoListFilter {
+	map: string;
+	type: string;
+	'players[]': string[];
+	page: number;
+}
 
 export class DemoListProvider extends BaseProvider {
 	more = true;
-	cachedDemos = [];
+	cachedDemos: DemoInfo[] = [];
 	lastPage = 0;
 	_endPoint = 'demos';
-	cachedMaps = [];
-	filter = {
-		map        : '',
-		type       : '',
-		'players[]': []
+	cachedMaps: string[] = [];
+	filter: DemoListFilter = {
+		map: '',
+		type: '',
+		'players[]': [],
+		page: 0
 	};
 
 	get endPoint() {
@@ -69,26 +100,66 @@ export class DemoListProvider extends BaseProvider {
 		return this.demos;
 	}
 
-	async listMaps() {
+	async listMaps(): Promise<string[]> {
 		if (this.cachedMaps.length > 0) {
 			return this.cachedMaps;
 		}
 		return this.cachedMaps = await this.request('maps');
 	}
 
-	get demos() {
+	get demos(): DemoInfo[] {
 		return this.cachedDemos;
 	}
 
-	getStats() {
+	getStats(): Promise<Stats> {
 		return this.request('stats');
 	}
 }
 
-export class DemoProvider extends BaseProvider {
-	cached = [];
+export interface ChatMessage {
+	message: string;
+	time: number;
+	user: string;
+}
 
-	async getDemo(id) {
+export interface SteamUser {
+	id: number;
+	steamid: string;
+	name: string;
+}
+
+export interface Player extends SteamUser {
+	kills: number;
+	assists: number;
+	deaths: number;
+	user_id: number;
+	avatar: string;
+	'class': string;
+	team: string;
+}
+
+export interface Demo {
+	id: number;
+	blue: string;
+	blueScore: number;
+	red: string;
+	redScore: number;
+	duration: number;
+	map: string;
+	name: string;
+	nick: string;
+	playerCount: number;
+	server: string;
+	time: Date;
+	uploader: SteamUser;
+	url: string;
+	players: Player[];
+}
+
+export class DemoProvider extends BaseProvider {
+	cached: Demo[] = [];
+
+	async getDemo(id): Promise<Demo> {
 		if (this.cached[id]) {
 			return this.cached[id];
 		}
@@ -97,11 +168,11 @@ export class DemoProvider extends BaseProvider {
 		return this.cached[id];
 	}
 
-	getChat(id) {
+	getChat(id): Promise<ChatMessage[]> {
 		return this.request('demos/' + id + '/chat');
 	}
 
-	async uploadDemo(key, red, blu, name, demo) {
+	async uploadDemo(key: string, red: string, blu: string, name: string, demo: File): Promise<string> {
 		const data = new FormData();
 		data.append('key', key);
 		data.append('red', red);
@@ -110,12 +181,14 @@ export class DemoProvider extends BaseProvider {
 		data.append('demo', demo, demo.name);
 		const response = await fetch(this.getApiUrl('upload'), {
 			method: 'POST',
-			body  : data
+			body: data
 		});
-		const body = response.text;
-		const expected = 'STV available at: http://upload.local.demos.tf/';
+		const body = await response.text();
+		const expected = 'STV available at: http://demos.tf/';
 		if (body.substr(0, expected.length) === expected) {
 			return body.substr(expected.length);
+		} else {
+			return '';
 		}
 	}
 }

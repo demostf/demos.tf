@@ -1,4 +1,4 @@
-export function fuzzyTime(date) {
+export function fuzzyTime(date: number): string {
 	// Make a fuzzy time
 	const elapsed = Math.round((+new Date - date));
 
