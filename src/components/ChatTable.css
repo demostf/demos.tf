@@ -1,0 +1,16 @@
+table.chat {
+  td.duration {
+    width: 80px;
+    text-align: right;
+    color: #aaa;
+  }
+
+  td.user {
+    white-space: nowrap;
+    vertical-align: top;
+    width: 20%;
+    color: #666;
+    text-align: right;
+    border-right: 1px solid #ccc
+  }
+}

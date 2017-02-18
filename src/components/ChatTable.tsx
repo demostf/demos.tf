@@ -2,6 +2,8 @@ import * as React from 'react';
 import {Duration} from './Duration';
 import {ChatMessage} from "../Providers/DemoProvider";
 
+import './ChatTable.css';
+
 export interface ChatTableProps {
 	messages: ChatMessage[];
 }

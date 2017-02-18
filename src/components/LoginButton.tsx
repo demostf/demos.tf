@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import './LoginButton.css';
+
 export interface LoginButtonProps {
 	loginHandler: Function;
 }

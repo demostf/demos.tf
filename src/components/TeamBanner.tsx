@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import './TeamBanner.css';
+
 export interface TeamBannerProps {
 	redName: string;
 	redScore: number;

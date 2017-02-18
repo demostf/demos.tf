@@ -1,0 +1,49 @@
+div.teams {
+  margin: 0 -30px;
+  padding: 10px 0 0;
+  height: 72px;
+
+  div {
+    display: inline-block;
+    padding: 10px 30px;
+    width: 50%;
+    color: white;
+  }
+
+  span {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 45px;
+  }
+
+  & > div {
+    height: 72px;
+  }
+
+  .red {
+    padding-right: 15px;
+    float: left;
+    background: #a75d50;
+  }
+
+  .red span.name,
+  .blue span.name {
+    display: inline-block;
+    overflow: hidden;
+    max-width: calc(100% - 30px);
+  }
+
+  .red .score {
+    float: right;
+  }
+
+  .blue {
+    padding-left: 15px;
+    float: right;
+    background: #5b818f;
+  }
+
+  .blue .name {
+    float: right;
+  }
+}

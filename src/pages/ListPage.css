@@ -3,89 +3,89 @@
 	text-align: left;
 	border: none;
 	border-collapse: collapse;
-}
 
-.demolist tbody {
-	width: 100%;
-}
+	tbody {
+		width: 100%;
+	}
 
-.demolist th {
-	font-weight: bold;
-}
+	th {
+		font-weight: bold;
+	}
 
-.demolist td, .demolist th {
-	max-width: 50px;
-	padding: 9px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	margin: 0;
-}
+	td, th {
+		max-width: 50px;
+		padding: 9px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin: 0;
+	}
 
-.demolist td.date {
-	width: 120px;
-}
+	td.date {
+		width: 120px;
+	}
 
-.demolist td.duration {
-	width: 90px;
-	text-align: right;
-}
+	td.duration {
+		width: 90px;
+		text-align: right;
+	}
 
-.demolist td.format {
-	width: 75px;
-	text-align: right;
-}
+	td.format {
+		width: 75px;
+		text-align: right;
+	}
 
-.demolist td.map {
-	width: 180px;
-}
+	td.map {
+		width: 180px;
+	}
 
-.demolist tr.even {
-	background-color: #F8F8F8;
+	tr.even {
+		background-color: #F8F8F8;
+	}
 }
 
 .search {
 	padding-bottom: 10px;
 }
 
-.listType > span {
-	vertical-align: top;
-}
-
 .listType {
 	line-height: 62px;
-}
 
-.listType div.Select {
-	vertical-align: middle;
-	display: inline-block;
-	width: 200px;
-	margin-top: -13px;
-}
+	& > span {
+		vertical-align: top;
+	}
 
-.listType div.Select div.Select-placeholder {
-	padding: 4px;
-	cursor: pointer;
-}
+	div.Select {
+		vertical-align: middle;
+		display: inline-block;
+		width: 200px;
+		margin-top: -13px;
+	}
 
-.listType div.Select div.Select-control, .listType div.Select-control:hover {
-	height: 62px;
-	border-radius: 0;
-	border: none;
-}
+	div.Select div.Select-placeholder {
+		padding: 4px;
+		cursor: pointer;
+	}
 
-.listType div.Select .Select-arrow, .Select-value-label {
-	vertical-align: middle;
-}
+	div.Select div.Select-control, div.Select-control:hover {
+		height: 62px;
+		border-radius: 0;
+		border: none;
+	}
 
-.listType div.Select .Select-value {
-	padding-top: 10px;
-}
+	div.Select .Select-arrow, .Select-value-label {
+		vertical-align: middle;
+	}
 
-.listType div.Select div.Select-control {
-	height: 62px;
-	border-radius: 0;
-	border: 1px solid #ccc;
+	div.Select .Select-value {
+		padding-top: 10px;
+	}
+
+	div.Select div.Select-control {
+		height: 62px;
+		border-radius: 0;
+		border: 1px solid #ccc;
+	}
 }
 
 @media (max-width: 950px) {

@@ -1,25 +1,22 @@
 footer {
-	margin: 100px -31px -100px;
-	text-align: center;
-	line-height: 35px;
-	vertical-align: middle;
-	padding: 10px 0;
-	color: #fff;
-	background-color: #444;
-}
+  margin: 100px -31px -100px;
+  text-align: center;
+  line-height: 35px;
+  vertical-align: middle;
+  padding: 10px 0;
+  color: #fff;
+  background-color: #444;
 
-footer a,
-footer a:visited {
-	color: #3498db;
-}
+  a, a:visited {
+    color: #3498db;
+  }
 
-@media (min-width: 1700px) {
-	footer {
-		margin: 0;
-		position: fixed;
-		right: 15px;
-		bottom: 0;
-		width: 280px;
-		text-align: right;
-	}
+  @media (min-width: 1700px) {
+    margin: 0;
+    position: fixed;
+    right: 15px;
+    bottom: 0;
+    width: 280px;
+    text-align: right;
+  }
 }

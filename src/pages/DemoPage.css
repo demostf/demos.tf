@@ -1,200 +1,47 @@
-div.teams {
-	margin: 0 -30px;
-	padding: 10px 0 0;
-	height: 72px;
-}
-
-div.teams div {
-	display: inline-block;
-	padding: 10px 30px;
-	width: 50%;
-	color: white;
-}
-
-div.teams span {
-	font-family: Arial, sans-serif;
-	font-weight: bold;
-	font-size: 45px;
-}
-
-div.teams > div {
-	height: 72px;
-}
-
-div.teams .red {
-	padding-right: 15px;
-	float: left;
-	background: #a75d50;
-}
-
-div.teams .red span.name,
-div.teams .blue span.name {
-	display: inline-block;
-	overflow: hidden;
-	max-width: calc(100% - 30px);
-}
-
-div.teams .red .score {
-	float: right;
-}
-
-div.teams .blue {
-	padding-left: 15px;
-	float: right;
-	background: #5b818f;
-}
-
-div.teams .blue .name {
-	float: right;
-}
-
 table.chat, table.players {
-	table-layout: fixed;
-	width: 100%;
-	border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .demo-page td, .demo-page th {
-	padding: 5px 9px;
-	text-overflow: ellipsis;
-	overflow: hidden;
+  padding: 5px 9px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .demo-page table tr:nth-child(odd) {
-	background-color: #f4f4f4;
+  background-color: #f4f4f4;
 }
 
 .demo-page table tr:nth-child(even) {
-	background-color: white;
+  background-color: white;
 }
 
 .demo-page table th {
-	padding: 7px 9px;
+  padding: 7px 9px;
 }
 
-table.players {
-	width: 100%;
-}
-
-table.players .name {
-	vertical-align: top;
-}
-
-table.players .name a {
-	text-decoration: none;
-	color: black;
-	white-space: nowrap;
-}
-
-table.players .name a:hover {
-	text-decoration: underline;
-}
-
-table.players .team {
-	width: 20px;
-}
-
-table.players .team.red {
-	background: #a75d50;
-}
-
-table.players .team.blue {
-	background: #5b818f;
-}
-
-table.players .stat {
-	text-align: right;
-}
-
-table.players .stat, table.players .class {
-	width: 40px;
-	vertical-align: top;
-}
-
-table.players .blue.name {
-	text-align: right;
-	padding-right: 15px;
-}
-
-table.players .red.name {
-	text-align: left;
-	padding-left: 15px;
-}
-
-table.players th {
-	border-bottom: solid 1px #ccc;
-}
-
-table.players th.team {
-	border-bottom: none;
-}
-
-table.players tr:last-child td.red {
-	border-bottom: 1px solid #a75d50;
-}
-
-table.players tr:last-child td.blue {
-	border-bottom: 1px solid #5b818f;
-}
-
-table.players tr:last-child td.class {
-	border-bottom: 1px solid #666;
-}
-
-table.players td.pov {
-	background-color: #ddd;
-}
-
-table.players .demo-info {
-	margin: 20px 0;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-table.players .demo-info .time {
-	float: right;
-}
-
-@media (max-width: 650px) {
-	table.players .stat {
-		display: none;
-	}
-}
-
-table.chat td.duration {
-	width: 80px;
-	text-align: right;
-	color: #aaa;
-}
-
-table.chat td.user {
-	white-space: nowrap;
-	vertical-align: top;
-	width: 20%;
-	color: #666;
-	text-align: right;
-	border-right: 1px solid #ccc
-}
 
 p.demo-info .time {
-	float: right;
-	font-weight: bold;
+  float: right;
+  font-weight: bold;
 }
 
 p.demo-download {
-	margin-top: 40px;
+  margin-top: 40px;
 }
 
 p.demo-download button, p.demo-download a {
-	margin-right: 40px;
+  margin-right: 40px;
 }
 
 @media (max-width: 450px) {
-	p.demo-download button, p.demo-download a {
-		margin-right: 0;
-	}
+  p.demo-download button, p.demo-download a {
+    margin-right: 0;
+  }
 
-	p.demo-download button {
-		float: right;
-	}
+  p.demo-download button {
+    float: right;
+  }
 }

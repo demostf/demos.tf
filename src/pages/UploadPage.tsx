@@ -3,13 +3,13 @@ import * as React from 'react';
 import {Section} from '../components/Section';
 import {Duration} from '../components/Duration';
 import {DemoProvider} from '../Providers/DemoProvider';
-import * as DropZone from 'react-dropzone';
+import {Dropzone} from '../components/Dropzone';
 import {Footer} from '../components/Footer';
 import {PluginSection} from '../components/PluginSection';
 import 'dataview-getstring';
 
 import './UploadPage.css';
-import './DemoPage.css';
+import '../components/TeamBanner.css';
 import {User} from "../Providers/AuthProvider";
 import Element = JSX.Element;
 
@@ -154,10 +154,8 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 						</div>
 						<div id="clearfix"/>
 					</div>
-					<DropZone onDrop={this.onDrop}
-					          className="dropzone">
-						{this.state.demoName ? this.state.demoName : 'Drop files or click to upload'}
-					</DropZone>
+					<Dropzone onDrop={this.onDrop}
+					          text={this.state.demoName ? this.state.demoName:undefined}/>
 					{demoInfo}
 					<button onClick={this.upload}
 					        className="pure-button pure-button-primary"

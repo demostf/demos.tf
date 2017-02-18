@@ -1,0 +1,25 @@
+a.steam-login:before {
+  content: '';
+  box-shadow: 1px 0 0 rgba(0, 0, 0, 0.05);
+  height: inherit;
+  width: 37px;
+  background-size: 30px 30px;
+  background: rgba(255, 255, 255, 0.08) url('../images/steam_login.svg') no-repeat 0;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+}
+
+a.steam-login {
+  display: inline-block;
+  height: 35px;
+  margin: -1px 0;
+  background-color: #5A8E27;
+  color: white;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+  line-height: 22px;
+  position: relative;
+  padding-left: 50px;
+}

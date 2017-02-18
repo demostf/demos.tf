@@ -7,8 +7,15 @@
     font-weight: bold;
   }
 
-  section li > a:first-child > code:after, section li > code:first-child:after {
-    content: ':';
-    font-weight: normal;
+  pre {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  section li {
+    & > a:first-child > code:after, & > code:first-child:after {
+      content: ':';
+      font-weight: normal;
+    }
   }
 }
