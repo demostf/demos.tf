@@ -1,0 +1,9 @@
+.map-background {
+  /*width: 1000px;*/
+  /*height: 1000px;*/
+  min-height: 500px;
+  min-width: 700px;
+  background: black no-repeat;
+  background-position: bottom left;
+  background-size: contain;
+}

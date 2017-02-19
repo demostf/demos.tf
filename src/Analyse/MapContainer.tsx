@@ -3,6 +3,10 @@ import {Panner} from "../Components/Panner/Panner";
 
 export class MapContainerProps {
 	children?: any;
+	contentSize: {
+		width: number;
+		height: number;
+	};
 }
 
 export class MapContainerState {
@@ -25,10 +29,12 @@ export class MapContainer extends React.Component<MapContainerProps,MapContainer
 	}
 
 	render() {
-		console.log(this.state);
+		const scale = 0.05;
+
 		return (
 			<div className="map-container" ref={(div) => this.container=div}>
-				<Panner width={this.state.width} height={this.state.height}>
+				<Panner width={this.state.width} height={this.state.height}
+				        scale={scale}>
 					{this.props.children}
 				</Panner>
 			</div>

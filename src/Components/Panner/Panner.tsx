@@ -14,6 +14,7 @@ export interface PannerState {
 export interface PannerProps {
 	width: number;
 	height: number;
+	scale: number;
 }
 
 export class Panner extends React.Component<PannerProps, PannerState> {
@@ -33,7 +34,8 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		super(props);
 		this.panner = new CenteredPanZoom({
 			screenHeight: this.props.height,
-			screenWidth: this.props.width
+			screenWidth: this.props.width,
+			scale: this.props.scale
 		});
 	}
 
