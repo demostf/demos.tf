@@ -4,23 +4,29 @@ import {Parser} from "../Data/Parser";
 export interface TimelineProps {
 	parser: Parser
 	tick: number
+	onSetTick: (tick: number) => any;
 }
 
-export function Timeline({parser, tick}:TimelineProps) {
-	const tickPercent = (tick / parser.ticks) * 100;
+export class Timeline extends React.Component<TimelineProps, {}> {
+	background: Element;
 
-	return (<div className="timeline">
-		<TimeLineBackground parser={parser}/>
-		<svg className="timeline-progress" viewBox="0 0 100 100"
-		     preserveAspectRatio="none">
-			<line x1={tickPercent} y1={0} x2={tickPercent} y2={100}
-			      stroke="black"
-			      vectorEffect="non-scaling-stroke"/>
-		</svg>
-	</div>);
+	render() {
+		const {parser, tick, onSetTick}= this.props;
+		if (!this.background) {
+			this.background =<TimeLineBackground parser={parser}/>;
+		}
+		return (<div className="timeline">
+			{this.background}
+			<input className="timeline-progress" type="range" min={0}
+			       max={parser.ticks} value={tick}
+			       onChange={(event) => {onSetTick(parseInt(event.target.value, 10))}}
+			/>
+		</div>);
+	}
 }
 
 import './Timeline.css';
+import Element = JSX.Element;
 
 function TimeLineBackground({parser}:{parser: Parser}) {
 	const length = Math.floor(parser.ticks / 30);

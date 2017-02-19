@@ -50,7 +50,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	setTick = throttle((tick) => {
 		this.setState({tick});
-	}, 250);
+	}, 50);
 
 	onTickInput = (event) => {
 		this.setTick(parseInt(event.target.value, 10));
@@ -96,12 +96,9 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 					           header={this.props.header}
 					           world={this.props.demo.getParser().match.world}/>
 				</MapContainer>
-				<Timeline parser={this.parser} tick={this.state.tick}/>
+				<Timeline parser={this.parser} tick={this.state.tick} onSetTick={this.setTick}/>
 				<input type="button" onClick={this.togglePlay}
 				       value={playButtonText}/>
-				<input value={this.state.tick} type="range" min={0}
-				       max={this.parser.ticks}
-				       onChange={this.onTickInput}/>
 			</div>
 		);
 	}

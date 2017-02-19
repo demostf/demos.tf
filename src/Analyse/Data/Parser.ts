@@ -54,10 +54,10 @@ export class Parser {
 		let lastTick = 0;
 		const demoParser = this.demo.getParser();
 		const match = demoParser.match;
+		let index = 0;
 		demoParser.on('packet', (packet: Packet) => {
 			const tick = Math.floor((match.tick - this.startTick) / 2);
 			if (tick > lastTick) {
-				lastTick = tick;
 				for (const player of match.players) {
 					const playerId = this.getPlayerId(player);
 					this.positionCache.setPostion(playerId, tick, player.position);
@@ -67,6 +67,21 @@ export class Parser {
 						teamId: player.team
 					});
 				}
+				if (tick > lastTick + 1) {
+					// demo skipped ticks, copy/interpolote
+					for (let i = lastTick; i < tick; i++) {
+						for (const player of match.players) {
+							const playerId = this.getPlayerId(player);
+							this.positionCache.setPostion(playerId, i, player.position);
+							this.healthCache.setHealth(playerId, i, player.health);
+							this.metaCache.setMeta(playerId, i, {
+								classId: player.classId,
+								teamId: player.team
+							});
+						}
+					}
+				}
+				lastTick = tick;
 			}
 		});
 		demoParser.parseBody();
