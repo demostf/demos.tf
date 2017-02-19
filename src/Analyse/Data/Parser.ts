@@ -2,18 +2,25 @@ import {
 	Demo, Header, Packet, Player, UserInfo,
 	Match
 } from 'tf2-demo/build/es6';
-import {PostionCache, Point} from './PostionCache';
+import {PositionCache, Point} from './PositionCache';
 import {getMapBoundaries} from "../MapBoundries";
+import {HealthCache} from "./HealthCache";
+import {PlayerMetaCache} from "./PlayerMetaCache";
 
 export class CachedPlayer {
 	position: Point;
 	user: UserInfo;
+	health: number;
+	teamId: number;
+	classId: number;
 }
 
 export class Parser {
 	demo: Demo;
 	header: Header;
-	positionCache: PostionCache;
+	positionCache: PositionCache;
+	healthCache: HealthCache;
+	metaCache: PlayerMetaCache;
 	entityPlayerReverseMap: {[entityId: string]: number} = {};
 	nextMappedPlayer = 0;
 	entityPlayerMap: {[playerId: string]: Player} = {};
@@ -38,7 +45,9 @@ export class Parser {
 		}
 		this.startTick = this.match.tick;
 		this.ticks = Math.ceil((head.ticks) / 2); // scale down to 30fps
-		this.positionCache = new PostionCache(20, this.ticks, this.match.world.boundaryMin); // 20 players "should work in most cases"
+		this.positionCache = new PositionCache(20, this.ticks, this.match.world.boundaryMin); // 20 players "should work in most cases"
+		this.healthCache = new HealthCache(20, this.ticks);
+		this.metaCache = new PlayerMetaCache(20, this.ticks);
 	}
 
 	cacheData() {
@@ -50,7 +59,13 @@ export class Parser {
 			if (tick > lastTick) {
 				lastTick = tick;
 				for (const player of match.players) {
-					this.positionCache.setPostion(this.getPlayerId(player), tick, player.position);
+					const playerId = this.getPlayerId(player);
+					this.positionCache.setPostion(playerId, tick, player.position);
+					this.healthCache.setHealth(playerId, tick, player.health);
+					this.metaCache.setMeta(playerId, tick, {
+						classId: player.classId,
+						teamId: player.team
+					});
 				}
 			}
 		});
@@ -69,9 +84,13 @@ export class Parser {
 	getPlayersAtTick(tick: number) {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
+			const meta = this.metaCache.getMeta(i, tick);
 			players.push({
-				position: this.positionCache.getPostion(i, tick),
-				user: this.entityPlayerMap[i].user
+				position: this.positionCache.getPosition(i, tick),
+				user: this.entityPlayerMap[i].user,
+				health: this.healthCache.getHealth(i, tick),
+				teamId: meta.teamId,
+				classId: meta.classId
 			});
 		}
 		return players;

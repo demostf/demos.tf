@@ -5,6 +5,7 @@ import {MapContainer} from "./MapContainer";
 import {Parser} from "./Data/Parser";
 import {debounce, throttle} from 'lodash';
 import {getMapBoundaries} from "./MapBoundries";
+import {Timeline} from './Render/Timeline';
 
 export interface AnalyseProps {
 	demo: Demo;
@@ -73,7 +74,6 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	};
 
 	animFrame = () => {
-		console.log(this.state.tick);
 		if (this.state.tick === (this.parser.ticks - 1)) {
 			this.pause();
 		}
@@ -96,6 +96,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 					           header={this.props.header}
 					           world={this.props.demo.getParser().match.world}/>
 				</MapContainer>
+				<Timeline parser={this.parser} tick={this.state.tick}/>
 				<input type="button" onClick={this.togglePlay}
 				       value={playButtonText}/>
 				<input value={this.state.tick} type="range" min={0}

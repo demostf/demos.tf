@@ -1,0 +1,22 @@
+.timeline {
+  width: 100%;
+  height: 100px;
+  position: relative;
+}
+
+.timeline-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+}
+
+.timeline-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  transform: scale(1, -1);
+}

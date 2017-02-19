@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Header} from "tf2-demo/build/es6";
 import {CachedPlayer} from "./Data/Parser";
 import {Player as PlayerDot} from './Render/Player';
-import {MapBoundary} from './Data/PostionCache';
+import {MapBoundary} from './Data/PositionCache';
 
 export interface MapRenderProps {
 	header: Header;
@@ -27,10 +27,12 @@ export function MapRender({header, players, size, world}: MapRenderProps) {
 	const image = require(`./MapImages/${header.map}.png`) as string;
 	const background = `url(${image})`;
 
-	const playerDots = players.filter((player: CachedPlayer) => player.position.x).map((player: CachedPlayer, key) => {
-		return <PlayerDot key={key} player={player} mapBoundary={world}
-		                  targetSize={size}/>
-	});
+	const playerDots = players
+		.filter((player: CachedPlayer) => player.position.x && (player.teamId === 2 || player.teamId === 3))
+		.map((player: CachedPlayer, key) => {
+			return <PlayerDot key={key} player={player} mapBoundary={world}
+			                  targetSize={size}/>
+		});
 
 	return (
 		<svg className="map-background" width={size.width} height={size.height}
