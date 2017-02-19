@@ -28,7 +28,7 @@ module.exports = {
 		libraryTarget: 'umd'
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.tsx']
+		extensions: ['.js', '.jsx', '.tsx', '.ts']
 	},
 	plugins: [
 		new webpack.LoaderOptionsPlugin({
@@ -109,7 +109,7 @@ module.exports = {
 	],
 	module: {
 		rules: [
-			{test: /\.tsx$/, use: 'ts-loader'},
+			{test: /\.tsx?$/, use: 'ts-loader'},
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [

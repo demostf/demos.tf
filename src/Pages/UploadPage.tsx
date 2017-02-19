@@ -1,15 +1,15 @@
 import * as React from 'react';
 
-import {Section} from '../components/Section';
-import {Duration} from '../components/Duration';
+import {Section} from '../Components/Section';
+import {Duration} from '../Components/Duration';
 import {DemoProvider} from '../Providers/DemoProvider';
-import {Dropzone} from '../components/Dropzone';
-import {Footer} from '../components/Footer';
-import {PluginSection} from '../components/PluginSection';
+import {Dropzone} from '../Components/Dropzone';
+import {Footer} from '../Components/Footer';
+import {PluginSection} from '../Components/PluginSection';
 import 'dataview-getstring';
 
 import './UploadPage.css';
-import '../components/TeamBanner.css';
+import '../Components/TeamBanner.css';
 import {User} from "../Providers/AuthProvider";
 import Element = JSX.Element;
 

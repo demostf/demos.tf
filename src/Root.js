@@ -4,7 +4,7 @@ import React from 'react';
 import {Router, Route, browserHistory} from 'react-router';
 
 import {App} from './App';
-import {ListPage} from './pages/ListPage';
+import {ListPage} from './Pages/ListPage';
 import {AppContainer} from 'react-hot-loader';
 
 let lastPath = false;
@@ -21,41 +21,55 @@ let onEnter = (nextState) => {
 
 const getDemoComponent = (nextState, callback) => {
 	require.ensure([], function (require) {
-		callback(null, require('./pages/DemoPage').DemoPage)
+		callback(null, require('./Pages/DemoPage').DemoPage)
 	});
 };
 
 const getApiComponent = (nextState, callback) => {
 	require.ensure([], function (require) {
-		callback(null, require('./pages/APIPage').APIPage)
+		callback(null, require('./Pages/APIPage').APIPage)
 	});
 };
 
 const getAboutComponent = (nextState, callback) => {
 	require.ensure([], function (require) {
-		callback(null, require('./pages/AboutPage').AboutPage)
+		callback(null, require('./Pages/AboutPage').AboutPage)
 	});
 };
 
 const getUploadComponent = (nextState, callback) => {
 	require.ensure([], function (require) {
-		callback(null, require('./pages/UploadPage').UploadPage)
+		callback(null, require('./Pages/UploadPage').UploadPage)
 	});
 };
 
-export function Root() {
+const getAnalyseComponent = (nextState, callback) => {
+	require.ensure([], function (require) {
+		callback(null, require('./Pages/AnalysePage').AnalysePage)
+	});
+};
+
+export function Root () {
 	return (
 		<Router history={browserHistory}>
 			<Route component={App} path='/' onEnter={onEnter}>
-				<Route path='/' component={ListPage} onEnter={onEnter} />
-				<Route path='/upload' getComponents={getUploadComponent} onEnter={onEnter} />
+				<Route path='/' component={ListPage} onEnter={onEnter}/>
+				<Route path='/upload' getComponents={getUploadComponent}
+					   onEnter={onEnter}/>
 				<Route path='/profiles/:steamid' component={ListPage}
-					   onEnter={onEnter} />
+					   onEnter={onEnter}/>
 				<Route path='/uploads/:steamid' component={ListPage}
-					   onEnter={onEnter} />
-				<Route path='/about' getComponents={getAboutComponent} onEnter={onEnter} />
-				<Route path='/api' getComponents={getApiComponent} onEnter={onEnter} />
-				<Route path='/:id' getComponents={getDemoComponent} onEnter={onEnter} />
+					   onEnter={onEnter}/>
+				<Route path='/about' getComponents={getAboutComponent}
+					   onEnter={onEnter}/>
+				<Route path='/api' getComponents={getApiComponent}
+					   onEnter={onEnter}/>
+				<Route path='/analyse' getComponents={getAnalyseComponent}
+					   onEnter={onEnter}/>
+				<Route path='/analyse/:id' getComponents={getAnalyseComponent}
+					   onEnter={onEnter}/>
+				<Route path='/:id' getComponents={getDemoComponent}
+					   onEnter={onEnter}/>
 			</Route>
 		</Router>
 	);

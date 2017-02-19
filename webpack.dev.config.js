@@ -19,7 +19,7 @@ module.exports = {
 		filename: "[name]-[hash].js"
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.tsx'],
+		extensions: ['.js', '.jsx', '.tsx', '.ts'],
 		// alias: {
 		// 	'react': 'preact-compat',
 		// 	'react-dom': 'preact-compat'
@@ -35,7 +35,7 @@ module.exports = {
 	],
 	module: {
 		rules: [
-			{test: /\.tsx$/, use: 'ts-loader'},
+			{test: /\.tsx?$/, use: ['react-hot-loader/webpack', 'ts-loader']},
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [

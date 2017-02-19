@@ -1,0 +1,57 @@
+.pure-button {
+  border-radius: 0;
+  min-width: 150px;
+}
+
+.pure-button:hover {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1a000000', endColorstr='#1a000000', GradientType=0);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.1)), to(rgba(0, 0, 0, 0.1)));
+  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.1));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+}
+
+.button-delete {
+  background: rgb(202, 60, 60);
+  color: white;
+}
+
+.button-pause {
+  background: rgb(223, 117, 20);
+  color: white;
+}
+
+.button-fa:before {
+  display: inline-block;
+  font-family: "Ionicons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.button-delete:before {
+  content: $ionicon-var-android-delete;
+}
+
+.button-pause:before {
+  content: $ionicon-var-pause;
+}
+
+.button-play:before {
+  content: $ionicon-var-play;
+}
+
+.button-fa:before {
+  float: left;
+  font-size: 18px;
+  margin: 0 -19px 0 -5px;
+  padding: 0 0.8em 0 0;
+  pointer-events: none;
+  text-align: center;
+  width: 1em;
+}

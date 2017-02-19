@@ -4,9 +4,9 @@ import {Link} from 'react-router';
 import ReactList from 'react-list';
 
 import {DemoListProvider} from '../Providers/DemoProvider';
-import {DemoRow} from '../components/DemoRow';
-import {Footer} from '../components/Footer';
-import {FilterBar} from '../components/FilterBar';
+import {DemoRow} from '../Components/DemoRow';
+import {Footer} from '../Components/Footer';
+import {FilterBar} from '../Components/FilterBar';
 import * as Select from 'react-select';
 import {PlayerProvider} from '../Providers/PlayerProvider';
 import Spinner from 'react-spinner';

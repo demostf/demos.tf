@@ -41,14 +41,17 @@ export function Header(props: HeaderProps) {
 
 	return (
 		<header>
-				<span key="main" className="main">
-					<Link to="/">DEMOS.TF</Link>
-				</span>
+			<span key="main" className="main">
+				<Link to="/">DEMOS.TF</Link>
+			</span>
 			<span key="about">
-					<Link className="pure-menu-link link-about"
-					      to="/about">ABOUT</Link>
-				</span>
-
+				<Link className="pure-menu-link link-about"
+				      to="/about">ABOUT</Link>
+			</span>
+			<span key="analyse">
+				<Link className="pure-menu-link link-analyse"
+				      to="/analyse">ANALYSE</Link>
+			</span>
 
 			{rightMenu}
 		</header>

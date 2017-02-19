@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {Link} from 'react-router';
 import {fuzzyTime} from '../FuzzyTime';
-import {Duration} from '../components/Duration'
-import {PlayerTable} from '../components/PlayerTable'
-import {TeamBanner} from '../components/TeamBanner'
-import {ChatTable} from '../components/ChatTable'
+import {Duration} from '../Components/Duration'
+import {PlayerTable} from '../Components/PlayerTable'
+import {TeamBanner} from '../Components/TeamBanner'
+import {ChatTable} from '../Components/ChatTable'
 import {DemoProvider} from '../Providers/DemoProvider';
-import {Footer} from '../components/Footer';
+import {Footer} from '../Components/Footer';
 import Spinner from 'react-spinner';
 
 import './DemoPage.css';

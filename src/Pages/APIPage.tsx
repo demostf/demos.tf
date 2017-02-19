@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Section} from '../components/Section';
+import {Section} from '../Components/Section';
 
 import './APIPage.css';
 import {User} from "../Providers/AuthProvider";
