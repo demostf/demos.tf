@@ -39,6 +39,22 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		});
 	}
 
+	componentDidMount() {
+		this.setState({
+			translate: {
+				x: this.panner.viewport.x,
+				y: this.panner.viewport.y
+			},
+			scale: this.panner.scale
+		});
+	}
+
+	componentWillReceiveProps({width, height, scale}) {
+		this.panner.scale = scale;
+		this.panner.setSize(width, height);
+		this.setState({scale});
+	}
+
 	render() {
 		const style = {
 			transform: `translate(${this.state.translate.x}px, ${this.state.translate.y}px) scale(${this.state.scale})`,
@@ -71,14 +87,15 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 	};
 
 	_onMouseMove = (event) => {
+		const {pageX, pageY} = event;
 		this.panner.panFrom(
 			{
 				x: this.startX,
 				y: this.startY
 			},
 			{
-				x: event.pageX,
-				y: event.pageY
+				x: pageX,
+				y: pageY
 			}
 		);
 		this.startX = event.pageX;
@@ -93,6 +110,7 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 	};
 
 	_onWheel = (event) => {
+		event.preventDefault();
 		let zoomFactor;
 		if (event.deltaY < 0) {
 			zoomFactor = this.state.scale * 1.05;
@@ -102,8 +120,8 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		this.panner.zoom(zoomFactor, {x: event.pageX, y: event.pageY});
 		this.setState({
 			translate: {
-				x: this.panner.viewport.x + 0 * (this.props.width * this.panner.scale) / 2,
-				y: this.panner.viewport.y + 0 * (this.props.height * this.panner.scale) / 2
+				x: this.panner.viewport.x,
+				y: this.panner.viewport.y
 			},
 			scale: this.panner.scale
 		});

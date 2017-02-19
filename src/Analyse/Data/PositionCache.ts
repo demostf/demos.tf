@@ -20,9 +20,6 @@ export class PositionCache extends DataCache {
 
 	getPosition(playerId: number, tick: number): Point {
 		let offset = this.getOffset(playerId, tick);
-		// if (this.data[offset] === 0 && this.data[offset + 1] === 0) {
-		// 	offset = this.getOffset(playerId, tick + 1);
-		// }
 		return {
 			x: this.data[offset],
 			y: this.data[offset + 1]

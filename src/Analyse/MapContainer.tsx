@@ -29,7 +29,7 @@ export class MapContainer extends React.Component<MapContainerProps,MapContainer
 	}
 
 	render() {
-		const scale = 0.05;
+		const scale = this.state.width / this.props.contentSize.width;
 
 		return (
 			<div className="map-container" ref={(div) => this.container=div}>
