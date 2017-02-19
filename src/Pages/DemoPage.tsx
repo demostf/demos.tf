@@ -90,7 +90,6 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 	render() {
 		let chatTable;
 		if (this.state.showChat) {
-			console.log(this.state);
 			chatTable = (
 				<ChatTable messages={this.state.chat}/>
 			);
@@ -127,6 +126,9 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 					<p className="demo-download">
 						<a className=" pure-button pure-button-primary"
 						   href={demo.url} download={demo.name}>Download</a>
+						<Link className=" pure-button" to={"/analyse/" + this.state.demo.id}>
+							Analyse
+						</Link>
 						<button className=" pure-button"
 						        onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
 						</button>
