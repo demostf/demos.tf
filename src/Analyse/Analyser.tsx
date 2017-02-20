@@ -102,9 +102,9 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 						           world={this.props.demo.getParser().match.world}/>
 					</MapContainer>
 					<PlayersSpec players={players}/>
+					<Timeline parser={this.parser} tick={this.state.tick}
+					          onSetTick={this.setTick}/>
 				</div>
-				<Timeline parser={this.parser} tick={this.state.tick}
-				          onSetTick={this.setTick}/>
 				<input type="button" onClick={this.togglePlay}
 				       value={playButtonText}/>
 			</div>

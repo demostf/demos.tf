@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {Panner} from "../Components/Panner/Panner";
 
+import './MapContainer.css';
+
 export class MapContainerProps {
 	children?: any;
 	contentSize: {
@@ -22,6 +24,7 @@ export class MapContainer extends React.Component<MapContainerProps,MapContainer
 	};
 
 	componentDidMount() {
+		console.log(this.container.clientHeight);
 		this.setState({
 			height: this.container.clientHeight,
 			width: this.container.clientWidth
@@ -34,7 +37,7 @@ export class MapContainer extends React.Component<MapContainerProps,MapContainer
 		return (
 			<div className="map-container" ref={(div) => this.container=div}>
 				<Panner width={this.state.width} height={this.state.height}
-				        scale={scale}>
+				        scale={scale} contentSize={this.props.contentSize}>
 					{this.props.children}
 				</Panner>
 			</div>

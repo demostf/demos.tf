@@ -1,3 +1,14 @@
 .map-holder {
-  position: relative;
+  position: fixed;
+  top: 32px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 32px);
+
+  .timeline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 }
