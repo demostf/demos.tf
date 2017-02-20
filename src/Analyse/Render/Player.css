@@ -1,0 +1,10 @@
+.player-icon {
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  background: red;
+
+  &.blue {
+    -webkit-filter: hue-rotate(220deg) saturate(5);
+    filter: hue-rotate(220deg) saturate(5);
+  }
+}

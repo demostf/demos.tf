@@ -6,6 +6,7 @@ import {PositionCache, Point} from './PositionCache';
 import {getMapBoundaries} from "../MapBoundries";
 import {HealthCache} from "./HealthCache";
 import {PlayerMetaCache} from "./PlayerMetaCache";
+import {ViewAngleCache} from "./ViewAngleCache";
 
 export class CachedPlayer {
 	position: Point;
@@ -14,6 +15,7 @@ export class CachedPlayer {
 	teamId: number;
 	classId: number;
 	team: string;
+	viewAngle: number;
 }
 
 export class Parser {
@@ -22,6 +24,7 @@ export class Parser {
 	positionCache: PositionCache;
 	healthCache: HealthCache;
 	metaCache: PlayerMetaCache;
+	viewAngleCache: ViewAngleCache;
 	entityPlayerReverseMap: {[entityId: string]: number} = {};
 	nextMappedPlayer = 0;
 	entityPlayerMap: {[playerId: string]: Player} = {};
@@ -49,6 +52,7 @@ export class Parser {
 		this.positionCache = new PositionCache(20, this.ticks, this.match.world.boundaryMin); // 20 players "should work in most cases"
 		this.healthCache = new HealthCache(20, this.ticks);
 		this.metaCache = new PlayerMetaCache(20, this.ticks);
+		this.viewAngleCache = new ViewAngleCache(20, this.ticks);
 	}
 
 	cacheData() {
@@ -67,6 +71,7 @@ export class Parser {
 						classId: player.classId,
 						teamId: player.team
 					});
+					this.viewAngleCache.setAngle(playerId, tick, player.viewAngle);
 				}
 				if (tick > lastTick + 1) {
 					// demo skipped ticks, copy/interpolote
@@ -79,6 +84,7 @@ export class Parser {
 								classId: player.classId,
 								teamId: player.team
 							});
+							this.viewAngleCache.setAngle(playerId, i, player.viewAngle);
 						}
 					}
 				}
@@ -108,7 +114,8 @@ export class Parser {
 				health: this.healthCache.getHealth(i, tick),
 				teamId: meta.teamId,
 				classId: meta.classId,
-				team
+				team,
+				viewAngle: this.viewAngleCache.getAngle(i, tick)
 			});
 		}
 		return players;
