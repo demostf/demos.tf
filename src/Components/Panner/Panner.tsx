@@ -18,7 +18,8 @@ export interface PannerProps {
 	contentSize: {
 		width: number;
 		height: number;
-	}
+	};
+	onScale?: (scale: number) => any;
 }
 
 export class Panner extends React.Component<PannerProps, PannerState> {
@@ -55,10 +56,21 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 	}
 
 	componentWillReceiveProps({width, height, scale, contentSize}:PannerProps) {
+		if (
+			width == this.panner.screen.width && height == this.panner.screen.height) {
+			return;
+		}
 		this.panner.scale = scale;
 		this.panner.setSize(width, height);
 		this.panner.setContentSize(contentSize.width, contentSize.height);
 		this.setState({scale});
+		this.setState({
+			translate: {
+				x: this.panner.viewport.x,
+				y: this.panner.viewport.y
+			},
+			scale: this.panner.scale
+		});
 	}
 
 	render() {
@@ -131,5 +143,8 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 			},
 			scale: this.panner.scale
 		});
+		if (this.props.onScale) {
+			this.props.onScale(this.panner.scale);
+		}
 	};
 }

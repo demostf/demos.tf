@@ -12,7 +12,8 @@ export interface MapRenderProps {
 		width: number;
 		height: number;
 	},
-	world: MapBoundary
+	world: MapBoundary;
+	scale: number;
 }
 
 import './MapRender.css';
@@ -23,7 +24,7 @@ declare const require: {
 	ensure: (paths: string[], callback: (require: <T>(path: string) => T) => void) => void;
 };
 
-export function MapRender({header, players, size, world}: MapRenderProps) {
+export function MapRender({header, players, size, world, scale}: MapRenderProps) {
 	const image = require(`./MapImages/${header.map}.png`) as string;
 	const background = `url(${image})`;
 
@@ -31,7 +32,7 @@ export function MapRender({header, players, size, world}: MapRenderProps) {
 		.filter((player: CachedPlayer) => player.position.x && (player.teamId === 2 || player.teamId === 3))
 		.map((player: CachedPlayer, key) => {
 			return <PlayerDot key={key} player={player} mapBoundary={world}
-			                  targetSize={size}/>
+			                  targetSize={size} scale={scale}/>
 		});
 
 	return (

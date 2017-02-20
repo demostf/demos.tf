@@ -9,7 +9,8 @@ export interface PlayerProp {
 	targetSize: {
 		width: number;
 		height: number;
-	}
+	};
+	scale: number;
 }
 
 const healthMap = {
@@ -24,7 +25,7 @@ const healthMap = {
 	9: 125,//engineer
 };
 
-export function Player({player, mapBoundary, targetSize}: PlayerProp) {
+export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 	// const x = (player.position.x - mapBoundary.boundaryMin.x);
 	// const y = (player.position.y - mapBoundary.boundaryMin.y);
 	const worldWidth = mapBoundary.boundaryMax.x - mapBoundary.boundaryMin.x;
@@ -34,6 +35,6 @@ export function Player({player, mapBoundary, targetSize}: PlayerProp) {
 	const maxHealth = healthMap[player.classId];
 	const alpha = player.health / maxHealth;
 
-	return <circle cx={scaledX} cy={scaledY} r={75} fillOpacity={alpha}
+	return <circle cx={scaledX} cy={scaledY} r={10 / scale} fillOpacity={alpha}
 	               fill={player.team}/>
 }

@@ -37,20 +37,27 @@ export class CenteredPanZoom {
 	}
 
 	setSize(width, height) {
-		console.log(width, height);
 		this.screen.width = width;
 		this.screen.height = height;
 		this.viewport.width = width * this.scale;
 		this.viewport.height = height * this.scale;
+		this.constrainPan();
 	}
 
 	setContentSize(width, height) {
 		this.contentSize = {width, height};
+		this.constrainPan();
 	}
 
 	pan(screenX, screenY) {
-		this.viewport.x = Math.min(0, this.viewport.x + screenX);
-		this.viewport.y = Math.min(0, this.viewport.y + screenY);
+		this.viewport.x = this.viewport.x + screenX;
+		this.viewport.y = this.viewport.y + screenY;
+		this.constrainPan();
+	}
+
+	constrainPan() {
+		this.viewport.x = Math.min(0, this.viewport.x);
+		this.viewport.y = Math.min(0, this.viewport.y);
 		const maxY = (this.screen.height - (this.contentSize.height * this.scale));
 		const maxX = (this.screen.width - (this.contentSize.width * this.scale));
 		this.viewport.y = Math.max(maxY, this.viewport.y);

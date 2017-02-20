@@ -22,6 +22,7 @@ export interface AnalyseState {
 	}
 	tick: number;
 	playing: boolean;
+	scale: number;
 }
 
 export class Analyser extends React.Component<AnalyseProps, {}> {
@@ -33,7 +34,8 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 			height: 0
 		},
 		tick: 0,
-		playing: false
+		playing: false,
+		scale: 1
 	};
 
 	constructor(props: AnalyseProps) {
@@ -96,10 +98,12 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 			<div>
 				<h1>{header.server}</h1>
 				<div className="map-holder">
-					<MapContainer contentSize={this.state.worldSize}>
+					<MapContainer contentSize={this.state.worldSize}
+					              onScale={scale => this.setState({scale})}>
 						<MapRender size={this.state.worldSize} players={players}
 						           header={this.props.header}
-						           world={this.props.demo.getParser().match.world}/>
+						           world={this.props.demo.getParser().match.world}
+						           scale={this.state.scale}/>
 					</MapContainer>
 					<PlayersSpec players={players}/>
 					<Timeline parser={this.parser} tick={this.state.tick}
