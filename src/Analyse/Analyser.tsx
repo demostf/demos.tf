@@ -6,6 +6,9 @@ import {Parser} from "./Data/Parser";
 import {debounce, throttle} from 'lodash';
 import {getMapBoundaries} from "./MapBoundries";
 import {Timeline} from './Render/Timeline';
+import {PlayersSpec} from './Render/PlayerSpec';
+
+import './Analyser.css'
 
 export interface AnalyseProps {
 	demo: Demo;
@@ -88,15 +91,20 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		const {header} = this.props;
 		const players = this.parser.getPlayersAtTick(this.state.tick);
 		const playButtonText = (this.state.playing) ? 'Pause' : 'Play';
+
 		return (
 			<div>
 				<h1>{header.server}</h1>
-				<MapContainer contentSize={this.state.worldSize}>
-					<MapRender size={this.state.worldSize} players={players}
-					           header={this.props.header}
-					           world={this.props.demo.getParser().match.world}/>
-				</MapContainer>
-				<Timeline parser={this.parser} tick={this.state.tick} onSetTick={this.setTick}/>
+				<div className="map-holder">
+					<MapContainer contentSize={this.state.worldSize}>
+						<MapRender size={this.state.worldSize} players={players}
+						           header={this.props.header}
+						           world={this.props.demo.getParser().match.world}/>
+					</MapContainer>
+					<PlayersSpec players={players}/>
+				</div>
+				<Timeline parser={this.parser} tick={this.state.tick}
+				          onSetTick={this.setTick}/>
 				<input type="button" onClick={this.togglePlay}
 				       value={playButtonText}/>
 			</div>

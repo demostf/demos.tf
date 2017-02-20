@@ -33,8 +33,7 @@ export function Player({player, mapBoundary, targetSize}: PlayerProp) {
 	const scaledY = y / (mapBoundary.boundaryMax.y - mapBoundary.boundaryMin.y) * targetSize.height;
 	const maxHealth = healthMap[player.classId];
 	const alpha = player.health / maxHealth;
-	const color = (player.teamId === 3) ? 'blue' : 'red';
 
 	return <circle cx={scaledX} cy={scaledY} r={75} fillOpacity={alpha}
-	               fill={color}/>
+	               fill={player.team}/>
 }

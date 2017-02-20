@@ -13,6 +13,7 @@ export class CachedPlayer {
 	health: number;
 	teamId: number;
 	classId: number;
+	team: string;
 }
 
 export class Parser {
@@ -100,12 +101,14 @@ export class Parser {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
 			const meta = this.metaCache.getMeta(i, tick);
+			const team = (meta.teamId === 2) ? 'red' : (meta.teamId === 3 ? 'blue' : '');
 			players.push({
 				position: this.positionCache.getPosition(i, tick),
 				user: this.entityPlayerMap[i].user,
 				health: this.healthCache.getHealth(i, tick),
 				teamId: meta.teamId,
-				classId: meta.classId
+				classId: meta.classId,
+				team
 			});
 		}
 		return players;

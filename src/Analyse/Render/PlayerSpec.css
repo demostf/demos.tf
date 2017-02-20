@@ -1,0 +1,199 @@
+.blueSpecHolder {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.redSpecHolder {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.playerspec {
+  background-color: black;
+  color: white;
+  height: 42px;
+  width: 200px;
+  position: relative;
+  font-family: "sans-serif";
+  margin-bottom: 2px;
+
+  .class-icon {
+    width: 42px;
+    height: 42px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: 100% 100%;
+  }
+
+  .player-name {
+    display: inline-block;
+    position: relative;
+    padding: 0 5px;
+    white-space: nowrap;
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .health-container {
+    display: inline-block;
+    position: absolute;
+    left: 42px;
+    top: 0;
+    height: 28px;
+    width: calc(100% - 42px);
+    line-height: 28px;
+    font-weight: bold;
+    .health {
+      position: relative;
+      float: right;
+      padding: 0 5px;
+    }
+
+    .healthbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 28px;
+    }
+  }
+
+  &.red {
+    .health-container {
+      background-color: #a75d50aa;
+    }
+
+    .healthbar {
+      background-color: #a75d50;
+    }
+
+    .class-icon.scout {
+      background-image: url('../../images/class_portraits/Icon_scout.png');
+    }
+    .class-icon.soldier {
+      background-image: url('../../images/class_portraits/Icon_soldier.png');
+    }
+    .class-icon.pyro {
+      background-image: url('../../images/class_portraits/Icon_pyro.png');
+    }
+    .class-icon.demoman {
+      background-image: url('../../images/class_portraits/Icon_demoman.png');
+    }
+    .class-icon.engineer {
+      background-image: url('../../images/class_portraits/Icon_engineer.png');
+    }
+    .class-icon.heavy {
+      background-image: url('../../images/class_portraits/Icon_heavy.png');
+    }
+    .class-icon.medic {
+      background-image: url('../../images/class_portraits/Icon_medic.png');
+    }
+    .class-icon.sniper {
+      background-image: url('../../images/class_portraits/Icon_sniper.png');
+    }
+    .class-icon.spy{
+      background-image: url('../../images/class_portraits/Icon_spy.png');
+    }
+
+    .class-icon {
+      right: 0;
+      left: auto;
+    }
+
+    .health-container {
+      right: 42px;
+      left: auto;
+    }
+
+    .health {
+      float: left;
+    }
+
+    .player-name {
+      float: right;
+      direction: ltr;
+      text-align: right;
+    }
+  }
+
+  &.blue {
+    .health-container {
+      background-color: #5b818faa;
+    }
+
+    .healthbar {
+      background-color: #5b818f;
+    }
+
+    .class-icon.scout {
+      background-image: url('../../images/class_portraits/Icon_scout_blue.png');
+    }
+    .class-icon.soldier {
+      background-image: url('../../images/class_portraits/Icon_soldier_blue.png');
+    }
+    .class-icon.pyro {
+      background-image: url('../../images/class_portraits/Icon_pyro_blue.png');
+    }
+    .class-icon.demoman {
+      background-image: url('../../images/class_portraits/Icon_demoman_blue.png');
+    }
+    .class-icon.engineer {
+      background-image: url('../../images/class_portraits/Icon_engineer_blue.png');
+    }
+    .class-icon.heavy {
+      background-image: url('../../images/class_portraits/Icon_heavy_blue.png');
+    }
+    .class-icon.medic {
+      background-image: url('../../images/class_portraits/Icon_medic_blue.png');
+    }
+    .class-icon.sniper {
+      background-image: url('../../images/class_portraits/Icon_sniper_blue.png');
+    }
+    .class-icon.spy {
+      background-image: url('../../images/class_portraits/Icon_spy_blue.png');
+    }
+  }
+
+  &.overhealed {
+    .health {
+      color: #79d297;
+    }
+
+    .health:after {
+      position: absolute;
+      top: 21px;
+      right: 0;
+      padding: 0 5px;
+      font-size: 10px;
+      font-weight: bold;
+      content: 'OVERHEALED'
+    }
+
+    &.red .health:after {
+      position: absolute;
+      top: 21px;
+      left: 0;
+      right: auto;
+    }
+  }
+
+  &.dead {
+    .healthbar, .health {
+      display: none;
+    }
+
+    .health-container {
+      background-color: transparent;
+    }
+
+    .class-icon {
+      opacity: 0.5;
+    }
+  }
+}

@@ -67,7 +67,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 	}
 
 	render() {
-		if(this.state.loading) {
+		if (this.state.loading) {
 			return <Spinner/>;
 		}
 
