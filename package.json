@@ -28,6 +28,7 @@
     "clean-webpack-plugin": "^0.1.15",
     "compression-webpack-plugin": "^0.3.2",
     "css-loader": "^0.26.1",
+    "dataview-getstring": "^0.1.0",
     "del": "^2.2.2",
     "ejs-loader": "^0.3.0",
     "envify": "^4.0.0",
