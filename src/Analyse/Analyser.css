@@ -8,7 +8,15 @@
   .timeline {
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
+    left: 64px;
+    width: calc(100% - 64px);
+  }
+
+  .play-pause-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 64px;
+    width: 64px;
   }
 }

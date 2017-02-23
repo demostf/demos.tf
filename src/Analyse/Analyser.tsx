@@ -92,7 +92,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	render() {
 		const {header} = this.props;
 		const players = this.parser.getPlayersAtTick(this.state.tick);
-		const playButtonText = (this.state.playing) ? 'Pause' : 'Play';
+		const playButtonText = (this.state.playing) ? '⏸' : '▶️';
 
 		return (
 			<div>
@@ -106,11 +106,11 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 						           scale={this.state.scale}/>
 					</MapContainer>
 					<PlayersSpec players={players}/>
+					<input className="play-pause-button" type="button" onClick={this.togglePlay}
+					       value={playButtonText}/>
 					<Timeline parser={this.parser} tick={this.state.tick}
 					          onSetTick={this.setTick}/>
 				</div>
-				<input type="button" onClick={this.togglePlay}
-				       value={playButtonText}/>
 			</div>
 		);
 	}

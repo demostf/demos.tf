@@ -47,6 +47,14 @@ export class Parser {
 			this.match.world.boundaryMin.x = boundaryOverWrite.boundaryMin.x;
 			this.match.world.boundaryMax.y = boundaryOverWrite.boundaryMax.y;
 		}
+
+		// skip to >1sec after the first player joined
+		while (this.match.players.length < 1) {
+			parser.tick();
+		}
+		for (let i = 0; i < 100; i++) {
+			parser.tick();
+		}
 		this.startTick = this.match.tick;
 		this.ticks = Math.ceil((head.ticks) / 2); // scale down to 30fps
 		this.positionCache = new PositionCache(20, this.ticks, this.match.world.boundaryMin); // 20 players "should work in most cases"
