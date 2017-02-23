@@ -7,6 +7,7 @@ import {getMapBoundaries} from "../MapBoundries";
 import {HealthCache} from "./HealthCache";
 import {PlayerMetaCache} from "./PlayerMetaCache";
 import {ViewAngleCache} from "./ViewAngleCache";
+import {LifeState} from "tf2-demo/build/es6/Data/Player";
 
 export class CachedPlayer {
 	position: Point;
@@ -74,7 +75,7 @@ export class Parser {
 				for (const player of match.players) {
 					const playerId = this.getPlayerId(player);
 					this.positionCache.setPostion(playerId, tick, player.position);
-					this.healthCache.setHealth(playerId, tick, player.health);
+					this.healthCache.setHealth(playerId, tick, player.lifeState === LifeState.ALIVE ? player.health : 0);
 					this.metaCache.setMeta(playerId, tick, {
 						classId: player.classId,
 						teamId: player.team
@@ -87,7 +88,7 @@ export class Parser {
 						for (const player of match.players) {
 							const playerId = this.getPlayerId(player);
 							this.positionCache.setPostion(playerId, i, player.position);
-							this.healthCache.setHealth(playerId, i, player.health);
+							this.healthCache.setHealth(playerId, i, player.lifeState === LifeState.ALIVE ? player.health : 0);
 							this.metaCache.setMeta(playerId, i, {
 								classId: player.classId,
 								teamId: player.team

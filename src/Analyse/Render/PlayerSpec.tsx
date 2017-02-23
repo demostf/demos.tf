@@ -51,7 +51,7 @@ export function PlayersSpec({players}:PlayersSpecProps) {
 
 export function PlayerSpec({player}:PlayerSpecProps) {
 	const healthPercent = Math.min(100, player.health / healthMap[player.classId] * 100);
-	const healthStatusClass = (player.health > healthMap[player.classId]) ? 'overhealed' : (player.health <= 1 ? 'dead' : '');//todo better detect death
+	const healthStatusClass = (player.health > healthMap[player.classId]) ? 'overhealed' : (player.health <= 0 ? 'dead' : '');
 	return (
 		<div className={"playerspec " + player.team + " " + healthStatusClass}>
 			<div className={classMap[player.classId] + " class-icon"}/>
