@@ -3,10 +3,9 @@ import {MapRender} from './MapRender';
 import {Demo, Header} from 'tf2-demo/build/es6';
 import {MapContainer} from "./MapContainer";
 import {Parser} from "./Data/Parser";
-import {debounce, throttle} from 'lodash';
-import {getMapBoundaries} from "./MapBoundries";
+import {throttle} from 'lodash';
 import {Timeline} from './Render/Timeline';
-import {PlayersSpec} from './Render/PlayerSpec';
+import {SpecHUD} from './Render/SpecHUD';
 
 import './Analyser.css'
 
@@ -105,8 +104,10 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 						           world={this.props.demo.getParser().match.world}
 						           scale={this.state.scale}/>
 					</MapContainer>
-					<PlayersSpec players={players}/>
-					<input className="play-pause-button" type="button" onClick={this.togglePlay}
+					<SpecHUD parser={this.parser} tick={this.state.tick}
+					         players={players}/>
+					<input className="play-pause-button" type="button"
+					       onClick={this.togglePlay}
 					       value={playButtonText}/>
 					<Timeline parser={this.parser} tick={this.state.tick}
 					          onSetTick={this.setTick}/>

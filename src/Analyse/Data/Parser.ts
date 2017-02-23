@@ -8,6 +8,7 @@ import {HealthCache} from "./HealthCache";
 import {PlayerMetaCache} from "./PlayerMetaCache";
 import {ViewAngleCache} from "./ViewAngleCache";
 import {LifeState} from "tf2-demo/build/es6/Data/Player";
+import {Death} from "tf2-demo/build/es6/Data/Death";
 
 export class CachedPlayer {
 	position: Point;
@@ -17,6 +18,17 @@ export class CachedPlayer {
 	classId: number;
 	team: string;
 	viewAngle: number;
+}
+
+export interface CachedDeath {
+	tick: number;
+	victim: Player;
+	assister: Player|null;
+	killer: Player|null;
+	weapon: string;
+	victimTeam: number;
+	assisterTeam: number;
+	killerTeam: number;
 }
 
 export class Parser {
@@ -32,6 +44,7 @@ export class Parser {
 	ticks: number;
 	match: Match;
 	startTick = 0;
+	deaths: {[tick: string]: CachedDeath[]} = {};
 
 	constructor(demo: Demo, head: Header) {
 		this.demo = demo;
@@ -62,6 +75,10 @@ export class Parser {
 		this.healthCache = new HealthCache(20, this.ticks);
 		this.metaCache = new PlayerMetaCache(20, this.ticks);
 		this.viewAngleCache = new ViewAngleCache(20, this.ticks);
+	}
+
+	scaleTick(matchTick: number): number {
+		return Math.ceil((matchTick - this.startTick) / 2);
 	}
 
 	cacheData() {
@@ -101,6 +118,35 @@ export class Parser {
 			}
 		});
 		demoParser.parseBody();
+		for (const death of match.deaths) {
+			const deathTick = this.scaleTick(death.tick);
+			if (!this.deaths[deathTick]) {
+				this.deaths[deathTick] = [];
+			}
+			let killer: Player|null;
+			try {
+				killer = match.getPlayerByUserId(death.killer);
+			} catch (e) {
+				killer = null;
+			}
+			const victim = match.getPlayerByUserId(death.victim);
+			const assister = death.assister ? match.getPlayerByUserId(death.assister) : null;
+
+			const killerId = killer ? this.entityPlayerReverseMap[killer.user.entityId] : null;
+			const assisterId = assister ? this.entityPlayerReverseMap[assister.user.entityId] : null;
+			const victimId = this.entityPlayerReverseMap[victim.user.entityId];
+
+			this.deaths[deathTick].push({
+				tick: deathTick,
+				victim: victim,
+				killer: killer,
+				assister: assister,
+				weapon: death.weapon,
+				victimTeam: this.metaCache.getMeta(victimId, deathTick).teamId,
+				assisterTeam: (assisterId) ? this.metaCache.getMeta(assisterId, deathTick).teamId : 0,
+				killerTeam: (killerId) ? this.metaCache.getMeta(killerId, deathTick).teamId : 0
+			});
+		}
 	}
 
 	private getPlayerId(player: Player) {
