@@ -77,6 +77,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 					<Dropzone onDrop={this.onDrop}/>:
 					<Analyser demo={this.state.demo}
 					          header={this.state.header}
+					          isStored={!!this.props.params.id}
 					/>
 				}
 			</div>

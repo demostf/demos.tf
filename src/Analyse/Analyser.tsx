@@ -6,12 +6,14 @@ import {Parser} from "./Data/Parser";
 import {throttle} from 'lodash';
 import {Timeline} from './Render/Timeline';
 import {SpecHUD} from './Render/SpecHUD';
+import {debounce} from 'lodash';
 
 import './Analyser.css'
 
 export interface AnalyseProps {
 	demo: Demo;
 	header: Header;
+	isStored: boolean;
 }
 
 export interface AnalyseState {
@@ -41,6 +43,9 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		super(props);
 		this.parser = new Parser(props.demo, props.header);
 		this.parser.cacheData();
+		if (props.isStored && window.location.hash) {
+			this.state.tick = parseInt(window.location.hash.substr(1), 10);
+		}
 	}
 
 	componentDidMount() {
@@ -54,6 +59,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	setTick = throttle((tick) => {
 		this.setState({tick});
+		this.setHash(tick);
 	}, 50);
 
 	onTickInput = (event) => {
@@ -77,10 +83,15 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 	};
 
+	setHash = debounce((tick) => {
+		history.replaceState('', '', '#' + tick);
+	}, 250);
+
 	animFrame = () => {
 		if (this.state.tick === (this.parser.ticks - 1)) {
 			this.pause();
 		}
+		this.setHash(this.state.tick);
 		this.setState({tick: this.state.tick + 1});
 
 		if (this.state.playing) {
