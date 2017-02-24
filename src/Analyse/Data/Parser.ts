@@ -129,8 +129,18 @@ export class Parser {
 			} catch (e) {
 				killer = null;
 			}
-			const victim = match.getPlayerByUserId(death.victim);
-			const assister = death.assister ? match.getPlayerByUserId(death.assister) : null;
+			let victim: Player|null = null;
+			let assister: Player|null = null;
+			try {
+				victim = match.getPlayerByUserId(death.victim);
+			} catch (e) {
+				continue;
+			}
+			try {
+				assister = death.assister ? match.getPlayerByUserId(death.assister) : null;
+			} catch (e) {
+
+			}
 
 			const killerId = killer ? this.entityPlayerReverseMap[killer.user.entityId] : null;
 			const assisterId = assister ? this.entityPlayerReverseMap[assister.user.entityId] : null;

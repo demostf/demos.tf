@@ -4,6 +4,7 @@ import {Header} from "tf2-demo/build/es6";
 import {CachedPlayer} from "./Data/Parser";
 import {Player as PlayerDot} from './Render/Player';
 import {MapBoundary} from './Data/PositionCache';
+import {findMapAlias} from './MapBoundries';
 
 export interface MapRenderProps {
 	header: Header;
@@ -25,7 +26,8 @@ declare const require: {
 };
 
 export function MapRender({header, players, size, world, scale}: MapRenderProps) {
-	const image = require(`./MapImages/${header.map}.png`) as string;
+	const mapAlias = findMapAlias(header.map);
+	const image = require(`./MapImages/${mapAlias}.png`) as string;
 	const background = `url(${image})`;
 
 	const playerDots = players

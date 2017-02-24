@@ -181,7 +181,7 @@ const overWriteMapBoundaries = {
 	}
 };
 
-function findMapAlias(map) {
+export function findMapAlias(map) {
 	if (overWriteMapBoundaries[map]) {
 		return map;
 	}
