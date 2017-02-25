@@ -72,9 +72,11 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		}
 
 		return (
-			<div>
+			<div className="analyse-page">
+				<p>To view a demo, select a file on your computer or use the "View" button on any demo stored on the site.</p>
+
 				{(this.state.demo === null || this.state.header === null) ?
-					<Dropzone onDrop={this.onDrop}/>:
+					<Dropzone onDrop={this.onDrop} text="Drop file or click to select"/>:
 					<Analyser demo={this.state.demo}
 					          header={this.state.header}
 					          isStored={!!this.props.params.id}

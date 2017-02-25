@@ -50,7 +50,7 @@ export function Header(props: HeaderProps) {
 			</span>
 			<span key="analyse">
 				<Link className="pure-menu-link link-analyse"
-				      to="/analyse">ANALYSE</Link>
+				      to="/viewer">VIEWER</Link>
 			</span>
 
 			{rightMenu}

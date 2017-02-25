@@ -64,9 +64,9 @@ export function Root () {
 					   onEnter={onEnter}/>
 				<Route path='/api' getComponents={getApiComponent}
 					   onEnter={onEnter}/>
-				<Route path='/analyse' getComponents={getAnalyseComponent}
+				<Route path='/viewer' getComponents={getAnalyseComponent}
 					   onEnter={onEnter}/>
-				<Route path='/analyse/:id' getComponents={getAnalyseComponent}
+				<Route path='/viewer/:id' getComponents={getAnalyseComponent}
 					   onEnter={onEnter}/>
 				<Route path='/:id' getComponents={getDemoComponent}
 					   onEnter={onEnter}/>
