@@ -82,11 +82,17 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		isShared: false
 	};
 
+	intervalPerTick: number;
+	lastFrameTime: number = 0;
+	playStartTime: number;
+	playStartTick: number;
+
 	constructor(props: AnalyseProps) {
 		super(props);
 		try {
 			this.parser = new Parser(props.demo, props.header);
 			this.parser.cacheData();
+			this.intervalPerTick = props.demo.getParser().match.intervalPerTick * 2;//ticks per second is scaled by 2
 			this.sessionName = generateSession();
 			if (props.isStored && window.location.hash) {
 				const parsed = parseInt(window.location.hash.substr(1), 10);
@@ -111,6 +117,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	}
 
 	setTick = throttle((tick) => {
+		this.lastFrameTime = 0;
 		this.setState({tick});
 		this.setHash(tick);
 		if (this.session && this.isSessionOwner) {
@@ -128,6 +135,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	pause() {
 		this.setState({playing: false});
+		this.lastFrameTime = 0;
 		if (this.session && this.isSessionOwner) {
 			this.session.send(JSON.stringify({
 				type: 'play',
@@ -138,6 +146,8 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	}
 
 	play() {
+		this.playStartTick = this.state.tick;
+		this.playStartTime = window.performance.now();
 		this.setState({playing: true});
 		requestAnimationFrame(this.animFrame);
 		if (this.session && this.isSessionOwner) {
@@ -209,12 +219,16 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 	}, 250);
 
-	animFrame = () => {
-		if (this.state.tick === (this.parser.ticks - 1)) {
+	animFrame = (timestamp) => {
+		const timePassed = timestamp - this.playStartTime;
+		const targetTick = this.playStartTick + (Math.round(timePassed * this.intervalPerTick));
+		// console.log(timePassed, targetTick);
+		this.lastFrameTime = timestamp;
+		if (targetTick >= (this.parser.ticks - 1)) {
 			this.pause();
 		}
 		this.setHash(this.state.tick);
-		this.setState({tick: this.state.tick + 1});
+		this.setState({tick: targetTick});
 
 		if (this.state.playing) {
 			requestAnimationFrame(this.animFrame);
