@@ -28,4 +28,5 @@ export const killAlias = {
 	'frontier_kill': 'frontier_justice',
 	'robot_arm_kill': 'gunslinger',
 	'wrench_jag': 'jag',
+	'loose_cannon_explosion':'loose_cannon',
 };

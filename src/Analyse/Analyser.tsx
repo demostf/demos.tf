@@ -86,6 +86,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	lastFrameTime: number = 0;
 	playStartTime: number;
 	playStartTick: number;
+	lastTickSend: number = 0;
 
 	constructor(props: AnalyseProps) {
 		super(props);
@@ -167,10 +168,22 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		this.setState({isShared: true});
 		this.session = new WebSocket(syncUri, 'demo-sync');
 		this.session.onopen = () => {
-			this.session && this.session.send(JSON.stringify({
-				type: 'create',
-				session: this.sessionName
-			}));
+			if (this.session) {
+				this.session.send(JSON.stringify({
+					type: 'create',
+					session: this.sessionName
+				}));
+				this.session.send(JSON.stringify({
+					type: 'tick',
+					session: this.sessionName,
+					tick: this.state.tick
+				}));
+				this.session.send(JSON.stringify({
+					type: 'play',
+					session: this.sessionName,
+					play: this.state.playing
+				}));
+			}
 		}
 	};
 
@@ -229,6 +242,15 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 		this.setHash(this.state.tick);
 		this.setState({tick: targetTick});
+
+		if (this.isSessionOwner && this.session && (this.lastTickSend + 60) < targetTick) {
+			this.session.send(JSON.stringify({
+				type: 'tick',
+				session: this.sessionName,
+				tick: targetTick
+			}));
+			this.lastTickSend = targetTick;
+		}
 
 		if (this.state.playing) {
 			requestAnimationFrame(this.animFrame);
