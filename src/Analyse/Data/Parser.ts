@@ -9,6 +9,7 @@ import {PlayerMetaCache} from "./PlayerMetaCache";
 import {ViewAngleCache} from "./ViewAngleCache";
 import {LifeState} from "tf2-demo/build/es6/Data/Player";
 import {Death} from "tf2-demo/build/es6/Data/Death";
+import {killAlias} from "../Render/killAlias";
 
 export class CachedPlayer {
 	position: Point;
@@ -60,6 +61,8 @@ export class Parser {
 			this.match.world.boundaryMax.y = boundaryOverWrite.boundaryMax.y;
 			this.match.world.boundaryMin.x = boundaryOverWrite.boundaryMin.x;
 			this.match.world.boundaryMax.y = boundaryOverWrite.boundaryMax.y;
+		} else {
+			throw new Error(`Map not supported "${this.header.map}".`);
 		}
 
 		// skip to >1sec after the first player joined
@@ -145,6 +148,13 @@ export class Parser {
 			const killerId = killer ? this.entityPlayerReverseMap[killer.user.entityId] : null;
 			const assisterId = assister ? this.entityPlayerReverseMap[assister.user.entityId] : null;
 			const victimId = this.entityPlayerReverseMap[victim.user.entityId];
+
+			try {
+				const alias = killAlias[death.weapon] ? killAlias[death.weapon] : death.weapon;
+				require(`../../images/kill_icons/${alias}.png`) as string;
+			} catch (e) {
+				console.log(death.weapon, killer && killer.classId);
+			}
 
 			this.deaths[deathTick].push({
 				tick: deathTick,

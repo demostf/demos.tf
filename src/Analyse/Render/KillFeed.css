@@ -4,6 +4,14 @@
   right: 0;
   padding: 15px;
 
+  .kill-icon {
+    display: inline-block;
+    height: 22px;
+    width: auto;
+    vertical-align: middle;
+    filter: brightness(600%);
+  }
+
   .kill {
     .red {
       color: #a75d50;

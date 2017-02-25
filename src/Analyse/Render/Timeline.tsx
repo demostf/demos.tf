@@ -5,6 +5,7 @@ export interface TimelineProps {
 	parser: Parser
 	tick: number
 	onSetTick: (tick: number) => any;
+	disabled?: boolean;
 }
 
 export class Timeline extends React.Component<TimelineProps, {}> {
@@ -19,6 +20,7 @@ export class Timeline extends React.Component<TimelineProps, {}> {
 			{this.background}
 			<input className="timeline-progress" type="range" min={0}
 			       max={parser.ticks} value={tick}
+			       disabled={this.props.disabled}
 			       onChange={(event) => {onSetTick(parseInt(event.target.value, 10))}}
 			/>
 		</div>);

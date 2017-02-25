@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import './KillFeed.css';
 import {CachedDeath} from "../Data/Parser";
+import {killAlias} from "./killAlias";
 
 export interface KillFeedProps {
 	deaths: {[tick: string]: CachedDeath[]}
@@ -28,18 +29,27 @@ const teamMap = {
 };
 
 export function KillFeedItem({death}:{death: CachedDeath}) {
+	const alias = killAlias[death.weapon] ? killAlias[death.weapon] : death.weapon;
+	let killIcon;
+	try {
+		killIcon = require(`../../images/kill_icons/${alias}.png`) as string;
+	} catch (e) {
+		console.log(alias);
+		killIcon = require(`../../images/kill_icons/skull.png`) as string;
+	}
 
 	return <div className="kill">
 		{(death.killer && death.killer !== death.victim) ?
 			<span className={"player " + teamMap[death.killerTeam]}>
 				{death.killer.user.name}
 				</span> : ''}
-		{(death.assister && death.assister !== death.victim) ? <span className={teamMap[death.assisterTeam]}>﹢</span> : ''}
+		{(death.assister && death.assister !== death.victim) ?
+			<span className={teamMap[death.assisterTeam]}>﹢</span> : ''}
 		{(death.assister && death.assister !== death.victim) ?
 			(<span className={"player " + teamMap[death.assisterTeam]}>
 				{death.assister.user.name}
 				</span>) : ''}
-		🕱
+		<img src={killIcon} className={`kill-icon ${death.weapon}`}/>
 		<span className={"player " + teamMap[death.victimTeam]}>
 			{death.victim.user.name}
 			</span>
