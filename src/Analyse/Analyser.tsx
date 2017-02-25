@@ -278,7 +278,6 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 		return (
 			<div>
-				<h1>{header.server}</h1>
 				<div className="map-holder">
 					<MapContainer contentSize={this.state.worldSize}
 					              onScale={scale => this.setState({scale})}>
@@ -294,6 +293,8 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 					/>
 					<SpecHUD parser={this.parser} tick={this.state.tick}
 					         players={players}/>
+				</div>
+				<div className="time-control">
 					<input className="play-pause-button" type="button"
 					       onClick={this.togglePlay}
 					       value={playButtonText}

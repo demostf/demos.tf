@@ -35,6 +35,7 @@ function TimeLineBackground({parser}:{parser: Parser}) {
 	const blueHealth = new Uint16Array(length);
 	const redHealth = new Uint16Array(length);
 	let index = 0;
+	let maxHealth = 0;
 	for (let tick = 0; tick < parser.ticks; tick += 30) {
 		index++;
 		const players = parser.getPlayersAtTick(tick);
@@ -45,13 +46,17 @@ function TimeLineBackground({parser}:{parser: Parser}) {
 				blueHealth[index] += player.health;
 			}
 		}
+		if (blueHealth[index] > 0 && redHealth[index] > 0) {
+			maxHealth = Math.max(maxHealth, blueHealth[index], redHealth[index]);
+		}
 	}
 
 	const redHealthPath = redHealth.reduce(pathReducer, 'M 0 0');
 	const blueHealthPath = blueHealth.reduce(pathReducer, 'M 0 0');
 
 	return (
-		<svg className="timeline-background" viewBox={`0 0 ${length} ${9*300}`}
+		<svg className="timeline-background"
+		     viewBox={`0 0 ${length} ${maxHealth}`}
 		     preserveAspectRatio="none">
 			<path d={redHealthPath} stroke="red" strokeWidth={2}
 			      fill="transparent"
