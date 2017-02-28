@@ -41,12 +41,12 @@ export class CenteredPanZoom {
 		this.screen.height = height;
 		this.viewport.width = width * this.scale;
 		this.viewport.height = height * this.scale;
-		this.constrainPan();
+		this.constrainPan(true);
 	}
 
 	setContentSize(width, height) {
 		this.contentSize = {width, height};
-		this.constrainPan();
+		this.constrainPan(true);
 	}
 
 	pan(screenX, screenY) {
@@ -55,17 +55,19 @@ export class CenteredPanZoom {
 		this.constrainPan();
 	}
 
-	constrainPan() {
-		this.viewport.x = Math.min(0, this.viewport.x);
-		this.viewport.y = Math.min(0, this.viewport.y);
-		const maxY = (this.screen.height - (this.contentSize.height * this.scale));
-		const maxX = (this.screen.width - (this.contentSize.width * this.scale));
+	constrainPan(strict = false) {
+		const minX = (strict) ? 0 : this.screen.width * 0.5;
+		const minY = (strict) ? 0 : this.screen.height * 0.5;
+		this.viewport.x = Math.min(minX, this.viewport.x);
+		this.viewport.y = Math.min(minY * 0.5, this.viewport.y);
+		const maxY = (this.screen.height - (this.contentSize.height * this.scale)) - (strict ? 0 : this.screen.height * 0.5);
+		const maxX = (this.screen.width - (this.contentSize.width * this.scale)) - (strict ? 0 : this.screen.width * 0.5);
 		this.viewport.y = Math.max(maxY, this.viewport.y);
 		this.viewport.x = Math.max(maxX, this.viewport.x);
-		if (maxY > 0) {
+		if (maxY > ((strict) ? 0 : this.screen.height * 0.5)) {
 			this.viewport.y = Math.floor(maxY / 2);
 		}
-		if (maxX > 0) {
+		if (maxX > ((strict) ? 0 : this.screen.width * 0.5)) {
 			this.viewport.x = Math.floor(maxX / 2);
 		}
 	}
