@@ -26,3 +26,7 @@ watch: node_modules
 .PHONY: analyse
 analyse: node_modules
 	node node_modules/.bin/webpack --config webpack.prod.config.js  --profile --json | node_modules/.bin/webpack-bundle-size-analyzer
+
+.PHONY: beta
+beta:
+	scp -r build demos@demos.tf:demos_beta
