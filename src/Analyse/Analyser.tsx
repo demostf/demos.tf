@@ -48,7 +48,8 @@ interface TickPacket {
 interface PlayPacket {
 	type: 'play';
 	session: string;
-	play: boolean;
+	play?: boolean;
+	tick?: boolean; //old sync server
 }
 
 type Packet = JoinPacket | CreatePacket | TickPacket | PlayPacket;
@@ -117,8 +118,10 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		this.setState({worldSize});
 	}
 
-	setTick = throttle((tick) => {
+	setTickNow = (tick) => {
 		this.lastFrameTime = 0;
+		this.playStartTick = tick;
+		this.playStartTime = window.performance.now();
 		this.setState({tick});
 		this.setHash(tick);
 		if (this.session && this.isSessionOwner) {
@@ -128,6 +131,10 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 				tick: tick
 			}));
 		}
+	};
+
+	setTick = throttle((tick) => {
+		this.setTickNow(tick);
 	}, 50);
 
 	onTickInput = (event) => {
@@ -195,19 +202,17 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		this.session = new WebSocket(syncUri, 'demo-sync');
 		this.session.onopen = () => {
 			if (this.session) {
-				console.log('joining');
 				this.session.send(JSON.stringify({
 					type: 'join',
 					session: name
 				}));
 				this.session.onmessage = (event) => {
-					console.log(event.data);
 					const packet = JSON.parse(event.data) as Packet;
 					if (packet.type === 'tick') {
-						this.setTick(packet.tick);
+						this.setTickNow(packet.tick);
 					}
 					if (packet.type === 'play') {
-						if (packet.play) {
+						if (packet.play || packet.tick) {
 							this.play();
 						} else {
 							this.pause();
@@ -226,6 +231,16 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 	};
 
+	syncPlayTick = debounce(() => {
+		if (this.session && this.isSessionOwner) {
+			this.session.send(JSON.stringify({
+				type: 'tick',
+				session: this.sessionName,
+				tick: this.state.tick
+			}));
+		}
+	}, 500);
+
 	setHash = debounce((tick) => {
 		if (!this.session) {
 			history.replaceState('', '', '#' + tick);
@@ -235,13 +250,15 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	animFrame = (timestamp) => {
 		const timePassed = timestamp - this.playStartTime;
 		const targetTick = this.playStartTick + (Math.round(timePassed * this.intervalPerTick));
-		// console.log(timePassed, targetTick);
 		this.lastFrameTime = timestamp;
 		if (targetTick >= (this.parser.ticks - 1)) {
 			this.pause();
 		}
 		this.setHash(this.state.tick);
 		this.setState({tick: targetTick});
+		if (this.session) {
+			this.syncPlayTick();
+		}
 
 		if (this.isSessionOwner && this.session && (this.lastTickSend + 60) < targetTick) {
 			this.session.send(JSON.stringify({
