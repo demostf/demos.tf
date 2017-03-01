@@ -10,17 +10,21 @@ export interface AnalyseMenuProps {
 }
 
 export function AnalyseMenu({sessionName, onShare, canShare, isShared}:AnalyseMenuProps) {
-	if (!canShare) {
-		return <div/>
-	}
+
 	const loc = window.location.toString().replace(/\#.+/, '') + '#' + sessionName;
 	const shareText = (isShared) ?
-		<input className="share-text" value={loc} readOnly={true} title="Use this link to join the current session"
-		       style={{width: (loc.length*8)}} onFocus={(event)=>{(event.target as HTMLInputElement).select()}}/> : '';
+		<input className="share-text" value={loc} readOnly={true}
+		       title="Use this link to join the current session"
+		       style={{width: (loc.length*8)}}
+		       onFocus={(event)=>{(event.target as HTMLInputElement).select()}}/> : '';
 
-	return (<div className="analyse-menu">
-		<button className="share-session" title="Start a shared session"
-		        onClick={()=>{onShare()}}/>
-		{shareText}
+	const shareButton = (canShare) ? <div className="analyse-menu">
+			<button className="share-session" title="Start a shared session"
+			        onClick={()=>{onShare()}}/>
+			{shareText}
+		</div>: '';
+
+	return (<div>
+		{shareButton}
 	</div>)
 }

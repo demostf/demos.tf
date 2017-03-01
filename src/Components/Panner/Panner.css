@@ -12,11 +12,43 @@
     bottom: 0;
   }
   .noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Chrome/Safari/Opera */
-    -khtml-user-select: none; /* Konqueror */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+  }
+}
+
+.zoommenu {
+  position: fixed;
+  color: #888;
+
+  bottom: 100px;
+  right: 0;
+  margin: 10px;
+  font-size: 200%;
+
+  opacity: 0.5;
+  transition: all 0.5s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  background-color: #f8f8f8;
+  border-radius: 5px;
+
+  div {
+    transition: all 0.5s;
+    width: 32px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  div:first-child {
+    border-bottom: 1px solid #ddd;
+    margin: 0;
     user-select: none;
   }
 }

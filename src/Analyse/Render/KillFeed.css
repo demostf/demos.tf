@@ -3,6 +3,7 @@
   top: 0;
   right: 0;
   padding: 15px;
+  user-select: none;
 
   .kill {
     .red {

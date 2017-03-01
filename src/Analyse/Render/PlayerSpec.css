@@ -20,6 +20,7 @@
   position: relative;
   font-family: "sans-serif";
   margin-bottom: 2px;
+  user-select: none;
 
   .class-icon {
     width: 42px;

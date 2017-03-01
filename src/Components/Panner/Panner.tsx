@@ -78,6 +78,11 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 			transform: `translate(${this.state.translate.x}px, ${this.state.translate.y}px) scale(${this.state.scale})`,
 			transformOrigin: 'top left'
 		};
+		const center = {
+			x: Math.floor(this.panner.screen.width / 2),
+			y: Math.floor(this.panner.screen.height / 2)
+		};
+		const setZoomFactor = this.zoomFactor;
 		return (
 			<div className="pan-zoom-element"
 			     ref="element"
@@ -87,6 +92,15 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 				<div ref="content" className="content-container noselect"
 				     style={style}>
 					{this.props.children}
+				</div>
+				<div className="zoommenu">
+					<div className="plus"
+					     onClick={()=>{setZoomFactor(1.10, center)}}>+
+					</div>
+					<div className="minus"
+					     onClick={()=>{setZoomFactor(0.90, center)}}>
+						-
+					</div>
 				</div>
 			</div>
 		);
@@ -127,15 +141,10 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		});
 	};
 
-	_onWheel = (event) => {
-		event.preventDefault();
-		let zoomFactor;
-		if (event.deltaY < 0) {
-			zoomFactor = this.state.scale * 1.05;
-		} else {
-			zoomFactor = this.state.scale * 0.95;
-		}
-		this.panner.zoom(zoomFactor, {x: event.pageX, y: event.pageY});
+	zoomFactor = (zoomFactor, point) => {
+		const newScale = this.state.scale * zoomFactor;
+
+		this.panner.zoom(newScale, point);
 		this.setState({
 			translate: {
 				x: this.panner.viewport.x,
@@ -145,6 +154,16 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		});
 		if (this.props.onScale) {
 			this.props.onScale(this.panner.scale);
+		}
+	};
+
+	_onWheel = (event) => {
+		event.preventDefault();
+		const center = {x: event.pageX, y: event.pageY};
+		if (event.deltaY < 0) {
+			this.zoomFactor(1.05, center);
+		} else {
+			this.zoomFactor(0.95, center);
 		}
 	};
 }
