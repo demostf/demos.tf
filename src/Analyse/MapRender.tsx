@@ -3,12 +3,14 @@ import * as React from 'react';
 import {Header} from "tf2-demo/build/es6";
 import {CachedPlayer} from "./Data/Parser";
 import {Player as PlayerDot} from './Render/Player';
+import {Building as BuildingDot} from './Render/Building';
 import {MapBoundary} from './Data/PositionCache';
 import {findMapAlias} from './MapBoundries';
 
 export interface MapRenderProps {
 	header: Header;
 	players: CachedPlayer[];
+	buildings: CachedBuilding[];
 	size: {
 		width: number;
 		height: number;
@@ -18,6 +20,7 @@ export interface MapRenderProps {
 }
 
 import './MapRender.css';
+import {CachedBuilding} from "./Data/BuildingCache";
 
 declare const require: {
 	<T>(path: string): T;
@@ -25,7 +28,7 @@ declare const require: {
 	ensure: (paths: string[], callback: (require: <T>(path: string) => T) => void) => void;
 };
 
-export function MapRender({header, players, size, world, scale}: MapRenderProps) {
+export function MapRender({header, players, size, world, scale, buildings}: MapRenderProps) {
 	const mapAlias = findMapAlias(header.map);
 	const image = require(`./MapImages/${mapAlias}.png`) as string;
 	const background = `url(${image})`;
@@ -37,10 +40,19 @@ export function MapRender({header, players, size, world, scale}: MapRenderProps)
 			                  targetSize={size} scale={scale}/>
 		});
 
+	const buildingDots = buildings
+		.filter((building: CachedBuilding) => building.position.x)
+		.map((building: CachedBuilding, key) => {
+			return <BuildingDot key={key} building={building}
+			                    mapBoundary={world}
+			                    targetSize={size} scale={scale}/>
+		});
+
 	return (
 		<svg className="map-background" width={size.width} height={size.height}
 		     style={{backgroundImage:background}}>
 			{playerDots}
+			{buildingDots}
 		</svg>
 	);
 }

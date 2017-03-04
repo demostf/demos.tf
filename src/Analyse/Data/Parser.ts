@@ -10,6 +10,9 @@ import {ViewAngleCache} from "./ViewAngleCache";
 import {LifeState} from "tf2-demo/build/es6/Data/Player";
 import {Death} from "tf2-demo/build/es6/Data/Death";
 import {killAlias} from "../Render/killAlias";
+import {PlayerCache} from "./PlayerCache";
+import {BuildingCache, CachedBuilding} from "./BuildingCache";
+import {Building} from "tf2-demo/build/Data/Building";
 
 export class CachedPlayer {
 	position: Point;
@@ -35,10 +38,7 @@ export interface CachedDeath {
 export class Parser {
 	demo: Demo;
 	header: Header;
-	positionCache: PositionCache;
-	healthCache: HealthCache;
-	metaCache: PlayerMetaCache;
-	viewAngleCache: ViewAngleCache;
+	playerCache: PlayerCache;
 	entityPlayerReverseMap: {[entityId: string]: number} = {};
 	nextMappedPlayer = 0;
 	entityPlayerMap: {[playerId: string]: Player} = {};
@@ -46,6 +46,7 @@ export class Parser {
 	match: Match;
 	startTick = 0;
 	deaths: {[tick: string]: CachedDeath[]} = {};
+	buildingCache: BuildingCache;
 
 	constructor(demo: Demo, head: Header) {
 		this.demo = demo;
@@ -74,26 +75,24 @@ export class Parser {
 		}
 		this.startTick = this.match.tick;
 		this.ticks = Math.ceil((head.ticks) / 2); // scale down to 30fps
-		this.positionCache = new PositionCache(this.ticks, this.match.world.boundaryMin);
-		this.healthCache = new HealthCache(this.ticks);
-		this.metaCache = new PlayerMetaCache(this.ticks);
-		this.viewAngleCache = new ViewAngleCache(this.ticks);
+		this.playerCache = new PlayerCache(this.ticks, this.match.world.boundaryMin);
+		this.buildingCache = new BuildingCache(this.ticks, this.match.world.boundaryMin);
 	}
 
 	scaleTick(matchTick: number): number {
 		return Math.ceil((matchTick - this.startTick) / 2);
 	}
 
-	setTick(tick: number, players: Player[]) {
+	setTick(tick: number, players: Player[], buildings: {[entityId: string]: Building}) {
 		for (const player of players) {
 			const playerId = this.getPlayerId(player);
-			this.positionCache.setPosition(playerId, tick, player.position);
-			this.healthCache.set(playerId, tick, player.lifeState === LifeState.ALIVE ? player.health : 0);
-			this.metaCache.setMeta(playerId, tick, {
-				classId: player.classId,
-				teamId: player.team
-			});
-			this.viewAngleCache.set(playerId, tick, player.viewAngle);
+			this.playerCache.setPlayer(tick, playerId, player);
+		}
+		for (const entityId of Object.keys(buildings)) {
+			const building = buildings[entityId];
+			if (building.health > 0) {
+				this.buildingCache.setBuilding(tick, building, building.builder, building.team);
+			}
 		}
 	}
 
@@ -105,11 +104,11 @@ export class Parser {
 		demoParser.on('packet', (packet: Packet) => {
 			const tick = Math.floor((match.tick - this.startTick) / 2);
 			if (tick > lastTick) {
-				this.setTick(tick, match.players);
+				this.setTick(tick, match.players, match.buildings);
 				if (tick > lastTick + 1) {
 					// demo skipped ticks, copy/interpolote
 					for (let i = lastTick; i < tick; i++) {
-						this.setTick(i, match.players);
+						this.setTick(i, match.players, match.buildings);
 					}
 				}
 				lastTick = tick;
@@ -157,9 +156,9 @@ export class Parser {
 				killer: killer,
 				assister: assister,
 				weapon: death.weapon,
-				victimTeam: this.metaCache.getMeta(victimId, deathTick).teamId,
-				assisterTeam: (assisterId) ? this.metaCache.getMeta(assisterId, deathTick).teamId : 0,
-				killerTeam: (killerId) ? this.metaCache.getMeta(killerId, deathTick).teamId : 0
+				victimTeam: this.playerCache.metaCache.getMeta(victimId, deathTick).teamId,
+				assisterTeam: (assisterId) ? this.playerCache.metaCache.getMeta(assisterId, deathTick).teamId : 0,
+				killerTeam: (killerId) ? this.playerCache.metaCache.getMeta(killerId, deathTick).teamId : 0
 			});
 		}
 	}
@@ -176,18 +175,12 @@ export class Parser {
 	getPlayersAtTick(tick: number) {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
-			const meta = this.metaCache.getMeta(i, tick);
-			const team = (meta.teamId === 2) ? 'red' : (meta.teamId === 3 ? 'blue' : '');
-			players.push({
-				position: this.positionCache.getPosition(i, tick),
-				user: this.entityPlayerMap[i].user,
-				health: this.healthCache.get(i, tick),
-				teamId: meta.teamId,
-				classId: meta.classId,
-				team,
-				viewAngle: this.viewAngleCache.get(i, tick)
-			});
+			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap[i].user))
 		}
 		return players;
+	}
+
+	getBuildingAtTick(tick: number): CachedBuilding[] {
+		return this.buildingCache.getBuildings(tick);
 	}
 }
