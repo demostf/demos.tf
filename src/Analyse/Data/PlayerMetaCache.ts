@@ -1,13 +1,13 @@
-import {DataCache} from "./DataCache";
+import {SparseDataCache} from "./SparseDataCache";
 
 export interface PlayerMeta {
 	classId: number;
 	teamId: number;
 }
 
-export class PlayerMetaCache extends DataCache {
+export class PlayerMetaCache extends SparseDataCache {
 	constructor(tickCount: number) {
-		super(tickCount, 1, 8);
+		super(tickCount, 1, 8, 6);
 	}
 
 	getMeta(playerId: number, tick: number): PlayerMeta {
