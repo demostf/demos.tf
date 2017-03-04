@@ -13,22 +13,20 @@ export interface MapBoundary {
 export class PositionCache extends DataCache {
 	offset: Point;
 
-	constructor(playerCount: number, tickCount: number, offset: Point) {
-		super(playerCount, tickCount, 2, 32);
+	constructor(tickCount: number, offset: Point) {
+		super(tickCount, 2, 32);
 		this.offset = offset;
 	}
 
 	getPosition(playerId: number, tick: number): Point {
-		let offset = this.getOffset(playerId, tick);
 		return {
-			x: this.data[offset],
-			y: this.data[offset + 1]
+			x: this.get(playerId, tick, 0),
+			y: this.get(playerId, tick, 1)
 		}
 	}
 
-	setPostion(playerId: number, tick: number, position: Point) {
-		const offset = this.getOffset(playerId, tick);
-		this.data[offset] = position.x - this.offset.x;
-		this.data[offset + 1] = position.y - this.offset.y;
+	setPosition(playerId: number, tick: number, position: Point) {
+		this.set(playerId, tick, position.x - this.offset.x, 0);
+		this.set(playerId, tick, position.y - this.offset.y, 1);
 	}
 }

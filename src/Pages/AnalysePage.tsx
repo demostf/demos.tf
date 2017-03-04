@@ -66,6 +66,10 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		}
 	}
 
+	isSupported() {
+		return Math.log2 && ('Uint8Array' in window);
+	}
+
 	render() {
 		if (this.state.loading) {
 			return <Spinner/>;

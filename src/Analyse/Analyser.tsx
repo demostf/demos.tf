@@ -91,7 +91,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	constructor(props: AnalyseProps) {
 		super(props);
-		try {
+		// try {
 			this.parser = new Parser(props.demo, props.header);
 			this.parser.cacheData();
 			this.intervalPerTick = props.demo.getParser().match.intervalPerTick * 2;//ticks per second is scaled by 2
@@ -104,9 +104,10 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 					this.joinSession(window.location.hash.substr(1));
 				}
 			}
-		} catch (e) {
-			this.state.error = e.message;
-		}
+		// } catch (e) {
+		// 	this.state.error = e.message;
+		// 	throw e;
+		// }
 	}
 
 	componentDidMount() {

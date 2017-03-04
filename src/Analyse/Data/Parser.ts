@@ -74,14 +74,27 @@ export class Parser {
 		}
 		this.startTick = this.match.tick;
 		this.ticks = Math.ceil((head.ticks) / 2); // scale down to 30fps
-		this.positionCache = new PositionCache(20, this.ticks, this.match.world.boundaryMin); // 20 players "should work in most cases"
-		this.healthCache = new HealthCache(20, this.ticks);
-		this.metaCache = new PlayerMetaCache(20, this.ticks);
-		this.viewAngleCache = new ViewAngleCache(20, this.ticks);
+		this.positionCache = new PositionCache(this.ticks, this.match.world.boundaryMin);
+		this.healthCache = new HealthCache(this.ticks);
+		this.metaCache = new PlayerMetaCache(this.ticks);
+		this.viewAngleCache = new ViewAngleCache(this.ticks);
 	}
 
 	scaleTick(matchTick: number): number {
 		return Math.ceil((matchTick - this.startTick) / 2);
+	}
+
+	setTick(tick: number, players: Player[]) {
+		for (const player of players) {
+			const playerId = this.getPlayerId(player);
+			this.positionCache.setPosition(playerId, tick, player.position);
+			this.healthCache.set(playerId, tick, player.lifeState === LifeState.ALIVE ? player.health : 0);
+			this.metaCache.setMeta(playerId, tick, {
+				classId: player.classId,
+				teamId: player.team
+			});
+			this.viewAngleCache.set(playerId, tick, player.viewAngle);
+		}
 	}
 
 	cacheData() {
@@ -92,29 +105,11 @@ export class Parser {
 		demoParser.on('packet', (packet: Packet) => {
 			const tick = Math.floor((match.tick - this.startTick) / 2);
 			if (tick > lastTick) {
-				for (const player of match.players) {
-					const playerId = this.getPlayerId(player);
-					this.positionCache.setPostion(playerId, tick, player.position);
-					this.healthCache.setHealth(playerId, tick, player.lifeState === LifeState.ALIVE ? player.health : 0);
-					this.metaCache.setMeta(playerId, tick, {
-						classId: player.classId,
-						teamId: player.team
-					});
-					this.viewAngleCache.setAngle(playerId, tick, player.viewAngle);
-				}
+				this.setTick(tick, match.players);
 				if (tick > lastTick + 1) {
 					// demo skipped ticks, copy/interpolote
 					for (let i = lastTick; i < tick; i++) {
-						for (const player of match.players) {
-							const playerId = this.getPlayerId(player);
-							this.positionCache.setPostion(playerId, i, player.position);
-							this.healthCache.setHealth(playerId, i, player.lifeState === LifeState.ALIVE ? player.health : 0);
-							this.metaCache.setMeta(playerId, i, {
-								classId: player.classId,
-								teamId: player.team
-							});
-							this.viewAngleCache.setAngle(playerId, i, player.viewAngle);
-						}
+						this.setTick(i, match.players);
 					}
 				}
 				lastTick = tick;
@@ -186,11 +181,11 @@ export class Parser {
 			players.push({
 				position: this.positionCache.getPosition(i, tick),
 				user: this.entityPlayerMap[i].user,
-				health: this.healthCache.getHealth(i, tick),
+				health: this.healthCache.get(i, tick),
 				teamId: meta.teamId,
 				classId: meta.classId,
 				team,
-				viewAngle: this.viewAngleCache.getAngle(i, tick)
+				viewAngle: this.viewAngleCache.get(i, tick)
 			});
 		}
 		return players;
