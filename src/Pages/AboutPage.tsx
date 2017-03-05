@@ -57,16 +57,27 @@ export class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
 					<p>
 						<a href="https://steamcommunity.com/id/icewind1991">
 							Steam
-						</a>
+						</a>&nbsp;
 						<a href="mailto:icewind@demos.tf">
 							Email
-						</a>
+						</a>&nbsp;
 						<a href="https://twitter.com/icewind1991">
 							Twitter
+						</a>&nbsp;
+						<a href="https://github.com/demostf/demos.tf">
+							Github
 						</a>
 					</p>
 				</Section>
 				<PluginSection user={this.props.user}/>
+				<Section title="Reporting issues">
+					<p>
+						Any issue, bug or suggestion can be reported over on&nbsp;
+						<a href="https://github.com/demostf/demos.tf/issues">
+							Github
+						</a>.
+					</p>
+				</Section>
 				<Section title="API">
 					<p>
 						The demos.tf data is available to 3rd parties using
