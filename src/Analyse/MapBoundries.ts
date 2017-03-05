@@ -188,7 +188,17 @@ const overWriteMapBoundaries = {
 			x: 2000,
 			y: 2100
 		}
-	}
+	},
+	'pl_vigil_b2': {
+		boundaryMin: {
+			x: -1700,
+			y: -2500
+		},
+		boundaryMax: {
+			x: 5000,
+			y: 5300
+		}
+	},
 };
 
 export function findMapAlias(map) {
