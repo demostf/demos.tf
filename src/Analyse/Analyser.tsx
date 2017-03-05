@@ -243,7 +243,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	}, 500);
 
 	setHash = debounce((tick) => {
-		if (!this.session) {
+		if (!this.session && this.props.isStored) {
 			history.replaceState('', '', '#' + tick);
 		}
 	}, 250);
