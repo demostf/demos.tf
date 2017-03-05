@@ -178,6 +178,16 @@ const overWriteMapBoundaries = {
 			x: 6350,
 			y: 3000
 		}
+	},
+	'ultiduo_grove_b2': {
+		boundaryMin: {
+			x: -2000,
+			y: -2100
+		},
+		boundaryMax: {
+			x: 2000,
+			y: 2100
+		}
 	}
 };
 
