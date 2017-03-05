@@ -46,8 +46,13 @@ export function Building({building, mapBoundary, targetSize, scale}: BuildingPro
 	const alpha = building.health / maxHealth;
 	const image = getIcon(building);
 
+	const angle = (building.angle) ?
+		<polygon points="-6,14 0, 16 6,14 0,24" fill="white"
+		         transform={`rotate(${90 - building.angle})`}/>: '';
+
 	return <g transform={`translate(${scaledX} ${scaledY}) scale(${1/scale})`}
 	          opacity={alpha}>
+		{angle}
 		<image href={image} className={"player-icon"} height={32}
 		       width={32}
 		       transform={`translate(-16 -16)`}/>

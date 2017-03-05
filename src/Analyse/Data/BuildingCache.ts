@@ -9,6 +9,7 @@ export interface CachedBuilding {
 	position: Point;
 	level: number;
 	team: number;
+	angle: number;
 }
 
 export class BuildingCache {
@@ -18,12 +19,14 @@ export class BuildingCache {
 	engineers: number = 0;
 	playerIndexMap: {[playerId: string]: number} = {};
 	positionOffset: Point;
+	angleCache: DataCache;
 
 	constructor(tickCount: number, positionOffset: Point) {
 		this.positionCache = new SparseDataCache(tickCount, 2, 16, 6);
 		this.healthCache = new SparseDataCache(tickCount, 1, 16, 2);
 		this.levelCache = new SparseDataCache(tickCount, 1, 8, 6);
 		this.positionOffset = positionOffset;
+		this.angleCache = new SparseDataCache(tickCount, 1, 16, 1);
 	}
 
 	private getBuildingIndex(building: Building, playerId: number): number {
@@ -41,6 +44,7 @@ export class BuildingCache {
 	setBuilding(tick: number, building: Building, playerId: number, team: number) {
 		if (!this.playerIndexMap[playerId]) {
 			this.playerIndexMap[playerId] = this.engineers;
+			console.log(playerId);
 			this.engineers++;
 		}
 		const index = this.getBuildingIndex(building, playerId);
@@ -48,6 +52,11 @@ export class BuildingCache {
 		this.positionCache.set(index, tick, building.position.y - this.positionOffset.y, 1);
 		this.healthCache.set(index, tick, building.health);
 		this.levelCache.set(index, tick, building.level + (team << 3));
+		if (building.type === 'teleporter' && building.yawToExit) {
+			this.angleCache.set(index, tick, building.angle - building.yawToExit + 180);
+		} else if (building.type === 'sentry') {
+			this.angleCache.set(index, tick, building.angle);
+		}
 	}
 
 	getBuilding(tick: number, index: number): CachedBuilding|null {
@@ -63,7 +72,8 @@ export class BuildingCache {
 				x: this.positionCache.get(index, tick, 0),
 				y: this.positionCache.get(index, tick, 1),
 			},
-			team: levelData >> 3
+			team: levelData >> 3,
+			angle: this.angleCache.get(index, tick)
 		}
 	}
 
