@@ -29,4 +29,8 @@ export class PositionCache extends DataCache {
 		this.set(playerId, tick, position.x - this.offset.x, 0);
 		this.set(playerId, tick, position.y - this.offset.y, 1);
 	}
+
+	static rehydrate(data: PositionCache) {
+		Object.setPrototypeOf(data, PositionCache.prototype);
+	}
 }

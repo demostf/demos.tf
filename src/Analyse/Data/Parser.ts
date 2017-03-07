@@ -36,6 +36,7 @@ export interface CachedDeath {
 }
 
 export class Parser {
+	buffer: ArrayBuffer;
 	demo: Demo;
 	header: Header;
 	playerCache: PlayerCache;
@@ -48,8 +49,29 @@ export class Parser {
 	deaths: {[tick: string]: CachedDeath[]} = {};
 	buildingCache: BuildingCache;
 
-	constructor(demo: Demo) {
-		this.demo = demo;
+	constructor(buffer: ArrayBuffer) {
+		this.buffer = buffer;
+		this.demo = new Demo(buffer)
+	}
+
+	scaleTick(matchTick: number): number {
+		return Math.ceil((matchTick - this.startTick) / 2);
+	}
+
+	setTick(tick: number, players: Player[], buildings: {[entityId: string]: Building}) {
+		for (const player of players) {
+			const playerId = this.getPlayerId(player);
+			this.playerCache.setPlayer(tick, playerId, player);
+		}
+		for (const entityId of Object.keys(buildings)) {
+			const building = buildings[entityId];
+			if (building.health > 0) {
+				this.buildingCache.setBuilding(tick, building, building.builder, building.team);
+			}
+		}
+	}
+
+	cacheData() {
 		const parser = this.demo.getParser();
 		this.header = parser.readHeader();
 		this.match = parser.match;
@@ -77,26 +99,7 @@ export class Parser {
 		this.ticks = Math.ceil((this.header.ticks) / 2); // scale down to 30fps
 		this.playerCache = new PlayerCache(this.ticks, this.match.world.boundaryMin);
 		this.buildingCache = new BuildingCache(this.ticks, this.match.world.boundaryMin);
-	}
 
-	scaleTick(matchTick: number): number {
-		return Math.ceil((matchTick - this.startTick) / 2);
-	}
-
-	setTick(tick: number, players: Player[], buildings: {[entityId: string]: Building}) {
-		for (const player of players) {
-			const playerId = this.getPlayerId(player);
-			this.playerCache.setPlayer(tick, playerId, player);
-		}
-		for (const entityId of Object.keys(buildings)) {
-			const building = buildings[entityId];
-			if (building.health > 0) {
-				this.buildingCache.setBuilding(tick, building, building.builder, building.team);
-			}
-		}
-	}
-
-	cacheData() {
 		let lastTick = 0;
 		const demoParser = this.demo.getParser();
 		const match = demoParser.match;
@@ -142,13 +145,6 @@ export class Parser {
 			const killerId = killer ? this.entityPlayerReverseMap[killer.user.entityId] : null;
 			const assisterId = assister ? this.entityPlayerReverseMap[assister.user.entityId] : null;
 			const victimId = this.entityPlayerReverseMap[victim.user.entityId];
-
-			try {
-				const alias = killAlias[death.weapon] ? killAlias[death.weapon] : death.weapon;
-				require(`../../images/kill_icons/${alias}.png`) as string;
-			} catch (e) {
-				console.log(death.weapon, killer && killer.classId);
-			}
 
 			this.deaths[deathTick].push({
 				tick: deathTick,

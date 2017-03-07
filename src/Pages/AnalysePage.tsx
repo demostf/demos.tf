@@ -7,7 +7,7 @@ import {Demo, Header} from 'tf2-demo/build/es6';
 import './AboutPage.css';
 import {DemoProvider} from "../Providers/DemoProvider";
 import Spinner from 'react-spinner';
-import {Parser} from "../Analyse/Data/Parser";
+import {AsyncParser} from "../Analyse/Data/AsyncParser";
 
 export interface AnalysePageState {
 	demoFile: File|null;
@@ -15,7 +15,7 @@ export interface AnalysePageState {
 	header: Header|null;
 	loading: boolean;
 	error?: string;
-	parser: Parser|null;
+	parser: AsyncParser|null;
 }
 
 export interface AnalysePageProps {
@@ -46,20 +46,20 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		const reader = new FileReader();
 		reader.onload = () => {
 			const buffer = reader.result as ArrayBuffer;
-			const demo = new Demo(buffer);
+			this.handleBuffer(buffer);
 		};
 		reader.readAsArrayBuffer(demoFile);
 	};
 
-	handleDemo(demo: Demo) {
+	handleBuffer(buffer: ArrayBuffer) {
 		try {
-			const parser = new Parser(demo);
-			parser.cacheData();
-			this.setState({
-				demo,
-				header: parser.header,
-				loading: false,
-				parser
+			const parser = new AsyncParser(buffer);
+			parser.cache().then(() => {
+				this.setState({
+					header: parser.header,
+					loading: false,
+					parser
+				});
 			});
 		}
 		catch (e) {
@@ -77,7 +77,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 			}).then((response) => {
 				return response.arrayBuffer();
 			}).then((buffer) => {
-				this.handleDemo(new Demo(buffer))
+				this.handleBuffer(buffer)
 			});
 		}
 	}
@@ -109,11 +109,10 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 				<p>
 					To view a demo, select a file on your computer or use the "View" button on any demo stored on the site.
 				</p>
-				{(this.state.demo === null || this.state.header === null || this.state.parser === null) ?
+				{(this.state.header === null || this.state.parser === null) ?
 					<Dropzone onDrop={this.onDrop}
 					          text="Drop file or click to select"/>:
-					<Analyser demo={this.state.demo}
-					          header={this.state.header}
+					<Analyser header={this.state.header}
 					          isStored={!!this.props.params.id}
 					          parser={this.state.parser}
 					/>

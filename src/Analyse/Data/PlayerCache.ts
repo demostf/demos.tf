@@ -52,4 +52,13 @@ export class PlayerCache {
 			viewAngle: this.viewAngleCache.get(playerId, tick)
 		};
 	}
+
+	static rehydrate(data: PlayerCache) {
+		PositionCache.rehydrate(data.positionCache);
+		HealthCache.rehydrate(data.healthCache);
+		PlayerMetaCache.rehydrate(data.metaCache);
+		ViewAngleCache.rehydrate(data.viewAngleCache);
+
+		Object.setPrototypeOf(data, PlayerCache.prototype);
+	}
 }

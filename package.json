@@ -59,7 +59,8 @@
     "webpack": "^2.2.1",
     "webpack-bundle-size-analyzer": "^2.5.0",
     "webpack-dev-server": "^2.3.0",
-    "why-did-you-update": "0.0.8"
+    "why-did-you-update": "0.0.8",
+    "worker-loader": "^0.8.0"
   },
   "dependencies": {
     "babel-cli": "^6.23.0",

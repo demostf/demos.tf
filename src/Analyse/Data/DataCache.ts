@@ -49,4 +49,8 @@ export class DataCache {
 		const data = this.getPlayerData(playerId);
 		data[this.getOffset(tick, offset)] = value;
 	}
+
+	static rehydrate(data: DataCache) {
+		Object.setPrototypeOf(data, DataCache.prototype);
+	}
 }

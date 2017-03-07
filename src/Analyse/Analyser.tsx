@@ -10,12 +10,12 @@ import {debounce} from 'lodash';
 import {AnalyseMenu} from './AnalyseMenu'
 
 import './Analyser.css'
+import {AsyncParser} from "./Data/AsyncParser";
 
 export interface AnalyseProps {
-	demo: Demo;
 	header: Header;
 	isStored: boolean;
-	parser: Parser;
+	parser: AsyncParser;
 }
 
 export interface AnalyseState {
@@ -68,7 +68,7 @@ function generateSession() {
 const syncUri = 'wss://demos.tf/sync';
 
 export class Analyser extends React.Component<AnalyseProps, {}> {
-	parser: Parser;
+	parser: AsyncParser;
 	session?: WebSocket;
 	isSessionOwner = false;
 	sessionName: string;
@@ -93,7 +93,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	constructor(props: AnalyseProps) {
 		super(props);
 		this.parser = props.parser;
-		this.intervalPerTick = props.demo.getParser().match.intervalPerTick * 2;//ticks per second is scaled by 2
+		this.intervalPerTick = this.parser.intervalPerTick;
 		this.sessionName = generateSession();
 		if (props.isStored && window.location.hash) {
 			const parsed = parseInt(window.location.hash.substr(1), 10);
@@ -106,7 +106,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	}
 
 	componentDidMount() {
-		const world = this.props.demo.getParser().match.world;
+		const world = this.parser.world;
 		const worldSize = {
 			width: world.boundaryMax.x - world.boundaryMin.x,
 			height: world.boundaryMax.y - world.boundaryMin.y,
@@ -285,7 +285,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 						           players={players}
 						           buildings={buildings}
 						           header={this.props.header}
-						           world={this.props.demo.getParser().match.world}
+						           world={this.parser.world}
 						           scale={this.state.scale}/>
 					</MapContainer>
 					<AnalyseMenu sessionName={this.sessionName}

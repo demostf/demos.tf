@@ -1,4 +1,4 @@
-import {DataCache} from "./DataCache";
+import {DataCache, DataArray} from "./DataCache";
 
 export class SparseDataCache extends DataCache {
 	sparse: number;
@@ -10,5 +10,9 @@ export class SparseDataCache extends DataCache {
 
 	protected getOffset(tick: number, offset: number) {
 		return (tick >> this.sparse) * this.valuesPerPlayer + offset;
+	}
+
+	static rehydrate(data: SparseDataCache) {
+		Object.setPrototypeOf(data, SparseDataCache.prototype);
 	}
 }

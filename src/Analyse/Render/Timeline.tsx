@@ -2,8 +2,8 @@ import * as React from 'react';
 import {Parser} from "../Data/Parser";
 
 export interface TimelineProps {
-	parser: Parser
-	tick: number
+	parser: AsyncParser;
+	tick: number;
 	onSetTick: (tick: number) => any;
 	disabled?: boolean;
 }
@@ -29,8 +29,9 @@ export class Timeline extends React.Component<TimelineProps, {}> {
 
 import './Timeline.css';
 import Element = JSX.Element;
+import {AsyncParser} from "../Data/AsyncParser";
 
-function TimeLineBackground({parser}:{parser: Parser}) {
+function TimeLineBackground({parser}:{parser: AsyncParser}) {
 	const length = Math.floor(parser.ticks / 30);
 	const blueHealth = new Uint16Array(length);
 	const redHealth = new Uint16Array(length);

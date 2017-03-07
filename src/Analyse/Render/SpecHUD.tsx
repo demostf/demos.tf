@@ -2,10 +2,11 @@ import * as React from 'react';
 import {Parser, CachedPlayer} from "../Data/Parser";
 import {PlayersSpec} from './PlayerSpec';
 import {KillFeed} from './KillFeed';
+import {AsyncParser} from "../Data/AsyncParser";
 
 export interface SpecHUDProps {
 	tick: number;
-	parser: Parser;
+	parser: AsyncParser;
 	players: CachedPlayer[];
 }
 

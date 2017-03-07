@@ -21,4 +21,8 @@ export class PlayerMetaCache extends SparseDataCache {
 	setMeta(playerId: number, tick: number, meta: PlayerMeta) {
 		super.set(playerId, tick, meta.classId | (meta.teamId << 4));
 	}
+
+	static rehydrate(data: PlayerMetaCache) {
+		Object.setPrototypeOf(data, PlayerMetaCache.prototype);
+	}
 }

@@ -13,13 +13,13 @@ export interface CachedBuilding {
 }
 
 export class BuildingCache {
-	positionCache: DataCache;
-	healthCache: DataCache;
-	levelCache: DataCache;
+	positionCache: SparseDataCache;
+	healthCache: SparseDataCache;
+	levelCache: SparseDataCache;
 	engineers: number = 0;
 	playerIndexMap: {[playerId: string]: number} = {};
 	positionOffset: Point;
-	angleCache: DataCache;
+	angleCache: SparseDataCache;
 
 	constructor(tickCount: number, positionOffset: Point) {
 		this.positionCache = new SparseDataCache(tickCount, 2, 16, 6);
@@ -44,7 +44,6 @@ export class BuildingCache {
 	setBuilding(tick: number, building: Building, playerId: number, team: number) {
 		if (!this.playerIndexMap[playerId]) {
 			this.playerIndexMap[playerId] = this.engineers;
-			console.log(playerId);
 			this.engineers++;
 		}
 		const index = this.getBuildingIndex(building, playerId);
@@ -88,5 +87,14 @@ export class BuildingCache {
 			}
 		}
 		return buildings;
+	}
+
+	static rehydrate(data: BuildingCache) {
+		SparseDataCache.rehydrate(data.positionCache);
+		SparseDataCache.rehydrate(data.healthCache);
+		SparseDataCache.rehydrate(data.levelCache);
+		SparseDataCache.rehydrate(data.angleCache);
+
+		Object.setPrototypeOf(data, BuildingCache.prototype);
 	}
 }
