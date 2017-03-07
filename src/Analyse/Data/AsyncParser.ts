@@ -91,7 +91,7 @@ export class AsyncParser {
 			}, [this.buffer]);
 			worker.onmessage = (event) => {
 				if (event.data.error) {
-					reject(new Error(event.data.error));
+					reject(event.data.error);
 					return;
 				}
 				if (event.data.progress) {

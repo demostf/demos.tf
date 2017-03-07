@@ -66,6 +66,8 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 					loading: false,
 					parser
 				});
+			}, (error) => {
+				this.setState({error});
 			});
 		}
 		catch (e) {
