@@ -16,6 +16,7 @@ export interface AnalysePageState {
 	loading: boolean;
 	error?: string;
 	parser: AsyncParser|null;
+	progress: number;
 }
 
 export interface AnalysePageProps {
@@ -23,6 +24,8 @@ export interface AnalysePageProps {
 		id?: number;
 	}
 }
+
+import "./AnalysePage.css";
 
 export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageState> {
 	static page = 'analyse';
@@ -33,7 +36,8 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		demo: null,
 		header: null,
 		loading: false,
-		parser: null
+		parser: null,
+		progress: 0
 	};
 
 	constructor(props) {
@@ -53,7 +57,9 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 
 	handleBuffer(buffer: ArrayBuffer) {
 		try {
-			const parser = new AsyncParser(buffer);
+			const parser = new AsyncParser(buffer, (progress) => {
+				this.setState({progress});
+			});
 			parser.cache().then(() => {
 				this.setState({
 					header: parser.header,
@@ -101,7 +107,13 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		}
 
 		if (this.state.loading) {
-			return <Spinner/>;
+			return <div className="analyse-progress">
+				<p>
+					Processing demo...
+				</p>
+				<Spinner/>
+				<progress max={100} value={this.state.progress}/>
+			</div>;
 		}
 
 		return (

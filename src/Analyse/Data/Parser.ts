@@ -71,7 +71,7 @@ export class Parser {
 		}
 	}
 
-	cacheData() {
+	cacheData(progressCallback: (progress: number) => void) {
 		const parser = this.demo.getParser();
 		this.header = parser.readHeader();
 		this.match = parser.match;
@@ -103,9 +103,14 @@ export class Parser {
 		let lastTick = 0;
 		const demoParser = this.demo.getParser();
 		const match = demoParser.match;
-		let index = 0;
+		let lastProgress = 0;
 		demoParser.on('packet', (packet: Packet) => {
 			const tick = Math.floor((match.tick - this.startTick) / 2);
+			const progress = Math.round((tick / this.ticks) * 100);
+			if (progress > lastProgress) {
+				lastProgress = progress;
+				progressCallback(progress);
+			}
 			if (tick > lastTick) {
 				this.setTick(tick, match.players, match.buildings);
 				if (tick > lastTick + 1) {

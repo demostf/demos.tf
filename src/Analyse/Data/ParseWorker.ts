@@ -11,7 +11,9 @@ onmessage = (event: MessageEvent) => {
 	const buffer = event.data.buffer;
 	const parser = new Parser(buffer);
 	try {
-		parser.cacheData();
+		parser.cacheData((progress => {
+			postMessage({progress});
+		}));
 	} catch (e) {
 		postMessage({
 			error: e.message

@@ -61,9 +61,11 @@ export class AsyncParser {
 	buildingCache: BuildingCache;
 	intervalPerTick: number;
 	world: World;
+	progressCallback: (progress: number) => void;
 
-	constructor(bufffer: ArrayBuffer) {
+	constructor(bufffer: ArrayBuffer, progressCallback: (progress: number) => void) {
 		this.buffer = bufffer;
+		this.progressCallback = progressCallback;
 	}
 
 	cache(): Promise<void> {
@@ -90,6 +92,11 @@ export class AsyncParser {
 			worker.onmessage = (event) => {
 				if (event.data.error) {
 					reject(new Error(event.data.error));
+					return;
+				}
+				if (event.data.progress) {
+					this.progressCallback(event.data.progress);
+					return;
 				}
 				const cachedData: CachedDemo = event.data;
 				BuildingCache.rehydrate(cachedData.buildingCache);
