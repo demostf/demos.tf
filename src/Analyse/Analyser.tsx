@@ -15,6 +15,7 @@ export interface AnalyseProps {
 	demo: Demo;
 	header: Header;
 	isStored: boolean;
+	parser: Parser;
 }
 
 export interface AnalyseState {
@@ -91,21 +92,16 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	constructor(props: AnalyseProps) {
 		super(props);
-		try {
-			this.parser = new Parser(props.demo, props.header);
-			this.parser.cacheData();
-			this.intervalPerTick = props.demo.getParser().match.intervalPerTick * 2;//ticks per second is scaled by 2
-			this.sessionName = generateSession();
-			if (props.isStored && window.location.hash) {
-				const parsed = parseInt(window.location.hash.substr(1), 10);
-				if (('#' + parsed) === window.location.hash) {
-					this.state.tick = parsed;
-				} else {
-					this.joinSession(window.location.hash.substr(1));
-				}
+		this.parser = props.parser;
+		this.intervalPerTick = props.demo.getParser().match.intervalPerTick * 2;//ticks per second is scaled by 2
+		this.sessionName = generateSession();
+		if (props.isStored && window.location.hash) {
+			const parsed = parseInt(window.location.hash.substr(1), 10);
+			if (('#' + parsed) === window.location.hash) {
+				this.state.tick = parsed;
+			} else {
+				this.joinSession(window.location.hash.substr(1));
 			}
-		} catch (e) {
-			this.state.error = e.message;
 		}
 	}
 
@@ -275,19 +271,6 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	};
 
 	render() {
-		if (this.state.error) {
-			return <div className="error-holder">
-				<div className="error-image">Something broke...</div>
-				<div className="error">
-					{this.state.error}
-					<div className="error-hint">
-						You can report issues on <a
-						href="https://github.com/demostf/demos.tf/issues">github</a>.
-					</div>
-				</div>
-			</div>;
-		}
-
 		const players = this.parser.getPlayersAtTick(this.state.tick);
 		const buildings = this.parser.getBuildingAtTick(this.state.tick);
 		const playButtonText = (this.state.playing) ? '⏸' : '▶️';

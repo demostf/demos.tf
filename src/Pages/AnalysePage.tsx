@@ -7,12 +7,15 @@ import {Demo, Header} from 'tf2-demo/build/es6';
 import './AboutPage.css';
 import {DemoProvider} from "../Providers/DemoProvider";
 import Spinner from 'react-spinner';
+import {Parser} from "../Analyse/Data/Parser";
 
 export interface AnalysePageState {
 	demoFile: File|null;
 	demo: Demo|null;
 	header: Header|null;
 	loading: boolean;
+	error?: string;
+	parser: Parser|null;
 }
 
 export interface AnalysePageProps {
@@ -29,7 +32,8 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		demoFile: null,
 		demo: null,
 		header: null,
-		loading: false
+		loading: false,
+		parser: null
 	};
 
 	constructor(props) {
@@ -43,11 +47,25 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		reader.onload = () => {
 			const buffer = reader.result as ArrayBuffer;
 			const demo = new Demo(buffer);
-			const header = demo.getParser().readHeader();
-			this.setState({demo, header, loading: false});
 		};
 		reader.readAsArrayBuffer(demoFile);
 	};
+
+	handleDemo(demo: Demo) {
+		try {
+			const parser = new Parser(demo);
+			parser.cacheData();
+			this.setState({
+				demo,
+				header: parser.header,
+				loading: false,
+				parser
+			});
+		}
+		catch (e) {
+			this.setState({error: e.message});
+		}
+	}
 
 	componentDidMount() {
 		if (this.props.params.id) {
@@ -59,9 +77,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 			}).then((response) => {
 				return response.arrayBuffer();
 			}).then((buffer) => {
-				const demo = new Demo(buffer);
-				const header = demo.getParser().readHeader();
-				this.setState({demo, header, loading: false});
+				this.handleDemo(new Demo(buffer))
 			});
 		}
 	}
@@ -71,23 +87,35 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 	}
 
 	render() {
+		if (this.state.error) {
+			return <div className="error-holder">
+				<div className="error-image">Something broke...</div>
+				<div className="error">
+					{this.state.error}
+					<div className="error-hint">
+						You can report issues on <a
+						href="https://github.com/demostf/demos.tf/issues">github</a>.
+					</div>
+				</div>
+			</div>;
+		}
+
 		if (this.state.loading) {
 			return <Spinner/>;
 		}
 
-		const hint = (this.state.demo) ? '' :<p>
-				To view a demo, select a file on your computer or use the "View" button on any demo stored on the site.
-			</p>;
-
 		return (
 			<div className="analyse-page">
-				{hint}
-				{(this.state.demo === null || this.state.header === null) ?
+				<p>
+					To view a demo, select a file on your computer or use the "View" button on any demo stored on the site.
+				</p>
+				{(this.state.demo === null || this.state.header === null || this.state.parser === null) ?
 					<Dropzone onDrop={this.onDrop}
 					          text="Drop file or click to select"/>:
 					<Analyser demo={this.state.demo}
 					          header={this.state.header}
 					          isStored={!!this.props.params.id}
+					          parser={this.state.parser}
 					/>
 				}
 			</div>

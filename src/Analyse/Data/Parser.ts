@@ -48,10 +48,10 @@ export class Parser {
 	deaths: {[tick: string]: CachedDeath[]} = {};
 	buildingCache: BuildingCache;
 
-	constructor(demo: Demo, head: Header) {
+	constructor(demo: Demo) {
 		this.demo = demo;
-		this.header = head;
 		const parser = this.demo.getParser();
+		this.header = parser.readHeader();
 		this.match = parser.match;
 		while (this.match.world.boundaryMin.x === 0) {
 			parser.tick();
@@ -74,7 +74,7 @@ export class Parser {
 			parser.tick();
 		}
 		this.startTick = this.match.tick;
-		this.ticks = Math.ceil((head.ticks) / 2); // scale down to 30fps
+		this.ticks = Math.ceil((this.header.ticks) / 2); // scale down to 30fps
 		this.playerCache = new PlayerCache(this.ticks, this.match.world.boundaryMin);
 		this.buildingCache = new BuildingCache(this.ticks, this.match.world.boundaryMin);
 	}
