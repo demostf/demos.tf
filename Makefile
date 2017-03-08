@@ -10,11 +10,11 @@ node_modules: package.json
 
 sources=$(wildcard js/*) $(wildcard js/*/*) $(wildcard css/*/*)  $(wildcard css/*)
 
-.PHONY: prod
-prod: node_modules $(sources)
+.PHONY: build
+build: node_modules $(sources)
 	node node_modules/.bin/webpack --colors --display-error-details --config webpack.prod.config.js
 
-build/js/main.js: prod
+build/js/main.js: build
 
 .PHONY: build
 build: prod
@@ -30,3 +30,12 @@ analyse: node_modules
 .PHONY: beta
 beta:
 	scp -r build demos@demos.tf:demos_beta
+
+.PHONY: staging
+staging:
+	-ssh demos@demos.tf "rm -r demos_staging"
+	scp -r build demos@demos.tf:demos_staging
+
+.PHONY: prod
+prod:
+	ssh demos@demos.tf "rm -r demos_prod_old; mv demos_prod demos_prod_old; mv demos_staging demos_prod"
