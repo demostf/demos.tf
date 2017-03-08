@@ -47,12 +47,20 @@ export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 	const scaledY = y / (mapBoundary.boundaryMax.y - mapBoundary.boundaryMin.y) * targetSize.height;
 	const maxHealth = healthMap[player.classId];
 	const alpha = player.health / maxHealth;
-	const image = require(`../../images/class_icons/${classMap[player.classId]}_${player.team}.png`) as string;
+	const image = require(`../../images/class_icons/${classMap[player.classId]}.png`) as string;
+	const teamColor = (player.team === 'red') ? '#a75d50' : '#5b818f';
+	const imageOpacity = player.health === 0 ? 0 : (1 + alpha) / 2;
 
-	return <g transform={`translate(${scaledX} ${scaledY}) scale(${1/scale})`}
-	          opacity={alpha}>
-		<polygon points="-6,14 0, 16 6,14 0,24" fill="white" transform={`rotate(${90 - player.viewAngle})`}/>
-		<image href={image} className={"player-icon " + player.team} height={32}
+	return <g transform={`translate(${scaledX} ${scaledY}) scale(${1/scale})`}>
+		<polygon points="-6,14 0, 16 6,14 0,24" fill="white"
+		         opacity={imageOpacity}
+		         transform={`rotate(${90 - player.viewAngle})`}/>
+		<circle r={16} strokeWidth={1} stroke="white" fill={teamColor}
+		        opacity={alpha}/>
+		<image href={image}
+		       className={"player-icon " + player.team}
+		       opacity={imageOpacity}
+		       height={32}
 		       width={32}
 		       transform={`translate(-16 -16)`}/>
 	</g>
