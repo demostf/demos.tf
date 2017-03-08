@@ -47,7 +47,7 @@ export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 	const scaledY = y / (mapBoundary.boundaryMax.y - mapBoundary.boundaryMin.y) * targetSize.height;
 	const maxHealth = healthMap[player.classId];
 	const alpha = player.health / maxHealth;
-	const image = require(`../../images/class_icons/${classMap[player.classId]}.png`) as string;
+	const image = require(`../../images/class_icons/${classMap[player.classId]}.svg`) as string;
 	const teamColor = (player.team === 'red') ? '#a75d50' : '#5b818f';
 	const imageOpacity = player.health === 0 ? 0 : (1 + alpha) / 2;
 
