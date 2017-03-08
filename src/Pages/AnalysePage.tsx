@@ -76,6 +76,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 	}
 
 	componentDidMount() {
+		document.title = "Viewer - demos.tf";
 		if (this.props.params.id) {
 			this.setState({loading: true});
 			this.provider.getDemo(this.props.params.id).then((demo) => {
