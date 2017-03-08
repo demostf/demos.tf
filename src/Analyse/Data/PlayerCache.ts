@@ -4,6 +4,8 @@ import {ViewAngleCache} from "./ViewAngleCache";
 import {PlayerMetaCache} from "./PlayerMetaCache";
 import {HealthCache} from "./HealthCache";
 import {LifeState} from "tf2-demo/build/Data/Player";
+import {PlayerResource} from "tf2-demo/build/Data/PlayerResource";
+import {SparseDataCache} from "./SparseDataCache";
 
 export class CachedPlayer {
 	position: Point;
@@ -13,6 +15,7 @@ export class CachedPlayer {
 	classId: number;
 	team: string;
 	viewAngle: number;
+	chargeLevel: number|null;
 }
 
 export class PlayerCache {
@@ -21,15 +24,18 @@ export class PlayerCache {
 	healthCache: HealthCache;
 	metaCache: PlayerMetaCache;
 	viewAngleCache: ViewAngleCache;
+	uberCache: SparseDataCache;
 
 	constructor(tickCount: number, positionOffset: Point) {
+		this.tickCount = tickCount;
 		this.positionCache = new PositionCache(tickCount, positionOffset);
 		this.healthCache = new HealthCache(tickCount);
 		this.metaCache = new PlayerMetaCache(tickCount);
 		this.viewAngleCache = new ViewAngleCache(tickCount);
+		this.uberCache = new SparseDataCache(tickCount, 1, 8, 4);
 	}
 
-	setPlayer(tick: number, playerId: number, player: Player) {
+	setPlayer(tick: number, playerId: number, player: Player, playerResource: PlayerResource) {
 		this.positionCache.setPosition(playerId, tick, player.position);
 		this.healthCache.set(playerId, tick, player.lifeState === LifeState.ALIVE ? player.health : 0);
 		this.metaCache.setMeta(playerId, tick, {
@@ -37,6 +43,9 @@ export class PlayerCache {
 			teamId: player.team
 		});
 		this.viewAngleCache.set(playerId, tick, player.viewAngle);
+		if (playerResource.chargeLevel > 0) {
+			this.uberCache.set(playerId, tick, playerResource.chargeLevel);
+		}
 	}
 
 	getPlayer(tick: number, playerId: number, user: UserInfo): CachedPlayer {
@@ -49,7 +58,8 @@ export class PlayerCache {
 			teamId: meta.teamId,
 			classId: meta.classId,
 			team,
-			viewAngle: this.viewAngleCache.get(playerId, tick)
+			viewAngle: this.viewAngleCache.get(playerId, tick),
+			chargeLevel: this.uberCache.getOrNull(playerId, tick)
 		};
 	}
 
@@ -58,6 +68,7 @@ export class PlayerCache {
 		HealthCache.rehydrate(data.healthCache);
 		PlayerMetaCache.rehydrate(data.metaCache);
 		ViewAngleCache.rehydrate(data.viewAngleCache);
+		SparseDataCache.rehydrate(data.uberCache);
 
 		Object.setPrototypeOf(data, PlayerCache.prototype);
 	}

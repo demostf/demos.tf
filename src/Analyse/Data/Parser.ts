@@ -2,27 +2,14 @@ import {
 	Demo, Header, Packet, Player, UserInfo,
 	Match
 } from 'tf2-demo/build/es6';
-import {PositionCache, Point} from './PositionCache';
+import {Point} from './PositionCache';
 import {getMapBoundaries} from "../MapBoundries";
-import {HealthCache} from "./HealthCache";
-import {PlayerMetaCache} from "./PlayerMetaCache";
-import {ViewAngleCache} from "./ViewAngleCache";
-import {LifeState} from "tf2-demo/build/es6/Data/Player";
-import {Death} from "tf2-demo/build/es6/Data/Death";
-import {killAlias} from "../Render/killAlias";
-import {PlayerCache} from "./PlayerCache";
+import {PlayerCache, CachedPlayer} from "./PlayerCache";
 import {BuildingCache, CachedBuilding} from "./BuildingCache";
 import {Building} from "tf2-demo/build/Data/Building";
+import {PlayerResource} from "tf2-demo/build/es6/Data/PlayerResource";
 
-export class CachedPlayer {
-	position: Point;
-	user: UserInfo;
-	health: number;
-	teamId: number;
-	classId: number;
-	team: string;
-	viewAngle: number;
-}
+export {CachedPlayer} from './PlayerCache';
 
 export interface CachedDeath {
 	tick: number;
@@ -58,10 +45,10 @@ export class Parser {
 		return Math.ceil((matchTick - this.startTick) / 2);
 	}
 
-	setTick(tick: number, players: Player[], buildings: {[entityId: string]: Building}) {
+	setTick(tick: number, players: Player[], buildings: {[entityId: string]: Building}, playerRescources: PlayerResource[]) {
 		for (const player of players) {
 			const playerId = this.getPlayerId(player);
-			this.playerCache.setPlayer(tick, playerId, player);
+			this.playerCache.setPlayer(tick, playerId, player, playerRescources[player.user.entityId]);
 		}
 		for (const entityId of Object.keys(buildings)) {
 			const building = buildings[entityId];
@@ -112,11 +99,11 @@ export class Parser {
 				progressCallback(progress);
 			}
 			if (tick > lastTick) {
-				this.setTick(tick, match.players, match.buildings);
+				this.setTick(tick, match.players, match.buildings, match.playerResources);
 				if (tick > lastTick + 1) {
 					// demo skipped ticks, copy/interpolote
 					for (let i = lastTick; i < tick; i++) {
-						this.setTick(i, match.players, match.buildings);
+						this.setTick(i, match.players, match.buildings, match.playerResources);
 					}
 				}
 				lastTick = tick;

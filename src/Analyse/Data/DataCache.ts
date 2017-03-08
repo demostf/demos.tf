@@ -25,8 +25,11 @@ export class DataCache {
 		}
 	}
 
-	protected getPlayerData(playerId: number) {
+	protected getPlayerData(playerId: number, make: boolean = true) {
 		if (!this.data[playerId]) {
+			if (!make) {
+				return null;
+			}
 			this.data[playerId] = this.makeArray();
 		}
 		return this.data[playerId];
@@ -41,12 +44,23 @@ export class DataCache {
 	}
 
 	get(playerId: number, tick: number, offset: number = 0): number {
-		const data = this.getPlayerData(playerId);
+		const data = this.getPlayerData(playerId, false);
+		if (!data) {
+			return 0;
+		}
+		return data[this.getOffset(tick, offset)];
+	}
+
+	getOrNull(playerId: number, tick: number, offset: number = 0): number|null {
+		const data = this.getPlayerData(playerId, false);
+		if (!data) {
+			return null;
+		}
 		return data[this.getOffset(tick, offset)];
 	}
 
 	set(playerId: number, tick: number, value: number, offset: number = 0) {
-		const data = this.getPlayerData(playerId);
+		const data = <DataArray>this.getPlayerData(playerId);
 		data[this.getOffset(tick, offset)] = value;
 	}
 

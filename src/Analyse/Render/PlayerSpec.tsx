@@ -36,12 +36,34 @@ export interface PlayersSpecProps {
 }
 
 export function PlayersSpec({players}:PlayersSpecProps) {
-	const redPlayerSpecs = players
-		.filter((player) => player.teamId === 2)
-		.map((player, i) => <PlayerSpec key={i} player={player}/>);
-	const bluePlayerSpecs = players
-		.filter((player) => player.teamId === 3)
-		.map((player, i) => <PlayerSpec key={i} player={player}/>);
+	const redPlayers = players
+		.filter((player) => player.teamId === 2);
+	const bluePlayers = players
+		.filter((player) => player.teamId === 3);
+
+	const redPlayerSpecs = redPlayers
+		.map((player, i) => <PlayerSpec key={i} player={player}/>)
+		.concat(
+			redPlayers
+				.filter(player => player.chargeLevel !== null)
+				.map((player, i) => <UberSpec
+					key={i + 20}
+					team={player.team}
+					chargeLevel={0+player.chargeLevel}
+				    isDeath={player.health<1}
+				/>)
+		);
+	const bluePlayerSpecs = bluePlayers
+		.map((player, i) => <PlayerSpec key={i} player={player}/>).concat(
+			bluePlayers
+				.filter(player => player.chargeLevel !== null)
+				.map((player, i) => <UberSpec
+					key={i + 20}
+					team={player.team}
+					chargeLevel={0+player.chargeLevel}
+					isDeath={player.health<1}
+				/>)
+		);
 
 	return (<div>
 		<div className="redSpecHolder">{redPlayerSpecs}</div>
@@ -60,6 +82,27 @@ export function PlayerSpec({player}:PlayerSpecProps) {
 				     style={{width: healthPercent + '%'}}/>
 				<span className="player-name">{player.user.name}</span>
 				<span className="health">{player.health}</span>
+			</div>
+		</div>
+	);
+}
+
+export interface UberSpecProps {
+	chargeLevel: number;
+	team: string;
+	isDeath: boolean;
+}
+
+export function UberSpec({chargeLevel, team, isDeath}: UberSpecProps) {
+	const healthStatusClass = (isDeath) ? 'dead' : '';
+	return (
+		<div className={`playerspec uber ${team} ${healthStatusClass}`}>
+			<div className={"uber class-icon"}/>
+			<div className="health-container">
+				<div className="healthbar"
+				     style={{width: chargeLevel + '%'}}/>
+				<span className="player-name">Charge</span>
+				<span className="health">{Math.round(chargeLevel)}</span>
 			</div>
 		</div>
 	);

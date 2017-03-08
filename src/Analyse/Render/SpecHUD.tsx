@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {Parser, CachedPlayer} from "../Data/Parser";
+import {Parser} from "../Data/Parser";
 import {PlayersSpec} from './PlayerSpec';
 import {KillFeed} from './KillFeed';
 import {AsyncParser} from "../Data/AsyncParser";
+import {CachedPlayer} from "../Data/PlayerCache";
 
 export interface SpecHUDProps {
 	tick: number;

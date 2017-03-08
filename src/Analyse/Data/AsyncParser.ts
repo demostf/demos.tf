@@ -1,28 +1,9 @@
 import {
-	Demo, Header, Packet, Player, UserInfo,
+	Demo, Header, Player,
 	Match, World
 } from 'tf2-demo/build/es6';
-import {PositionCache, Point} from './PositionCache';
-import {getMapBoundaries} from "../MapBoundries";
-import {HealthCache} from "./HealthCache";
-import {PlayerMetaCache} from "./PlayerMetaCache";
-import {ViewAngleCache} from "./ViewAngleCache";
-import {LifeState} from "tf2-demo/build/es6/Data/Player";
-import {Death} from "tf2-demo/build/es6/Data/Death";
-import {killAlias} from "../Render/killAlias";
-import {PlayerCache} from "./PlayerCache";
+import {PlayerCache, CachedPlayer} from "./PlayerCache";
 import {BuildingCache, CachedBuilding} from "./BuildingCache";
-import {Building} from "tf2-demo/build/Data/Building";
-
-export class CachedPlayer {
-	position: Point;
-	user: UserInfo;
-	health: number;
-	teamId: number;
-	classId: number;
-	team: string;
-	viewAngle: number;
-}
 
 export interface CachedDeath {
 	tick: number;

@@ -22,6 +22,10 @@
   margin-bottom: 2px;
   user-select: none;
 
+  &.uber {
+    height: 28px;
+  }
+
   .class-icon {
     width: 42px;
     height: 42px;
@@ -31,6 +35,13 @@
     left: 0;
     background-position: top left;
     background-size: 100% 100%;
+
+    &.uber {
+      height: 28px;
+      background-size: 28px 28px;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
   }
 
   .player-name {
@@ -102,6 +113,9 @@
     .class-icon.spy{
       background-image: url('../../images/class_portraits/Icon_spy.png');
     }
+    .class-icon.uber {
+      background-image: url('../../images/charge_red.svg');
+    }
 
     .class-icon {
       right: 0;
@@ -159,6 +173,9 @@
     }
     .class-icon.spy {
       background-image: url('../../images/class_portraits/Icon_spy_blue.png');
+    }
+    .class-icon.uber {
+      background-image: url('../../images/charge_blue.svg');
     }
   }
 
