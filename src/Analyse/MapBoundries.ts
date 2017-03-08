@@ -199,6 +199,16 @@ const overWriteMapBoundaries = {
 			y: 5300
 		}
 	},
+	'koth_bagel_b4': {
+		boundaryMin: {
+			x: -4500,
+			y: -2600
+		},
+		boundaryMax: {
+			x: 4500,
+			y: 2600
+		}
+	}
 };
 
 export function findMapAlias(map) {
