@@ -1,5 +1,7 @@
 export const killAlias = {
 	'world': 'skull',
+	'player': 'skull',
+	'telefrag': 'skull',
 	'shotgun_pyro': 'shotgun',
 	'tf_projectile_pipe_remote': 'stickybomb_launcher',
 	'the_classic': 'classic',
