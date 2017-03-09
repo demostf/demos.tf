@@ -141,6 +141,7 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 				</div>
 			);
 		}
+		const dropText = this.state.loading ? 'Uploading...':(this.state.demoName ? this.state.demoName : undefined);
 		return (
 			<div>
 				<section className="upload">
@@ -156,7 +157,7 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 						<div id="clearfix"/>
 					</div>
 					<Dropzone onDrop={this.onDrop}
-					          text={this.state.demoName ? this.state.demoName:undefined}/>
+					          text={dropText}/>
 					{demoInfo}
 					<button onClick={this.upload}
 					        className="pure-button pure-button-primary"
