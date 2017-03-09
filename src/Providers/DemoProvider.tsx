@@ -184,7 +184,7 @@ export class DemoProvider extends BaseProvider {
 			body: data
 		});
 		const body = await response.text();
-		const expected = 'STV available at: http://demos.tf/';
+		const expected = 'STV available at: https://demos.tf/';
 		if (body.substr(0, expected.length) === expected) {
 			return body.substr(expected.length);
 		} else {

@@ -12,6 +12,7 @@ import './UploadPage.css';
 import '../Components/TeamBanner.css';
 import {User} from "../Providers/AuthProvider";
 import Element = JSX.Element;
+import {History} from "history";
 
 export interface GetStringDataView extends DataView {
 	getString: (offset: number, length: number) => string;
@@ -57,6 +58,7 @@ export interface UploadPageState {
 
 export interface UploadPageProps {
 	user: User;
+	router: History
 }
 
 export class UploadPage extends React.Component<UploadPageProps, UploadPageState> {
@@ -105,7 +107,6 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 	handleDemo = (file) => {
 		this.setState({demoName: file.name, demoFile: file});
 		parseHeader(file, head => {
-				console.log(head);
 				if (head.type === 'HL2DEMO') {
 					const names = this.extractTeamNames(file.name);
 					if (names) {
@@ -125,7 +126,7 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 			this.state.names.blue || 'BLU', this.state.demoName, this.state.demoFile as File);
 		this.setState({loading: false});
 		if (id) {
-			this.context.router.transitionTo('/' + id);
+			this.props.router.push('/' + id);
 		}
 	};
 

@@ -16,9 +16,6 @@ build: node_modules $(sources)
 
 build/js/main.js: build
 
-.PHONY: build
-build: prod
-
 .PHONY: watch
 watch: node_modules
 	node node_modules/.bin/webpack-dev-server --hot --inline --config webpack.dev.config.js
