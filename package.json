@@ -78,7 +78,7 @@
     "react-time": "^4.2.0",
     "superagent": "^3.4.4",
     "superagent-promise": "^1.1.0",
-    "tf2-demo": "^1.0.0",
+    "tf2-demo": "^1.1.2",
     "whatwg-fetch": "^2.0.2"
   }
 }

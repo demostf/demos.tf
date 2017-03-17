@@ -69,8 +69,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 			}, (error) => {
 				this.setState({error});
 			});
-		}
-		catch (e) {
+		} catch (e) {
 			this.setState({error: e.message});
 		}
 	}
