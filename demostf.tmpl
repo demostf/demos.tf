@@ -1,0 +1,27 @@
+server {
+	listen 80;
+	server_name ${HOST};
+	root /usr/share/nginx/html;
+
+	client_max_body_size 150m;
+
+	location = /service-worker.js {
+		expires 1m;
+		access_log off;
+	}
+	location ~* ^.+\.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
+		expires 30d;
+		access_log off;
+	}
+
+	location / {
+		try_files $uri $uri/ /index.html$is_args$args;
+	}
+
+	location = /upload {
+		fastcgi_pass   api:9000;
+		fastcgi_index  index.php;
+		fastcgi_param  SCRIPT_FILENAME  /app/public/upload.php;
+		include        fastcgi_params;
+	}
+}

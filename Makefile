@@ -36,3 +36,7 @@ staging:
 .PHONY: prod
 prod:
 	ssh demos@demos.tf "rm -r demos_prod_old; mv demos_prod demos_prod_old; mv demos_staging demos_prod"
+
+.PHONY: docker
+docker:
+	docker build -t demostf/demos.tf .
