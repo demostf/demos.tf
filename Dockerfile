@@ -8,5 +8,6 @@ ADD ./nginx.conf /etc/nginx/nginx.conf
 ADD ./build /usr/share/nginx/html/
 ADD ./entrypoint.sh /
 ADD ./demostf.tmpl /etc/nginx/conf.d/
+ADD ./upload.tmpl /etc/nginx/
 
 CMD ["sh", "/entrypoint.sh"]

@@ -1,0 +1,11 @@
+if (${DOLLAR}request_method = POST ) {
+	rewrite /upload /do_upload last;
+	break;
+}
+
+location /do_upload {
+	fastcgi_pass   ${UPLOAD_FASTCGI};
+	fastcgi_index  index.php;
+	include        fastcgi_params;
+	fastcgi_param  SCRIPT_FILENAME ${UPLOAD_SCRIPT};
+}
