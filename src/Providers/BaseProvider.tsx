@@ -2,14 +2,14 @@ export class BaseProvider {
 	base = BaseProvider.getBaseUrl();
 
 	static getBaseUrl() {
-		return 'https://api.demos.tf/';
+		return `https://api.${window.location.host}/`;
 	}
 
 	getApiUrl(url) {
 		return this.base + url;
 	}
 
-	request(url, params = {}, json = true): Promise<string|any> {
+	request(url, params = {}, json = true): Promise<string | any> {
 		return fetch(this.getApiUrl(url) + '?' + BaseProvider.formatParams(params))
 			.then((response) => {
 				if (json) {
