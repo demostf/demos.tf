@@ -9,6 +9,7 @@ export const killAlias = {
 	'club': 'kukri',
 	'shotgun_primary': 'shotgun',
 	'shotgun_soldier': 'shotgun',
+	'shotgun_hwg': 'shotgun',
 	'pickaxe': 'escape_plan',
 	'tf_projectile_pipe': 'grenade_launcher',
 	'obj_sentrygun': 'sentrygun1',
@@ -30,5 +31,6 @@ export const killAlias = {
 	'frontier_kill': 'frontier_justice',
 	'robot_arm_kill': 'gunslinger',
 	'wrench_jag': 'jag',
-	'loose_cannon_explosion':'loose_cannon',
+	'loose_cannon_explosion': 'loose_cannon',
+	'samrevolver': 'big_kill'
 };
