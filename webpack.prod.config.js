@@ -87,24 +87,16 @@ module.exports = {
 		}),
 		new SWPrecacheWebpackPlugin(
 			{
-				maximumFileSizeToCacheInBytes: 500000, // ~500kb
+				maximumFileSizeToCacheInBytes: 500000,
 				cacheId: 'demos-tf',
 				filename: 'service-worker.js',
+				minify: true,
 				dontCacheBustUrlsMatching: [
 					/^(?=.*\.\w{1,7}$)/, // I'm cache busting js and css files myself
 				],
 				verbose: false,
-				logger: () => {
-				},
-				dynamicUrlToDependencies: {
-					'/': [
-						...glob.sync(`./src/**/*.js`),
-						...glob.sync(`./src/**/*.css`),
-						...glob.sync(`./src/**/*.svg`),
-						...glob.sync(`./src/**/*.png`),
-						`./src/index.html`
-					]
-				}
+				stripPrefix: 'build',
+				staticFileGlobs: ['build/*.js', 'build/*.js.gz']
 			}
 		)
 	],
