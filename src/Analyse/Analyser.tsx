@@ -65,7 +65,7 @@ function generateSession() {
 	return string;
 }
 
-const syncUri = 'wss://demos.tf/sync';
+const syncUri = 'wss://sync.demos.tf';
 
 export class Analyser extends React.Component<AnalyseProps, {}> {
 	parser: AsyncParser;
