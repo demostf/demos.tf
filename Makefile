@@ -1,4 +1,8 @@
-all: build/js/main.js
+all: leveloverview build
+
+.PHONY: leveloverview
+leveloverview:
+	$(MAKE) -C src/images/leveloverview
 
 .PHONY: clean
 clean:

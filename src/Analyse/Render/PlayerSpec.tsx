@@ -35,7 +35,7 @@ export interface PlayersSpecProps {
 	players: CachedPlayer[];
 }
 
-export function PlayersSpec({players}:PlayersSpecProps) {
+export function PlayersSpec({players}: PlayersSpecProps) {
 	const redPlayers = players
 		.filter((player) => player.teamId === 2);
 	const bluePlayers = players
@@ -49,8 +49,8 @@ export function PlayersSpec({players}:PlayersSpecProps) {
 				.map((player, i) => <UberSpec
 					key={i + 20}
 					team={player.team}
-					chargeLevel={0+player.chargeLevel}
-				    isDeath={player.health<1}
+					chargeLevel={0 + player.chargeLevel}
+					isDeath={player.health < 1}
 				/>)
 		);
 	const bluePlayerSpecs = bluePlayers
@@ -60,8 +60,8 @@ export function PlayersSpec({players}:PlayersSpecProps) {
 				.map((player, i) => <UberSpec
 					key={i + 20}
 					team={player.team}
-					chargeLevel={0+player.chargeLevel}
-					isDeath={player.health<1}
+					chargeLevel={0 + player.chargeLevel}
+					isDeath={player.health < 1}
 				/>)
 		);
 
@@ -71,7 +71,7 @@ export function PlayersSpec({players}:PlayersSpecProps) {
 	</div>);
 }
 
-export function PlayerSpec({player}:PlayerSpecProps) {
+export function PlayerSpec({player}: PlayerSpecProps) {
 	const healthPercent = Math.min(100, player.health / healthMap[player.classId] * 100);
 	const healthStatusClass = (player.health > healthMap[player.classId]) ? 'overhealed' : (player.health <= 0 ? 'dead' : '');
 	return (

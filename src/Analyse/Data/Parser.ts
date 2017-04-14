@@ -70,7 +70,7 @@ export class Parser {
 			this.match.world.boundaryMax.x = boundaryOverWrite.boundaryMax.x;
 			this.match.world.boundaryMax.y = boundaryOverWrite.boundaryMax.y;
 			this.match.world.boundaryMin.x = boundaryOverWrite.boundaryMin.x;
-			this.match.world.boundaryMax.y = boundaryOverWrite.boundaryMax.y;
+			this.match.world.boundaryMin.y = boundaryOverWrite.boundaryMin.y;
 		} else {
 			throw new Error(`Map not supported "${this.header.map}".`);
 		}

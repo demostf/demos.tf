@@ -20,13 +20,13 @@ const overWriteMapBoundaries = {
 		}
 	},
 	'cp_process_final': {
-		boundaryMin: {
-			x: -5400,
-			y: -3100
+		"boundaryMin": {
+			"x": -5219,
+			"y": -4106
 		},
-		boundaryMax: {
-			x: 5400,
-			y: 3100
+		"boundaryMax": {
+			"x": 5219,
+			"y": 3960
 		}
 	},
 	'cp_badlands': {
@@ -249,7 +249,7 @@ export interface MapBoundries {
 	}
 }
 
-export function getMapBoundaries(map: string): MapBoundries|null {
+export function getMapBoundaries(map: string): MapBoundries | null {
 	const mapAlias = findMapAlias(map);
 	return overWriteMapBoundaries[mapAlias];
 }
