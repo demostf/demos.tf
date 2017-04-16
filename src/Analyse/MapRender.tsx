@@ -30,7 +30,7 @@ declare const require: {
 
 export function MapRender({header, players, size, world, scale, buildings}: MapRenderProps) {
 	const mapAlias = findMapAlias(header.map);
-	const image = require(`./MapImages/${mapAlias}.png`) as string;
+	const image = require(`../images/leveloverview/dist/${mapAlias}.png`) as string;
 	const background = `url(${image})`;
 
 	const playerDots = players

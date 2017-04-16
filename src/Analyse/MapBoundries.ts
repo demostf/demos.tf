@@ -1,22 +1,22 @@
 const overWriteMapBoundaries = {
-	'pl_badwater': {
-		boundaryMin: {
-			x: -3100,
-			y: -3400
+	'pl_badwater_pro_v9': {
+		"boundaryMin": {
+			"x": -3041,
+			"y": -4747
 		},
-		boundaryMax: {
-			x: 4100,
-			y: 3250
+		"boundaryMax": {
+			"x": 4057,
+			"y": 3445
 		}
 	},
 	'cp_gullywash_final1': {
-		boundaryMin: {
-			x: -4190,
-			y: -3100
+		"boundaryMin": {
+			"x": -6578,
+			"y": -4419
 		},
-		boundaryMax: {
-			x: 5530,
-			y: 2520
+		"boundaryMax": {
+			"x": 7978,
+			"y": 3767
 		}
 	},
 	'cp_process_final': {
@@ -30,183 +30,183 @@ const overWriteMapBoundaries = {
 		}
 	},
 	'cp_badlands': {
-		boundaryMin: {
-			x: -4300,
-			y: -4950
+		"boundaryMin": {
+			"x": -4294,
+			"y": -4903
 		},
-		boundaryMax: {
-			x: 4300,
-			y: 4950
+		"boundaryMax": {
+			"x": 4324,
+			"y": 4853
 		}
 	},
 	'pl_upward': {
-		boundaryMin: {
-			x: -3100,
-			y: -3500
+		"boundaryMin": {
+			"x": -3366,
+			"y": -4355
 		},
-		boundaryMax: {
-			x: 4100,
-			y: 2600
+		"boundaryMax": {
+			"x": 4422,
+			"y": 3471
 		}
 	},
 	'koth_product_rc8': {
-		boundaryMin: {
-			x: -5600,
-			y: -3800
+		"boundaryMin": {
+			"x": -8924,
+			"y": -4728
 		},
-		boundaryMax: {
-			x: 2200,
-			y: 3800
+		"boundaryMax": {
+			"x": 2496,
+			"y": 4728
 		}
 	},
 	'koth_viaduct': {
-		boundaryMin: {
-			x: -5600,
-			y: -3800
+		"boundaryMin": {
+			"x": -8924,
+			"y": -4728
 		},
-		boundaryMax: {
-			x: 2200,
-			y: 3800
+		"boundaryMax": {
+			"x": 2496,
+			"y": 4728
 		}
 	},
 	'cp_snakewater_final1': {
-		boundaryMin: {
-			x: -5800,
-			y: -3400
+		"boundaryMin": {
+			"x": -5648,
+			"y": -4852
 		},
-		boundaryMax: {
-			x: 6900,
-			y: 3800
+		"boundaryMax": {
+			"x": 6710,
+			"y": 5252
 		}
 	},
 	'ultiduo_baloo': {
-		boundaryMin: {
-			x: -1200,
-			y: -1500
+		"boundaryMin": {
+			"x": -1678,
+			"y": -1964
 		},
-		boundaryMax: {
-			x: 1200,
-			y: 1500
+		"boundaryMax": {
+			"x": 1678,
+			"y": 1964
 		}
 	},
-	'cp_sunshine_rc9': {
-		boundaryMin: {
-			x: -9650,
-			y: 200
+	'cp_sunshine': {
+		"boundaryMin": {
+			"x": -10979,
+			"y": 149
 		},
-		boundaryMax: {
-			x: -1550,
-			y: 10300
+		"boundaryMax": {
+			"x": -233,
+			"y": 10255
 		}
 	},
 	'cp_metalworks_rc7': {
-		boundaryMin: {
-			x: -3750,
-			y: -6750
+		"boundaryMin": {
+			"x": -3208,
+			"y": -6706
 		},
-		boundaryMax: {
-			x: 4300,
-			y: 5000
+		"boundaryMax": {
+			"x": 3524,
+			"y": 4932
 		}
 	},
 	'cp_steel': {
-		boundaryMin: {
-			x: -3100,
-			y: -3600
+		"boundaryMin": {
+			"x": -3001,
+			"y": -4233
 		},
-		boundaryMax: {
-			x: 4300,
-			y: 2650
+		"boundaryMax": {
+			"x": 4389,
+			"y": 2759
 		}
 	},
 	'koth_lakeside_final': {
-		boundaryMin: {
-			x: -4600,
-			y: -3200
+		"boundaryMin": {
+			"x": -4604,
+			"y": -3431
 		},
-		boundaryMax: {
-			x: 4500,
-			y: 2900
+		"boundaryMax": {
+			"x": 4604,
+			"y": 2581
 		}
 	},
 	'cp_granary_pro_b10': {
-		boundaryMin: {
-			x: -5100,
-			y: -6600
+		"boundaryMin": {
+			"x": -4094,
+			"y": -6854
 		},
-		boundaryMax: {
-			x: 1150,
-			y: 6600
+		"boundaryMax": {
+			"x": 2058,
+			"y": 6854
 		}
 	},
 	'koth_ashville_rc1': {
-		boundaryMin: {
-			x: -3400,
-			y: -4100
+		"boundaryMin": {
+			"x": -3529,
+			"y": -4081
 		},
-		boundaryMax: {
-			x: 3450,
-			y: 4100
+		"boundaryMax": {
+			"x": 3529,
+			"y": 4111
 		}
 	},
 	'cp_reckoner_b3a': {
-		boundaryMin: {
-			x: -3800,
-			y: -5150
+		"boundaryMin": {
+			"x": -3797,
+			"y": -4900
 		},
-		boundaryMax: {
-			x: 3800,
-			y: 5150
+		"boundaryMax": {
+			"x": 3797,
+			"y": 4900
 		}
 	},
 	'pl_borneo': {
-		boundaryMin: {
-			x: -3600,
-			y: -7800
+		"boundaryMin": {
+			"x": -3552,
+			"y": -8154
 		},
-		boundaryMax: {
-			x: 3800,
-			y: 3500
+		"boundaryMax": {
+			"x": 3752,
+			"y": 3792
 		}
 	},
 	'pl_swiftwater_final1': {
-		boundaryMin: {
-			x: -1600,
-			y: -6200
+		"boundaryMin": {
+			"x": -2366,
+			"y": -6236
 		},
-		boundaryMax: {
-			x: 6350,
-			y: 3000
+		"boundaryMax": {
+			"x": 6402,
+			"y": 3206
 		}
 	},
 	'ultiduo_grove_b2': {
-		boundaryMin: {
-			x: -2000,
-			y: -2100
+		"boundaryMin": {
+			"x": -2099,
+			"y": -1793
 		},
-		boundaryMax: {
-			x: 2000,
-			y: 2100
+		"boundaryMax": {
+			"x": 2099,
+			"y": 1793
 		}
 	},
 	'pl_vigil_b2': {
-		boundaryMin: {
-			x: -1700,
-			y: -2500
+		"boundaryMin": {
+			"x": -1612,
+			"y": -2983
 		},
-		boundaryMax: {
-			x: 5000,
-			y: 5300
+		"boundaryMax": {
+			"x": 4986,
+			"y": 5817
 		}
 	},
-	'koth_bagel_b4': {
-		boundaryMin: {
-			x: -4500,
-			y: -2600
+	'koth_bagel_rc4': {
+		"boundaryMin": {
+			"x": -4260,
+			"y": -2926
 		},
-		boundaryMax: {
-			x: 4500,
-			y: 2600
+		"boundaryMax": {
+			"x": 4260,
+			"y": 2926
 		}
 	}
 };
