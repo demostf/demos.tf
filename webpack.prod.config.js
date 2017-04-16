@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
 
 module.exports = {
 	devtool: 'source-map',
@@ -82,7 +83,11 @@ module.exports = {
 		new HtmlWebpackInlineSourcePlugin(),
 		new CompressionPlugin({
 			algorithm: "zopfli",
-			test: /\.js$|\.html$|\.css$/,
+			test: /\.(js|css|html|svg)$/,
+			threshold: 1024
+		}),
+		new BrotliPlugin({
+			test: /\.(js|css|html|svg)$/,
 			threshold: 1024
 		}),
 		new SWPrecacheWebpackPlugin(
@@ -96,7 +101,7 @@ module.exports = {
 				],
 				verbose: false,
 				stripPrefix: 'build',
-				staticFileGlobs: ['build/*.js', 'build/*.js.gz']
+				staticFileGlobs: ['build/*.js', 'build/*.css']
 			}
 		)
 	],
