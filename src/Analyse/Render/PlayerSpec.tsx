@@ -35,6 +35,19 @@ export interface PlayersSpecProps {
 	players: CachedPlayer[];
 }
 
+const canUseWebP = (() => {
+	const elem = document.createElement('canvas');
+
+	if (!!(elem.getContext && elem.getContext('2d'))) {
+		// was able or not to get WebP representation
+		return elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+	}
+	else {
+		// very old browser like IE 8, canvas not supported
+		return false;
+	}
+})();
+
 export function PlayersSpec({players}: PlayersSpecProps) {
 	const redPlayers = players
 		.filter((player) => player.teamId === 2);
@@ -74,8 +87,10 @@ export function PlayersSpec({players}: PlayersSpecProps) {
 export function PlayerSpec({player}: PlayerSpecProps) {
 	const healthPercent = Math.min(100, player.health / healthMap[player.classId] * 100);
 	const healthStatusClass = (player.health > healthMap[player.classId]) ? 'overhealed' : (player.health <= 0 ? 'dead' : '');
+	const webpClass = (canUseWebP) ? ' webp' : '';
 	return (
-		<div className={"playerspec " + player.team + " " + healthStatusClass}>
+		<div
+			className={"playerspec " + player.team + " " + healthStatusClass + webpClass}>
 			<div className={classMap[player.classId] + " class-icon"}/>
 			<div className="health-container">
 				<div className="healthbar"

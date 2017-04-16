@@ -28,9 +28,24 @@ declare const require: {
 	ensure: (paths: string[], callback: (require: <T>(path: string) => T) => void) => void;
 };
 
+function canUseWebP() {
+	const elem = document.createElement('canvas');
+
+	if (!!(elem.getContext && elem.getContext('2d'))) {
+		// was able or not to get WebP representation
+		return elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+	}
+	else {
+		// very old browser like IE 8, canvas not supported
+		return false;
+	}
+}
+
 export function MapRender({header, players, size, world, scale, buildings}: MapRenderProps) {
 	const mapAlias = findMapAlias(header.map);
-	const image = require(`../images/leveloverview/dist/${mapAlias}.png`) as string;
+	const image = (canUseWebP()) ?
+		(require(`../images/leveloverview/dist/${mapAlias}.webp`) as string) :
+		(require(`../images/leveloverview/dist/${mapAlias}.jpg`) as string);
 	const background = `url(${image})`;
 
 	const playerDots = players
@@ -50,7 +65,7 @@ export function MapRender({header, players, size, world, scale, buildings}: MapR
 
 	return (
 		<svg className="map-background" width={size.width} height={size.height}
-		     style={{backgroundImage:background}}>
+		     style={{backgroundImage: background}}>
 			{playerDots}
 			{buildingDots}
 		</svg>

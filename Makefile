@@ -1,8 +1,12 @@
-all: leveloverview build
+all: leveloverview class_portraits build
 
 .PHONY: leveloverview
 leveloverview:
 	$(MAKE) -C src/images/leveloverview
+
+.PHONY: class_portraits
+class_portraits:
+	$(MAKE) -C src/images/class_portraits
 
 .PHONY: clean
 clean:

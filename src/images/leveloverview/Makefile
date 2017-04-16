@@ -14,13 +14,4 @@ dist/%.png: src/%.xcf
 	xcf2png $< -o $@
 	convert $@ -trim +repage $@
 
-.PHONY: png
-png: $(PNGS)
-
-.PHONY: jpg
-png: $(JPGS)
-
-.PHONY: webp
-png: $(WEBPS)
-
-all: png jpg webp
+all: $(PNGS) $(JPGS) $(WEBPS)
