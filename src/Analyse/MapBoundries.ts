@@ -218,6 +218,16 @@ const overWriteMapBoundaries = {
 			"x": 1024,
 			"y": 1504
 		}
+	},
+	'koth_ultiduo_r_b7': {
+		"boundaryMin": {
+			"x": -1337,
+			"y": -1313
+		},
+		"boundaryMax": {
+			"x": 1337,
+			"y": 1313
+		}
 	}
 };
 
