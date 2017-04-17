@@ -5,7 +5,7 @@ server {
 
 	client_max_body_size 150m;
 
-	try_files $uri /index.html$is_args$args =404;
+	try_files ${DOLLAR}uri /index.html$is_args$args =404;
 
 	include upload.conf;
 
@@ -13,7 +13,7 @@ server {
 		expires 1m;
 		access_log off;
 	}
-	location ~* ^.+\.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
+	location ~* ^.+\.(jpg|jpeg|gif|bmp|ico|png|css|js|swf|webp)$ {
 		expires 30d;
 		access_log off;
 	}
