@@ -208,6 +208,16 @@ const overWriteMapBoundaries = {
 			"x": 4260,
 			"y": 2926
 		}
+	},
+	'ctf_ballin_sky': {
+		"boundaryMin": {
+			"x": -1024,
+			"y": -1504
+		},
+		"boundaryMax": {
+			"x": 1024,
+			"y": 1504
+		}
 	}
 };
 
