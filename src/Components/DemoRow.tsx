@@ -10,7 +10,7 @@ export interface DemoRowProps extends DemoInfo {
 
 export function DemoRow(props: DemoRowProps) {
 	let formatName = 'Other';
-	if (props.map.indexOf('bball') !== -1) {
+	if (props.map.indexOf('bball') !== -1 || props.map.indexOf('ballin') !== -1) {
 		formatName = 'BBall';
 	} else if (props.map.indexOf('ultiduo') !== -1) {
 		formatName = 'Ultiduo';
