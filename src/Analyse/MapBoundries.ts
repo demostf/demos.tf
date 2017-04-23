@@ -228,6 +228,16 @@ const overWriteMapBoundaries = {
 			"x": 1337,
 			"y": 1313
 		}
+	},
+	'koth_warmtic_rc4': {
+		"boundaryMin": {
+			"x": -2716,
+			"y": -4443
+		},
+		"boundaryMax": {
+			"x": 4586,
+			"y": 4541
+		}
 	}
 };
 
