@@ -63,7 +63,7 @@ export class DemoListProvider extends BaseProvider {
 	setFilter(type, value) {
 		if (this.filter[type] !== value) {
 			this.filter = {
-				... this.filter
+				...this.filter
 			};
 			this.filter[type] = value;
 			this.reset();
@@ -183,6 +183,9 @@ export class DemoProvider extends BaseProvider {
 			method: 'POST',
 			body: data
 		});
+		if (response.status >= 400) {
+			throw new Error(await response.text());
+		}
 		const body = await response.text();
 		const expected = 'STV available at: https://demos.tf/';
 		if (body.substr(0, expected.length) === expected) {
