@@ -248,6 +248,16 @@ const overWriteMapBoundaries = {
 			"x": 1801,
 			"y": 5492
 		}
+	},
+	'pl_millstone_ugc_7': {
+		"boundaryMin": {
+			"x": -4592,
+			"y": -2558
+		},
+		"boundaryMax": {
+			"x": 2860,
+			"y": 5634
+		}
 	}
 };
 
