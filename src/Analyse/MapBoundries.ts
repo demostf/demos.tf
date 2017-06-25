@@ -238,6 +238,16 @@ const overWriteMapBoundaries = {
 			"x": 4586,
 			"y": 4541
 		}
+	},
+	'cp_alloy_rc2a': {
+		"boundaryMin": {
+			"x": -4271,
+			"y": -3262
+		},
+		"boundaryMax": {
+			"x": 1801,
+			"y": 5492
+		}
 	}
 };
 
