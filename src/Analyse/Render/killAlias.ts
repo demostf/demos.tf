@@ -32,5 +32,6 @@ export const killAlias = {
 	'robot_arm_kill': 'gunslinger',
 	'wrench_jag': 'jag',
 	'loose_cannon_explosion': 'loose_cannon',
-	'samrevolver': 'big_kill'
+	'samrevolver': 'big_kill',
+	'long_heatmaker': 'huo-long_heater'
 };
