@@ -49,7 +49,7 @@ export function Building({building, mapBoundary, targetSize, scale}: BuildingPro
 
 	const angle = (building.angle) ?
 		<polygon points="-6,14 0, 16 6,14 0,24" fill="white"
-		         transform={`rotate(${90 - building.angle})`}/>: '';
+		         transform={`rotate(${270 - building.angle})`}/>: '';
 
 	return <g transform={`translate(${scaledX} ${scaledY}) scale(${1/scale})`}
 	          opacity={alpha}>
