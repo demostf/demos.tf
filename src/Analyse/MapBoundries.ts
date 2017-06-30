@@ -192,11 +192,11 @@ const overWriteMapBoundaries = {
 	'pl_vigil_b2': {
 		"boundaryMin": {
 			"x": -1612,
-			"y": -2983
+			"y": -3062
 		},
 		"boundaryMax": {
 			"x": 4986,
-			"y": 5817
+			"y": 5738
 		}
 	},
 	'koth_bagel_rc4': {
