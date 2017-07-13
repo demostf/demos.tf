@@ -6,6 +6,7 @@ services:
 - docker
 install:
 - make node_modules
+- sudo apt-get install -qq xcftools
 script:
 - make
 after_success:
