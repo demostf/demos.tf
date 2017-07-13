@@ -1,5 +1,7 @@
 # demos.tf
 
+[![Build Status](https://travis-ci.org/demostf/demos.tf.svg?branch=master)](https://travis-ci.org/demostf/demos.tf)
+
 Frontend code for [demos.tf](http://demos.tf), see [the api code](https://github.com/demostf/api) for the backend.
 
 ## Api base url
