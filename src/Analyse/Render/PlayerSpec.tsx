@@ -62,7 +62,7 @@ export function PlayersSpec({players}: PlayersSpecProps) {
 				.map((player, i) => <UberSpec
 					key={i + 20}
 					team={player.team}
-					chargeLevel={0 + player.chargeLevel}
+					chargeLevel={player.chargeLevel !== null ? player.chargeLevel : 0}
 					isDeath={player.health < 1}
 				/>)
 		);
@@ -73,7 +73,7 @@ export function PlayersSpec({players}: PlayersSpecProps) {
 				.map((player, i) => <UberSpec
 					key={i + 20}
 					team={player.team}
-					chargeLevel={0 + player.chargeLevel}
+					chargeLevel={player.chargeLevel !== null ? player.chargeLevel : 0}
 					isDeath={player.health < 1}
 				/>)
 		);
@@ -94,7 +94,7 @@ export function PlayerSpec({player}: PlayerSpecProps) {
 			<div className={classMap[player.classId] + " class-icon"}/>
 			<div className="health-container">
 				<div className="healthbar"
-				     style={{width: healthPercent + '%'}}/>
+					 style={{width: healthPercent + '%'}}/>
 				<span className="player-name">{player.user.name}</span>
 				<span className="health">{player.health}</span>
 			</div>
@@ -115,7 +115,7 @@ export function UberSpec({chargeLevel, team, isDeath}: UberSpecProps) {
 			<div className={"uber class-icon"}/>
 			<div className="health-container">
 				<div className="healthbar"
-				     style={{width: chargeLevel + '%'}}/>
+					 style={{width: chargeLevel + '%'}}/>
 				<span className="player-name">Charge</span>
 				<span className="health">{Math.round(chargeLevel)}</span>
 			</div>

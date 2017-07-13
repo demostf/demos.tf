@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Dropzone} from '../Components/Dropzone';
+import {DemoDropZone} from '../Components/Dropzone';
 import {Analyser} from '../Analyse/Analyser';
 import {Demo, Header} from 'tf2-demo/build/es6';
 
@@ -124,7 +124,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 					To view a demo, select a file on your computer or use the "View" button on any demo stored on the site.
 				</p>
 				{(this.state.header === null || this.state.parser === null) ?
-					<Dropzone onDrop={this.onDrop}
+					<DemoDropZone onDrop={this.onDrop}
 					          text="Drop file or click to select"/>:
 					<Analyser header={this.state.header}
 					          isStored={!!this.props.params.id}

@@ -5,7 +5,6 @@ import {Router, Route, browserHistory} from 'react-router';
 
 import {App} from './App';
 import {ListPage} from './Pages/ListPage';
-import {AppContainer} from 'react-hot-loader';
 
 let lastPath = false;
 let onEnter = (nextState) => {

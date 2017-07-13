@@ -4,7 +4,6 @@ import {Panner} from "../Components/Panner/Panner";
 import './MapContainer.css';
 
 export class MapContainerProps {
-	children?: any;
 	contentSize: {
 		width: number;
 		height: number;
@@ -17,7 +16,7 @@ export class MapContainerState {
 	height: number;
 }
 
-export class MapContainer extends React.Component<MapContainerProps,MapContainerState> {
+export class MapContainer extends React.Component<MapContainerProps, MapContainerState> {
 	container: Element;
 	state: MapContainerState = {
 		width: 500,
@@ -47,10 +46,14 @@ export class MapContainer extends React.Component<MapContainerProps,MapContainer
 		}
 
 		return (
-			<div className="map-container" ref={(div) => this.container=div}>
+			<div className="map-container" ref={(div) => {
+				if (div) {
+					this.container = div
+				}
+			}}>
 				<Panner width={this.state.width} height={this.state.height}
-				        scale={scale} contentSize={this.props.contentSize}
-				        onScale={this.props.onScale}>
+						scale={scale} contentSize={this.props.contentSize}
+						onScale={this.props.onScale}>
 					{this.props.children}
 				</Panner>
 			</div>

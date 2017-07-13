@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import {Link} from 'react-router';
 import ReactList from 'react-list';
 
 import {DemoListProvider} from '../Providers/DemoProvider';
@@ -35,10 +34,6 @@ export interface ListPageProps {
 }
 
 export class ListPage extends React.Component<ListPageProps, ListPageState> {
-	static contextTypes = {
-		router: React.PropTypes.object
-	};
-
 	static page = 'list';
 
 	endpoint: string;
@@ -59,6 +54,7 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 
 	constructor(props: ListPageProps) {
 		super(props);
+		console.log(props);
 		const params = props.params || {};
 		this.playerProvider = new PlayerProvider();
 		if (params.steamid) {

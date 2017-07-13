@@ -1,17 +1,17 @@
 import * as React from 'react';
-import * as DropZone from 'react-dropzone';
+import DropZone from 'react-dropzone';
 
 import './Dropzone.css';
 
 export interface DropzoneProps {
-	onDrop: Function;
+	onDrop: (accepted: File[], rejected: File[]) => any;
 	text?: string;
 }
 
-export function Dropzone(props: DropzoneProps) {
+export function DemoDropZone(props: DropzoneProps) {
 	return (
 		<DropZone onDrop={props.onDrop}
-		          className="dropzone">
+					   className="dropzone">
 			{props.text ? props.text : 'Drop files or click to upload'}
 		</DropZone>
 	);

@@ -33,7 +33,7 @@ export class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
 		this.demoProvider = props.demoListProvider;
 	}
 
-	componentDidMount = async() => {
+	async componentDidMount() {
 		document.title = "About - demos.tf";
 		const stats = await this.demoProvider.getStats();
 		this.setState({stats});

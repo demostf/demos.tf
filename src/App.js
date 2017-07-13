@@ -1,7 +1,6 @@
 import React, {Component, cloneElement} from 'react';
 
 import {Header} from './Components/Header';
-import {Footer} from './Components/Footer';
 
 import {ListPage} from './Pages/ListPage';
 
@@ -42,7 +41,7 @@ export class App extends Component {
 		if (!children) {
 			children = <ListPage />
 		}
-		children = React.cloneElement(children, {
+		children = cloneElement(children, {
 			user: this.state.user,
 			demoProvider: this.demoProvider,
 			demoListProvider: this.demoListProvider

@@ -2,6 +2,7 @@ export class BaseProvider {
 	base = BaseProvider.getBaseUrl();
 
 	static getBaseUrl() {
+		// return 'https://api.demos.tf/';
 		return `${window.location.protocol}//api.${window.location.host}/`;
 	}
 

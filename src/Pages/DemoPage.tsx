@@ -62,7 +62,7 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 		this.provider = props.demoProvider;
 	}
 
-	componentDidMount = async() => {
+	async componentDidMount() {
 		document.title = 'Loading - demos.tf';
 		const demo = await this.provider.getDemo(this.props.params.id);
 		document.title = demo.server + ' - demos.tf';

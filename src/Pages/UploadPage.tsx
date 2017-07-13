@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Section} from '../Components/Section';
 import {Duration} from '../Components/Duration';
 import {DemoProvider} from '../Providers/DemoProvider';
-import {Dropzone} from '../Components/Dropzone';
+import {DemoDropZone} from '../Components/Dropzone';
 import {Footer} from '../Components/Footer';
 import {PluginSection} from '../Components/PluginSection';
 import 'dataview-getstring';
@@ -12,7 +12,6 @@ import './UploadPage.css';
 import '../Components/TeamBanner.css';
 import {User} from "../Providers/AuthProvider";
 import Element = JSX.Element;
-import {History} from "history";
 
 export interface GetStringDataView extends DataView {
     getString: (offset: number, length: number) => string;
@@ -59,7 +58,6 @@ export interface UploadPageState {
 
 export interface UploadPageProps {
     user: User;
-    router: History
 }
 
 export class UploadPage extends React.Component<UploadPageProps, UploadPageState> {
@@ -130,7 +128,7 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 
             this.setState({loading: false});
             if (id) {
-                this.props.router.push('/' + id);
+                this.context.router.push('/' + id);
             } else {
                 this.setState({error: `Error: unexpected response from api`});
             }
@@ -165,7 +163,7 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
                         </div>
                         <div id="clearfix"/>
                     </div>
-                    <Dropzone onDrop={this.onDrop}
+                    <DemoDropZone onDrop={this.onDrop}
                               text={dropText}/>
                     {demoInfo}
                     <button onClick={this.upload}
