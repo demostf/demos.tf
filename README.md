@@ -4,11 +4,12 @@ Frontend code for [demos.tf](http://demos.tf), see [the api code](https://github
 
 ## Api base url
 
-At the moment the base url for the api is hardcoded, you can change the base url in `src/Providers/BaseProvider.js`.
+
+The api is expected to be reachable at the `api` subdomain of the domain that the site is hosted on, this can be changed in `src/Providers/BaseProvider.js`.
 
 ## Docker image
 
-A prebuild docker image exist in the [docker hub](https://hub.docker.com/r/demostf/demos.tf/), note that this build always uses `api.demos.tf` as it's api base url.
+A prebuild docker image exist in the [docker hub](https://hub.docker.com/r/demostf/demos.tf/).
 
 ## Building
 
