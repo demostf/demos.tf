@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {CachedPlayer} from "../Data/Parser";
-import {Point, MapBoundary} from "../Data/PositionCache";
+import {MapBoundary} from "../Data/PositionCache";
+import {SVGImage} from './SVGImage';
 
 import './Player.css';
 
@@ -53,15 +54,15 @@ export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 	return <g
 		transform={`translate(${scaledX} ${scaledY}) scale(${1 / scale})`}>
 		<polygon points="-6,14 0, 16 6,14 0,24" fill="white"
-		         opacity={imageOpacity}
-		         transform={`rotate(${270 - player.viewAngle})`}/>
+				 opacity={imageOpacity}
+				 transform={`rotate(${270 - player.viewAngle})`}/>
 		<circle r={16} strokeWidth={1} stroke="white" fill={teamColor}
-		        opacity={alpha}/>
-		<image href={image}
-		       className={"player-icon " + player.team}
-		       opacity={imageOpacity}
-		       height={32}
-		       width={32}
-		       transform={`translate(-16 -16)`}/>
+				opacity={alpha}/>
+		<SVGImage href={image}
+				  className={"player-icon " + player.team}
+				  opacity={imageOpacity}
+				  height={32}
+				  width={32}
+				  transform={`translate(-16 -16)`}/>
 	</g>
 }

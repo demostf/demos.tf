@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {CachedPlayer} from "../Data/Parser";
-import {Point, MapBoundary} from "../Data/PositionCache";
+import {CachedBuilding} from "../Data/BuildingCache";
+import {MapBoundary} from "../Data/PositionCache";
+import {SVGImage} from './SVGImage';
 
 import './Player.css';
-import {CachedBuilding} from "../Data/BuildingCache";
 
 export interface BuildingProp {
 	building: CachedBuilding;
@@ -54,7 +54,7 @@ export function Building({building, mapBoundary, targetSize, scale}: BuildingPro
 	return <g transform={`translate(${scaledX} ${scaledY}) scale(${1/scale})`}
 	          opacity={alpha}>
 		{angle}
-		<image href={image} className={"player-icon"} height={32}
+		<SVGImage href={image} className={"player-icon"} height={32}
 		       width={32}
 		       transform={`translate(-16 -16)`}/>
 	</g>
