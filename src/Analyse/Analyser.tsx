@@ -98,7 +98,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		if (props.isStored && window.location.hash) {
 			const parsed = parseInt(window.location.hash.substr(1), 10);
 			if (('#' + parsed) === window.location.hash) {
-				this.state.tick = parsed;
+				this.state.tick = Math.floor(parsed / 2);
 			} else {
 				this.joinSession(window.location.hash.substr(1));
 			}
@@ -239,7 +239,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	setHash = debounce((tick) => {
 		if (!this.session && this.props.isStored) {
-			history.replaceState('', '', '#' + tick);
+			history.replaceState('', '', '#' + tick * 2);
 		}
 	}, 250);
 
