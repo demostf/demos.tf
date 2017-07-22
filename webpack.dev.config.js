@@ -5,7 +5,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	devtool: 'source-map',
+	devtool: 'cheap-eval-source-map',
 	entry: {
 		app: [
 			// 'webpack-dev-server/client?http://localhost:3000',
@@ -20,11 +20,7 @@ module.exports = {
 		publicPath: '/'
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.tsx', '.ts'],
-		// alias: {
-		// 	'react': 'preact-compat',
-		// 	'react-dom': 'preact-compat'
-		// }
+		extensions: ['.js', '.jsx', '.tsx', '.ts']
 	},
 	plugins: [
 		new HtmlWebpackPlugin({

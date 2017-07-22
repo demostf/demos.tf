@@ -30,7 +30,12 @@ module.exports = {
 		publicPath: '/'
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.tsx', '.ts']
+		extensions: ['.js', '.jsx', '.tsx', '.ts'],
+		alias: {
+			'react': 'preact-compat',
+			'react-dom': 'preact-compat',
+			'create-react-class': 'preact-compat/lib/create-react-class'
+		}
 	},
 	plugins: [
 		new webpack.LoaderOptionsPlugin({
@@ -62,7 +67,9 @@ module.exports = {
 		}),
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.UglifyJsPlugin({
+			sourceMap: true
+		}),
 		new webpack.DefinePlugin({
 			'process.env': {
 				// Useful to reduce the size of client-side libraries, e.g. react
@@ -107,7 +114,13 @@ module.exports = {
 	],
 	module: {
 		rules: [
-			{test: /\.tsx?$/, use: 'ts-loader'},
+			{
+				test: /\.tsx?$/,
+				loader: 'ts-loader',
+				options: {
+					silent: true
+				}
+			},
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [

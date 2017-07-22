@@ -58,7 +58,7 @@ export function MapRender({header, players, size, world, scale, buildings}: MapR
 	const buildingDots = buildings
 		.filter((building: CachedBuilding) => building.position.x)
 		.map((building: CachedBuilding, key) => {
-			return <BuildingDot key={key} building={building}
+			return <BuildingDot key={100 + key} building={building}
 			                    mapBoundary={world}
 			                    targetSize={size} scale={scale}/>
 		});
