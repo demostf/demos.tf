@@ -79,7 +79,7 @@ const overWriteMapBoundaries = {
 			"y": 5252
 		}
 	},
-	'ultiduo_baloo': {
+	'ultiduo_baloo_v2': {
 		"boundaryMin": {
 			"x": -1678,
 			"y": -1964
