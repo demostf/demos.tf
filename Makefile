@@ -30,7 +30,7 @@ watch: node_modules
 
 .PHONY: analyse
 analyse: node_modules
-	node_modules/.bin/webpack --config webpack.prod.config.js --json | node_modules/.bin/webpack-bundle-size-analyzer
+	node_modules/.bin/webpack --config webpack.prod.config.js --json | tail +2 | node_modules/.bin/webpack-bundle-size-analyzer
 
 .PHONY: beta
 beta:

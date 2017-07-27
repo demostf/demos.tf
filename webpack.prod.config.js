@@ -1,6 +1,5 @@
 'use strict';
 
-const glob = require('glob');
 const webpack = require("webpack");
 const path = require("path");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -62,8 +61,7 @@ module.exports = {
 		}),
 		new CleanPlugin(['build']),
 		new ExtractTextPlugin({
-			filename: '[contenthash].css',
-			allChunks: true
+			filename: '[contenthash].css'
 		}),
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.optimize.OccurrenceOrderPlugin(),
@@ -99,7 +97,7 @@ module.exports = {
 		}),
 		new SWPrecacheWebpackPlugin(
 			{
-				maximumFileSizeToCacheInBytes: 500000,
+				maximumFileSizeToCacheInBytes: 750000,
 				cacheId: 'demos-tf',
 				filename: 'service-worker.js',
 				minify: true,

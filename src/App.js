@@ -19,7 +19,7 @@ export class App extends Component {
 		}
 	};
 
-	constructor () {
+	constructor() {
 		super();
 		this.auth = new AuthProvider();
 		this.demoProvider = new DemoProvider();
@@ -36,10 +36,10 @@ export class App extends Component {
 		this.componentDidMount();
 	};
 
-	render () {
+	render() {
 		let children = this.props.children;
 		if (!children) {
-			children = <ListPage />
+			children = <ListPage/>
 		}
 		children = cloneElement(children, {
 			user: this.state.user,
@@ -53,6 +53,9 @@ export class App extends Component {
 				<div className={`page ${page}-page`}>
 					<Header user={this.state.user} auth={this.auth}
 							logoutHandler={this.logoutHandler}/>
+					<a className="topbar" href="https://www.twitch.tv/essentialstf">
+						<img src={require('./images/banners/i61_small.png')}/>
+					</a>
 					{children}
 				</div>
 			</div>
