@@ -1,12 +1,11 @@
 import * as React from 'react';
 import {MapRender} from './MapRender';
-import {Demo, Header} from 'tf2-demo/build/es6';
+import {Header} from 'tf2-demo/build/es6';
 import {MapContainer} from "./MapContainer";
-import {Parser} from "./Data/Parser";
-import {throttle} from 'lodash';
+import throttle from 'lodash.throttle';
 import {Timeline} from './Render/Timeline';
 import {SpecHUD} from './Render/SpecHUD';
-import {debounce} from 'lodash';
+import debounce from 'lodash.debounce';
 import {AnalyseMenu} from './AnalyseMenu'
 
 import './Analyser.css'
