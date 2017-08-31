@@ -53,9 +53,6 @@ export class App extends Component {
 				<div className={`page ${page}-page`}>
 					<Header user={this.state.user} auth={this.auth}
 							logoutHandler={this.logoutHandler}/>
-					<a className="topbar" href="https://www.twitch.tv/essentialstf">
-						<img src={require('./images/banners/i61_small.png')}/>
-					</a>
 					{children}
 				</div>
 			</div>
