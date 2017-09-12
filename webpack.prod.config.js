@@ -40,9 +40,6 @@ module.exports = {
 		new webpack.LoaderOptionsPlugin({
 			options: {
 				imageWebpackLoader: {
-					mozjpeg: {
-						quality: 65
-					},
 					pngquant: {
 						quality: "65-90",
 						speed: 4
