@@ -248,6 +248,16 @@ const overWriteMapBoundaries = {
             "x": 2709,
             "y": 4840
         }
+    },
+    'cp_vanguard': {
+        "boundaryMin": {
+            "x": -5585,
+            "y": -1896
+        },
+        "boundaryMax": {
+            "x": 5585,
+            "y": 1896
+        }
     }
 };
 
