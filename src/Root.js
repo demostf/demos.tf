@@ -6,7 +6,8 @@ import PiwikReactRouter from 'piwik-react-router';
 
 const piwik = PiwikReactRouter({
 	url: "//piwik." + window.location.host,
-	siteId: 1
+	siteId: 1,
+	ignoreInitialVisit: true
 });
 
 import {App} from './App';
@@ -42,7 +43,11 @@ const getAnalyseComponent = (nextState, callback) => {
 	});
 };
 
-export function Root () {
+setTimeout(() => {
+	piwik.track(window.location);
+}, 1000);
+
+export function Root() {
 	return (
 		<Router history={piwik.connectToHistory(browserHistory)}>
 			<Route component={App} path='/'>

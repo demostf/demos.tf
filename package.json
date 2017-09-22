@@ -73,6 +73,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "moment": "^2.18.1",
+    "piwik": "^1.0.8",
     "piwik-react-router": "^0.10.0",
     "preact": "^8.2.1",
     "preact-compat": "^3.16.0",
