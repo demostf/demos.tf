@@ -2,21 +2,15 @@
 
 import React from 'react';
 import {Router, Route, browserHistory} from 'react-router';
+import PiwikReactRouter from 'piwik-react-router';
+
+const piwik = PiwikReactRouter({
+	url: "//piwik." + window.location.host,
+	siteId: 1
+});
 
 import {App} from './App';
 import {ListPage} from './Pages/ListPage';
-
-let lastPath = false;
-let onEnter = (nextState) => {
-	const path = nextState.location.pathname;
-	if (path !== lastPath) {
-		lastPath = path;
-		if (window.ga) {
-			window.ga('set', 'page', path);
-			window.ga('send', 'pageview');
-		}
-	}
-};
 
 const getDemoComponent = (nextState, callback) => {
 	require.ensure([], function (require) {
@@ -50,25 +44,17 @@ const getAnalyseComponent = (nextState, callback) => {
 
 export function Root () {
 	return (
-		<Router history={browserHistory}>
-			<Route component={App} path='/' onEnter={onEnter}>
-				<Route path='/' component={ListPage} onEnter={onEnter}/>
-				<Route path='/upload' getComponents={getUploadComponent}
-					   onEnter={onEnter}/>
-				<Route path='/profiles/:steamid' component={ListPage}
-					   onEnter={onEnter}/>
-				<Route path='/uploads/:steamid' component={ListPage}
-					   onEnter={onEnter}/>
-				<Route path='/about' getComponents={getAboutComponent}
-					   onEnter={onEnter}/>
-				<Route path='/api' getComponents={getApiComponent}
-					   onEnter={onEnter}/>
-				<Route path='/viewer' getComponents={getAnalyseComponent}
-					   onEnter={onEnter}/>
-				<Route path='/viewer/:id' getComponents={getAnalyseComponent}
-					   onEnter={onEnter}/>
-				<Route path='/:id' getComponents={getDemoComponent}
-					   onEnter={onEnter}/>
+		<Router history={piwik.connectToHistory(browserHistory)}>
+			<Route component={App} path='/'>
+				<Route path='/' component={ListPage}/>
+				<Route path='/upload' getComponents={getUploadComponent}/>
+				<Route path='/profiles/:steamid' component={ListPage}/>
+				<Route path='/uploads/:steamid' component={ListPage}/>
+				<Route path='/about' getComponents={getAboutComponent}/>
+				<Route path='/api' getComponents={getApiComponent}/>
+				<Route path='/viewer' getComponents={getAnalyseComponent}/>
+				<Route path='/viewer/:id' getComponents={getAnalyseComponent}/>
+				<Route path='/:id' getComponents={getDemoComponent}/>
 			</Route>
 		</Router>
 	);
