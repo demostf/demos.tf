@@ -262,8 +262,13 @@ const overWriteMapBoundaries = {
 };
 
 overWriteMapBoundaries['koth_viaduct'] = overWriteMapBoundaries['koth_product_rc8'];
+overWriteMapBoundaries['cp_prolands'] = overWriteMapBoundaries['cp_badlands'];
 
-export function findMapAlias(map) {
+const mapAliases = new Map<string, string>([
+    ['cp_prolands', 'cp_badlands']
+]);
+
+function getMapBasename(map: string): string {
     if (overWriteMapBoundaries[map]) {
         return map;
     }
@@ -288,6 +293,12 @@ export function findMapAlias(map) {
         }
     }
     return map;
+}
+
+export function findMapAlias(map: string): string {
+    const baseName = getMapBasename(map);
+    const alias = mapAliases.get(baseName);
+    return alias ? alias : baseName;
 }
 
 export interface MapBoundries {
