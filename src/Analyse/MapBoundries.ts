@@ -258,6 +258,16 @@ const overWriteMapBoundaries = {
             "x": 5585,
             "y": 1896
         }
+    },
+    'koth_cascade_b6': {
+        "boundaryMin": {
+            "x": -1682,
+            "y": -3807
+        },
+        "boundaryMax": {
+            "x": 1714,
+            "y": 3735
+        }
     }
 };
 
