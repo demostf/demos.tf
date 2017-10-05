@@ -168,7 +168,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 		this.isSessionOwner = true;
 		this.setState({isShared: true});
-		this.session = new WebSocket(syncUri, 'demo-sync');
+		this.session = new WebSocket(syncUri);
 		this.session.onopen = () => {
 			if (this.session) {
 				this.session.send(JSON.stringify({
@@ -194,7 +194,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 			return;
 		}
 		this.sessionName = name;
-		this.session = new WebSocket(syncUri, 'demo-sync');
+		this.session = new WebSocket(syncUri);
 		this.session.onopen = () => {
 			if (this.session) {
 				this.session.send(JSON.stringify({
