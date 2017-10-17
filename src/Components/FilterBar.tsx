@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Select from 'react-select';
+import Select, {Async, Option} from 'react-select';
 import {PlayerProvider} from '../Providers/PlayerProvider'
 
 import './FilterBar.css';
@@ -27,7 +27,7 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 		this.playerProvider = new PlayerProvider();
 	}
 
-	getMaps = async() => {
+	getMaps = async () => {
 		const maps = await this.props.provider.listMaps();
 		return {
 			options: maps.map(map => {
@@ -82,21 +82,11 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 	};
 
 	render() {
-		const typeOptions: Select.Option[] = [
+		const typeOptions: Option[] = [
 			{value: '4v4', label: '4v4'},
 			{value: '6v6', label: '6v6'},
 			{value: 'hl', label: 'Highlander'}
 		];
-
-		const nameOptions: Select.Option[] = [];
-		for (const steamid in PlayerProvider.nameMap) {
-			if (PlayerProvider.nameMap.hasOwnProperty(steamid)) {
-				nameOptions.push({
-					value: steamid,
-					label: PlayerProvider.nameMap[steamid]
-				})
-			}
-		}
 
 		return (
 			<div className="filterbar">
@@ -109,7 +99,7 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 					onChange={value => this.setFilter('type', value)}
 					searchable={true}
 				/>
-				<Select.Async
+				<Async
 					className="map"
 					value={this.props.filter.map}
 					placeholder="All Maps"
@@ -117,7 +107,7 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 					onChange={value => this.setFilter('map', value)}
 					searchable={true}
 				/>
-				<Select.Async
+				<Async
 					className="players"
 					multi={true}
 					value={this.selectedUsers}
