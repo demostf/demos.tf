@@ -2,13 +2,6 @@
 
 import React from 'react';
 import {Router, Route, browserHistory} from 'react-router';
-import PiwikReactRouter from 'piwik-react-router';
-
-const piwik = PiwikReactRouter({
-	url: "//piwik." + window.location.host,
-	siteId: 1,
-	ignoreInitialVisit: true
-});
 
 import {App} from './App';
 import {ListPage} from './Pages/ListPage';
@@ -43,13 +36,9 @@ const getAnalyseComponent = (nextState, callback) => {
 	});
 };
 
-setTimeout(() => {
-	piwik.track(window.location);
-}, 1000);
-
 export function Root() {
 	return (
-		<Router history={piwik.connectToHistory(browserHistory)}>
+		<Router history={browserHistory}>
 			<Route component={App} path='/'>
 				<Route path='/' component={ListPage}/>
 				<Route path='/upload' getComponents={getUploadComponent}/>
