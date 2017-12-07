@@ -268,6 +268,16 @@ const overWriteMapBoundaries = {
             "x": 1714,
             "y": 3735
         }
+    },
+    'koth_coalplant_b8': {
+        "boundaryMin": {
+            "x": -1513,
+            "y": -4089
+        },
+        "boundaryMax": {
+            "x": 1527,
+            "y": 4083
+        }
     }
 };
 
