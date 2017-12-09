@@ -10,7 +10,7 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BabiliPlugin = require("babili-webpack-plugin");
 
 module.exports = {
 	devtool: 'source-map',
@@ -60,9 +60,11 @@ module.exports = {
 		new ExtractTextPlugin({
 			filename: '[contenthash].css'
 		}),
-		new webpack.NoEmitOnErrorsPlugin(),
+		new webpack.NoEmitOnErrorsPlugin({
+			mangle: { topLevel: true }
+		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		// new UglifyJsPlugin(),
+		new BabiliPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
 				// Useful to reduce the size of client-side libraries, e.g. react
