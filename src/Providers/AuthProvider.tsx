@@ -11,10 +11,6 @@ export class AuthProvider extends BaseProvider {
 	token: string|null;
 	user: User|null;
 
-	constructor() {
-		super();
-	}
-
 	async login() {
 		const token = await this.getToken();
 		window.location.replace(this.getApiUrl('auth/login/' + token + '/?return=' + window.location));

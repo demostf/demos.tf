@@ -57,6 +57,7 @@
     "sw-precache-webpack-plugin": "^0.11.4",
     "ts-loader": "^2.2.2",
     "typescript": "^2.4.1",
+    "uglifyjs-webpack-plugin": "^1.1.2",
     "url-loader": "^0.5.9",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0",

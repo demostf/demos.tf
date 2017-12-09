@@ -50,11 +50,11 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 
 	loading = false;
 
-	rowMap: {[key: string]: Element} = {};
+	rowMap: { [key: string]: Element } = {};
 
 	constructor(props: ListPageProps) {
 		super(props);
-		console.log(props);
+
 		const params = props.params || {};
 		this.playerProvider = new PlayerProvider();
 		if (params.steamid) {
@@ -100,7 +100,7 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 		this.loadPage();
 	};
 
-	loadPage = async() => {
+	loadPage = async () => {
 		if (this.loading || !this.provider.more) {
 			return;
 		}
@@ -122,7 +122,7 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 		}
 	};
 
-	getSubjectName = async() => {
+	getSubjectName = async () => {
 		if (this.state.steamid) {
 			const subjectName = await this.playerProvider.getName(this.state.steamid);
 			if (this.state.subjectName !== subjectName) {
@@ -158,16 +158,16 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 		return (
 			<table ref={ref} className="demolist">
 				<thead className="head">
-				<tr>
-					<th className="title">Title</th>
-					<th className="format">Format</th>
-					<th className="map">Map</th>
-					<th className="duration">Duration</th>
-					<th className="date">Date</th>
-				</tr>
+					<tr>
+						<th className="title">Title</th>
+						<th className="format">Format</th>
+						<th className="map">Map</th>
+						<th className="duration">Duration</th>
+						<th className="date">Date</th>
+					</tr>
 				</thead>
 				<tbody>
-				{items}
+					{items}
 				</tbody>
 			</table>
 		)
@@ -175,7 +175,7 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 
 	render() {
 		this.getSubjectName();
-		let demoTitle: Element|string = 'Demos';
+		let demoTitle: Element | string = 'Demos';
 
 		if (this.state.steamid) {
 			const options = [
@@ -199,10 +199,10 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 			demoTitle = (
 				<span className="listType">
 					<Select options={options}
-					        clearable={false}
-					        value={this.state.isUploads ? 'uploads' : 'demos'}
-					        onChange={setListType}
-					        searchable={false}
+							clearable={false}
+							value={this.state.isUploads ? 'uploads' : 'demos'}
+							onChange={setListType}
+							searchable={false}
 					/> {this.state.isUploads ? 'by' : 'for'} {this.state.subjectName}
 				</span>
 			);
@@ -214,8 +214,8 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 
 				<div className="search">
 					<FilterBar provider={this.provider}
-					           filter={this.provider.filter}
-					           onChange={this.filterChange}/>
+							   filter={this.provider.filter}
+							   onChange={this.filterChange}/>
 				</div>
 
 				{!this.state.loading ?
@@ -224,8 +224,8 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 						itemRenderer={this.renderItem}
 						itemsRenderer={this.renderItems}
 						length={this.state.demos.length}
-					/>) : (<Spinner />)}
-				<Footer />
+					/>) : (<Spinner/>)}
+				<Footer/>
 			</div>
 		);
 	}
