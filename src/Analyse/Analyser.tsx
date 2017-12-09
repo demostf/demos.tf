@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {MapRender} from './MapRender';
-import {Header} from 'tf2-demo/build/es6';
+import {Header} from 'tf2-demo';
 import {MapContainer} from "./MapContainer";
 import throttle from 'lodash.throttle';
 import {Timeline} from './Render/Timeline';

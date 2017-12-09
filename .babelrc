@@ -13,6 +13,6 @@
 		"transform-object-rest-spread",
 		"transform-decorators-legacy",
 		"syntax-async-functions",
-		"transform-regenerator"
+		"transform-async-to-generator"
 	]
 }

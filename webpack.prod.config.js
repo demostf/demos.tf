@@ -18,7 +18,6 @@ module.exports = {
 			'./src/index.js'
 		],
 		polyfills: [
-			`babel-polyfill`,
 			`whatwg-fetch`,
 		],
 	},
@@ -62,9 +61,9 @@ module.exports = {
 		}),
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.optimize.UglifyJsPlugin({
-			sourceMap: true
-		}),
+		// new webpack.optimize.UglifyJsPlugin({
+		// 	sourceMap: true
+		// }),
 		new webpack.DefinePlugin({
 			'process.env': {
 				// Useful to reduce the size of client-side libraries, e.g. react
@@ -126,7 +125,9 @@ module.exports = {
 			{
 				test: /\.js$/,
 				use: ['babel-loader'],
-				include: path.join(__dirname, 'src')
+				include: [
+					path.join(__dirname, 'src')
+				]
 			},
 			{
 				test: /\.css$/,

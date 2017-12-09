@@ -1,5 +1,5 @@
 import {PositionCache, Point} from './PositionCache';
-import {Player, UserInfo} from 'tf2-demo/build/es6';
+import {Player, UserInfo} from 'tf2-demo';
 import {ViewAngleCache} from "./ViewAngleCache";
 import {PlayerMetaCache} from "./PlayerMetaCache";
 import {HealthCache} from "./HealthCache";

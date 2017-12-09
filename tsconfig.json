@@ -3,11 +3,12 @@
     "lib": [
       "dom",
       "es2015.promise",
-      "es6"
+      "es6",
+      "ES2017"
     ],
     "module": "ES6",
     "moduleResolution": "node",
-    "target": "ES5",
+    "target": "ES6",
     "declaration": true,
     "strictNullChecks": true,
     "sourceMap": true,

@@ -32,7 +32,7 @@ onmessage = (event: MessageEvent) => {
 		nextMappedPlayer: parser.nextMappedPlayer,
 		now: performance.now()
 	};
-	let transfers: ArrayBuffer[] = [];
+	let transfers: (ArrayBuffer | SharedArrayBuffer)[] = [];
 	transfers = transfers.concat(parser.playerCache.positionCache.data.map((cache) => cache.buffer));
 	transfers = transfers.concat(parser.playerCache.healthCache.data.map((cache) => cache.buffer));
 	transfers = transfers.concat(parser.playerCache.metaCache.data.map((cache) => cache.buffer));

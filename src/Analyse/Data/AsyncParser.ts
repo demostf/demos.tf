@@ -1,7 +1,7 @@
 import {
 	Demo, Header, Player,
 	Match, World
-} from 'tf2-demo/build/es6';
+} from 'tf2-demo';
 import {PlayerCache, CachedPlayer} from "./PlayerCache";
 import {BuildingCache, CachedBuilding} from "./BuildingCache";
 

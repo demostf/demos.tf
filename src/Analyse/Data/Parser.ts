@@ -1,21 +1,20 @@
 import {
-	Demo, Header, Packet, Player, UserInfo,
-	Match
-} from 'tf2-demo/build/es6';
-import {Point} from './PositionCache';
+	Header, Packet, Player, UserInfo, Match
+} from 'tf2-demo/build/index';
+import {Demo} from 'tf2-demo/build/Demo'
 import {getMapBoundaries} from "../MapBoundries";
 import {PlayerCache, CachedPlayer} from "./PlayerCache";
 import {BuildingCache, CachedBuilding} from "./BuildingCache";
 import {Building} from "tf2-demo/build/Data/Building";
-import {PlayerResource} from "tf2-demo/build/es6/Data/PlayerResource";
+import {PlayerResource} from "tf2-demo/build/Data/PlayerResource";
 
 export {CachedPlayer} from './PlayerCache';
 
 export interface CachedDeath {
 	tick: number;
 	victim: Player;
-	assister: Player|null;
-	killer: Player|null;
+	assister: Player | null;
+	killer: Player | null;
 	weapon: string;
 	victimTeam: number;
 	assisterTeam: number;
@@ -27,13 +26,13 @@ export class Parser {
 	demo: Demo;
 	header: Header;
 	playerCache: PlayerCache;
-	entityPlayerReverseMap: {[entityId: string]: number} = {};
+	entityPlayerReverseMap: { [entityId: string]: number } = {};
 	nextMappedPlayer = 0;
-	entityPlayerMap: {[playerId: string]: Player} = {};
+	entityPlayerMap: { [playerId: string]: Player } = {};
 	ticks: number;
 	match: Match;
 	startTick = 0;
-	deaths: {[tick: string]: CachedDeath[]} = {};
+	deaths: { [tick: string]: CachedDeath[] } = {};
 	buildingCache: BuildingCache;
 
 	constructor(buffer: ArrayBuffer) {
@@ -45,13 +44,12 @@ export class Parser {
 		return Math.ceil((matchTick - this.startTick) / 2);
 	}
 
-	setTick(tick: number, players: Player[], buildings: {[entityId: string]: Building}, playerRescources: PlayerResource[]) {
+	setTick(tick: number, players: Player[], buildings: Map<number, Building>, playerResources: PlayerResource[]) {
 		for (const player of players) {
 			const playerId = this.getPlayerId(player);
-			this.playerCache.setPlayer(tick, playerId, player, playerRescources[player.user.entityId]);
+			this.playerCache.setPlayer(tick, playerId, player, playerResources[player.user.entityId]);
 		}
-		for (const entityId of Object.keys(buildings)) {
-			const building = buildings[entityId];
+		for (const building of buildings.values()) {
 			if (building.health > 0) {
 				this.buildingCache.setBuilding(tick, building, building.builder, building.team);
 			}
@@ -60,10 +58,12 @@ export class Parser {
 
 	cacheData(progressCallback: (progress: number) => void) {
 		const parser = this.demo.getParser();
-		this.header = parser.readHeader();
-		this.match = parser.match;
+		const analyser = this.demo.getAnalyser();
+		const packets = analyser.getPackets();
+		this.header = parser.getHeader();
+		this.match = analyser.match;
 		while (this.match.world.boundaryMin.x === 0) {
-			parser.tick();
+			packets.next();
 		}
 		const boundaryOverWrite = getMapBoundaries(this.header.map);
 		if (boundaryOverWrite) {
@@ -76,11 +76,11 @@ export class Parser {
 		}
 
 		// skip to >1sec after the first player joined
-		while (this.match.players.length < 1) {
-			parser.tick();
+		while (this.match.playerEntityMap.size < 1) {
+			packets.next();
 		}
 		for (let i = 0; i < 100; i++) {
-			parser.tick();
+			packets.next();
 		}
 		this.startTick = this.match.tick;
 		this.ticks = Math.ceil((this.header.ticks) / 2); // scale down to 30fps
@@ -88,48 +88,59 @@ export class Parser {
 		this.buildingCache = new BuildingCache(this.ticks, this.match.world.boundaryMin);
 
 		let lastTick = 0;
-		const demoParser = this.demo.getParser();
-		const match = demoParser.match;
+
 		let lastProgress = 0;
-		demoParser.on('packet', (packet: Packet) => {
-			const tick = Math.floor((match.tick - this.startTick) / 2);
+		for (const packet of packets) {
+			const tick = Math.floor((this.match.tick - this.startTick) / 2);
 			const progress = Math.round((tick / this.ticks) * 100);
 			if (progress > lastProgress) {
 				lastProgress = progress;
 				progressCallback(progress);
 			}
 			if (tick > lastTick) {
-				this.setTick(tick, match.players, match.buildings, match.playerResources);
+				this.setTick(
+					tick,
+					Array.from(this.match.playerEntityMap.values()),
+					this.match.buildings,
+					this.match.playerResources
+				);
 				if (tick > lastTick + 1) {
 					// demo skipped ticks, copy/interpolote
 					for (let i = lastTick; i < tick; i++) {
-						this.setTick(i, match.players, match.buildings, match.playerResources);
+						this.setTick(
+							i,
+							Array.from(this.match.playerEntityMap.values()),
+							this.match.buildings,
+							this.match.playerResources
+						);
 					}
 				}
 				lastTick = tick;
 			}
-		});
-		demoParser.parseBody();
-		for (const death of match.deaths) {
+		}
+		for (const death of this.match.deaths) {
 			const deathTick = this.scaleTick(death.tick);
 			if (!this.deaths[deathTick]) {
 				this.deaths[deathTick] = [];
 			}
-			let killer: Player|null;
+			let killer: Player | null;
 			try {
-				killer = match.getPlayerByUserId(death.killer);
+				killer = this.match.getPlayerByUserId(death.killer);
 			} catch (e) {
 				killer = null;
 			}
-			let victim: Player|null = null;
-			let assister: Player|null = null;
+			let victim: Player | null = null;
+			let assister: Player | null = null;
 			try {
-				victim = match.getPlayerByUserId(death.victim);
+				victim = this.match.getPlayerByUserId(death.victim);
+				if (!victim) {
+					continue;
+				}
 			} catch (e) {
 				continue;
 			}
 			try {
-				assister = death.assister ? match.getPlayerByUserId(death.assister) : null;
+				assister = death.assister ? this.match.getPlayerByUserId(death.assister) : null;
 			} catch (e) {
 
 			}
