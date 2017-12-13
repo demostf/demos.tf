@@ -55,7 +55,7 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		});
 	}
 
-	componentWillReceiveProps({width, height, scale, contentSize}:PannerProps) {
+	componentWillReceiveProps({width, height, scale, contentSize}: PannerProps) {
 		if (
 			width == this.panner.screen.width && height == this.panner.screen.height) {
 			return;
@@ -82,23 +82,27 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 			x: Math.floor(this.panner.screen.width / 2),
 			y: Math.floor(this.panner.screen.height / 2)
 		};
-		const setZoomFactor = this.zoomFactor;
+		const setZoomFactor = this.zoomFactor.bind(this);
 		return (
 			<div className="pan-zoom-element"
-			     ref="element"
-			     style={{width: this.props.width, height: this.props.height}}
-			     onMouseDown={this._onMouseDown}
-			     onWheel={this._onWheel}>
+				 ref="element"
+				 style={{width: this.props.width, height: this.props.height}}
+				 onMouseDown={this._onMouseDown.bind(this)}
+				 onWheel={this._onWheel.bind(this)}>
 				<div ref="content" className="content-container noselect"
-				     style={style}>
+					 style={style}>
 					{this.props.children}
 				</div>
 				<div className="zoommenu">
 					<div className="plus"
-					     onClick={()=>{setZoomFactor(1.10, center)}}>+
+						 onClick={() => {
+							 setZoomFactor(1.10, center)
+						 }}>+
 					</div>
 					<div className="minus"
-					     onClick={()=>{setZoomFactor(0.90, center)}}>
+						 onClick={() => {
+							 setZoomFactor(0.90, center)
+						 }}>
 						-
 					</div>
 				</div>
@@ -106,19 +110,19 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		);
 	}
 
-	_onMouseDown = (event) => {
+	_onMouseDown(event) {
 		this.startX = event.pageX;
 		this.startY = event.pageY;
-		document.addEventListener('mouseup', this._onMouseUp, true);
-		document.addEventListener('mousemove', this._onMouseMove, true);
-	};
+		const mouseMove = this._onMouseMove.bind(this);
+		const mouseUp = () => {
+			document.removeEventListener('mouseup', mouseUp, true);
+			document.removeEventListener('mousemove', mouseMove, true);
+		};
+		document.addEventListener('mouseup', mouseUp, true);
+		document.addEventListener('mousemove', mouseMove, true);
+	}
 
-	_onMouseUp = () => {
-		document.removeEventListener('mouseup', this._onMouseUp, true);
-		document.removeEventListener('mousemove', this._onMouseMove, true);
-	};
-
-	_onMouseMove = (event) => {
+	_onMouseMove(event) {
 		const {pageX, pageY} = event;
 		this.panner.panFrom(
 			{
@@ -139,9 +143,9 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 			},
 			scale: this.panner.scale
 		});
-	};
+	}
 
-	zoomFactor = (zoomFactor, point) => {
+	zoomFactor(zoomFactor, point) {
 		const newScale = this.state.scale * zoomFactor;
 
 		this.panner.zoom(newScale, point);
@@ -155,9 +159,9 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		if (this.props.onScale) {
 			this.props.onScale(this.panner.scale);
 		}
-	};
+	}
 
-	_onWheel = (event) => {
+	_onWheel(event) {
 		event.preventDefault();
 		const center = {x: event.pageX, y: event.pageY};
 		if (event.deltaY < 0) {
@@ -165,5 +169,5 @@ export class Panner extends React.Component<PannerProps, PannerState> {
 		} else {
 			this.zoomFactor(0.95, center);
 		}
-	};
+	}
 }

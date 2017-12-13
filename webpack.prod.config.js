@@ -7,10 +7,10 @@ const CleanPlugin = require('clean-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
+const CompressionPlugin = require("zopfli-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
-const BabiliPlugin = require("babili-webpack-plugin");
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = {
 	devtool: 'source-map',
@@ -64,7 +64,7 @@ module.exports = {
 			mangle: { topLevel: true }
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new BabiliPlugin(),
+		new MinifyPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
 				// Useful to reduce the size of client-side libraries, e.g. react

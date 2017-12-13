@@ -31,6 +31,8 @@ export interface DemoListFilter {
 }
 
 export class DemoListProvider extends BaseProvider {
+	static instance = new DemoListProvider();
+
 	more = true;
 	cachedDemos: DemoInfo[] = [];
 	lastPage = 0;
@@ -157,6 +159,8 @@ export interface Demo {
 }
 
 export class DemoProvider extends BaseProvider {
+	static instance = new DemoProvider();
+
 	cached: Demo[] = [];
 
 	async getDemo(id): Promise<Demo> {

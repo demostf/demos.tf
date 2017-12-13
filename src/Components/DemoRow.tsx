@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {fuzzyTime} from '../FuzzyTime';
 import {Duration} from './Duration'
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import {DemoInfo} from "../Providers/DemoProvider";
 
 export interface DemoRowProps extends DemoInfo {

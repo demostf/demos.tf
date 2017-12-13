@@ -4,24 +4,25 @@ table.chat, table.players {
   border-collapse: collapse;
 }
 
-.demo-page td, .demo-page th {
-  padding: 5px 9px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
+table.players {
+  td, th {
+    padding: 5px 9px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 
-.demo-page table tr:nth-child(odd) {
-  background-color: #f4f4f4;
-}
+  tr:nth-child(odd) {
+    background-color: #f4f4f4;
+  }
 
-.demo-page table tr:nth-child(even) {
-  background-color: white;
-}
+  tr:nth-child(even) {
+    background-color: white;
+  }
 
-.demo-page table th {
-  padding: 7px 9px;
+  th {
+    padding: 7px 9px;
+  }
 }
-
 
 p.demo-info .time {
   float: right;

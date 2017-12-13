@@ -22,8 +22,8 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 	selectedUsers = [];
 	playerProvider: PlayerProvider;
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.playerProvider = new PlayerProvider();
 	}
 

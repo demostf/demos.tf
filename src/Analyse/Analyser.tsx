@@ -113,7 +113,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		this.setState({worldSize});
 	}
 
-	setTickNow = (tick) => {
+	setTickNow(tick) {
 		this.lastFrameTime = 0;
 		this.playStartTick = tick;
 		this.playStartTime = window.performance.now();
@@ -126,15 +126,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 				tick: tick
 			}));
 		}
-	};
-
-	setTick = throttle((tick) => {
-		this.setTickNow(tick);
-	}, 50);
-
-	onTickInput = (event) => {
-		this.setTick(parseInt(event.target.value, 10));
-	};
+	}
 
 	pause() {
 		this.setState({playing: false});
@@ -152,7 +144,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		this.playStartTick = this.state.tick;
 		this.playStartTime = window.performance.now();
 		this.setState({playing: true});
-		requestAnimationFrame(this.animFrame);
+		requestAnimationFrame(this.animFrame.bind(this));
 		if (this.session && this.isSessionOwner) {
 			this.session.send(JSON.stringify({
 				type: 'play',
@@ -162,7 +154,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 	}
 
-	createSession = () => {
+	createSession() {
 		if (this.session) {
 			return;
 		}
@@ -187,7 +179,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 				}));
 			}
 		}
-	};
+	}
 
 	joinSession(name: string) {
 		if (this.session) {
@@ -218,15 +210,15 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 	}
 
-	togglePlay = () => {
+	togglePlay() {
 		if (this.state.playing) {
 			this.pause();
 		} else {
 			this.play();
 		}
-	};
+	}
 
-	syncPlayTick = debounce(() => {
+	private syncPlayTick = debounce(() => {
 		if (this.session && this.isSessionOwner) {
 			this.session.send(JSON.stringify({
 				type: 'tick',
@@ -236,13 +228,13 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 	}, 500);
 
-	setHash = debounce((tick) => {
+	private setHash = debounce((tick) => {
 		if (!this.session && this.props.isStored) {
 			history.replaceState('', '', '#' + tick * 2);
 		}
 	}, 250);
 
-	animFrame = (timestamp) => {
+	animFrame(timestamp) {
 		const timePassed = timestamp - this.playStartTime;
 		const targetTick = this.playStartTick + (Math.round(timePassed * this.intervalPerTick));
 		this.lastFrameTime = timestamp;
@@ -265,9 +257,9 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 
 		if (this.state.playing) {
-			requestAnimationFrame(this.animFrame);
+			requestAnimationFrame(this.animFrame.bind(this));
 		}
-	};
+	}
 
 	render() {
 		const players = this.parser.getPlayersAtTick(this.state.tick);
@@ -279,30 +271,32 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 			<div>
 				<div className="map-holder">
 					<MapContainer contentSize={this.state.worldSize}
-					              onScale={scale => this.setState({scale})}>
+								  onScale={scale => this.setState({scale})}>
 						<MapRender size={this.state.worldSize}
-						           players={players}
-						           buildings={buildings}
-						           header={this.props.header}
-						           world={this.parser.world}
-						           scale={this.state.scale}/>
+								   players={players}
+								   buildings={buildings}
+								   header={this.props.header}
+								   world={this.parser.world}
+								   scale={this.state.scale}/>
 					</MapContainer>
 					<AnalyseMenu sessionName={this.sessionName}
-					             onShare={this.createSession}
-					             canShare={this.props.isStored && !disabled}
-					             isShared={this.state.isShared}
+								 onShare={this.createSession.bind(this)}
+								 canShare={this.props.isStored && !disabled}
+								 isShared={this.state.isShared}
 					/>
 					<SpecHUD parser={this.parser} tick={this.state.tick}
-					         players={players}/>
+							 players={players}/>
 				</div>
 				<div className="time-control">
 					<input className="play-pause-button" type="button"
-					       onClick={this.togglePlay}
-					       value={playButtonText}
-					       disabled={disabled}/>
+						   onClick={this.togglePlay.bind(this)}
+						   value={playButtonText}
+						   disabled={disabled}/>
 					<Timeline parser={this.parser} tick={this.state.tick}
-					          onSetTick={this.setTick}
-					          disabled={disabled}/>
+							  onSetTick={throttle((tick) => {
+								  this.setTickNow(tick);
+							  }, 50)}
+							  disabled={disabled}/>
 				</div>
 			</div>
 		);

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {Root} from './Root';
+import {App} from './App';
 
 if (process.env.NODE_ENV !== 'production') {
 	window.React = React;
@@ -9,14 +9,14 @@ if (process.env.NODE_ENV !== 'production') {
 const root = document.getElementById('react-root');
 
 ReactDom.render((
-	<Root/>
+	<App/>
 ), root);
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
 	const {AppContainer} = require('react-hot-loader');
 
-	module.hot.accept('./Root', () => {
-		const RootContainer = require('./Root').Root;
+	module.hot.accept('./App', () => {
+		const RootContainer = require('./App').App;
 		ReactDom.render(
 			<AppContainer>
 				<RootContainer/>

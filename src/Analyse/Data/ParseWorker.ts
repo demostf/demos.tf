@@ -15,9 +15,11 @@ onmessage = (event: MessageEvent) => {
 			postMessage({progress});
 		}));
 	} catch (e) {
+		console.error(e);
 		postMessage({
 			error: e.message
 		});
+		return;
 	}
 
 	const cachedDemo: CachedDemo = {

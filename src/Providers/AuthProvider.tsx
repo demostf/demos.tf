@@ -8,6 +8,8 @@ export interface User {
 }
 
 export class AuthProvider extends BaseProvider {
+	static instance = new AuthProvider();
+
 	token: string|null;
 	user: User|null;
 

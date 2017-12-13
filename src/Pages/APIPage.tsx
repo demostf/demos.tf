@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Section} from '../Components/Section';
 
 import './APIPage.css';
-import {User} from "../Providers/AuthProvider";
+import {AuthProvider, User} from "../Providers/AuthProvider";
 
 export interface APIPageProps {
 	user: User;
@@ -17,7 +17,7 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 	}
 
 	render() {
-		const steamId = this.props.user.steamid ? this.props.user.steamid : '76561198024494988';
+		const steamId = (AuthProvider.instance.user && AuthProvider.instance.user.steamid) ? AuthProvider.instance.user.steamid : '76561198024494988';
 		const listItem = {
 			id: 3314,
 			url: "https://demostf.blob.core.windows.net/demos/55be20b7adb21stvdemos220466v6-2015-08-02-15-21-bluvsred-cpgullywashfinal1.dem",
@@ -77,7 +77,7 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 		demoExample = demoExample.replace('"__REPLACE__": ""', '...');
 
 		return (
-			<div>
+			<div className='api-page'>
 				<Section title="API">
 					<p>
 						Demos.tf provides a REST api that allows 3rd parties
@@ -130,7 +130,7 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 						<li>
 							<a href={"https://api.demos.tf/demos/?players[]=" + steamId}><code>players[]=xxxx</code></a>
 							only show demos where a specific player has
-							played.<br />
+							played.<br/>
 							<ul>
 								<li>
 									Multiple player filters can be specified

@@ -10,18 +10,20 @@ import Spinner from 'react-spinner';
 import {AsyncParser} from "../Analyse/Data/AsyncParser";
 
 export interface AnalysePageState {
-	demoFile: File|null;
-	demo: Demo|null;
-	header: Header|null;
+	demoFile: File | null;
+	demo: Demo | null;
+	header: Header | null;
 	loading: boolean;
 	error?: string;
-	parser: AsyncParser|null;
+	parser: AsyncParser | null;
 	progress: number;
 }
 
 export interface AnalysePageProps {
-	params: {
-		id?: number;
+	match: {
+		params: {
+			id?: number;
+		}
 	}
 }
 
@@ -29,7 +31,7 @@ import "./AnalysePage.css";
 
 export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageState> {
 	static page = 'analyse';
-	provider: DemoProvider;
+	provider: DemoProvider = DemoProvider.instance;
 
 	state: AnalysePageState = {
 		demoFile: null,
@@ -40,12 +42,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		progress: 0
 	};
 
-	constructor(props) {
-		super(props);
-		this.provider = props.demoProvider;
-	}
-
-	onDrop = ([demoFile]) => {
+	onDrop([demoFile]) {
 		this.setState({demoFile, loading: true});
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -53,7 +50,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 			this.handleBuffer(buffer);
 		};
 		reader.readAsArrayBuffer(demoFile);
-	};
+	}
 
 	handleBuffer(buffer: ArrayBuffer) {
 		try {
@@ -76,9 +73,9 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 
 	componentDidMount() {
 		document.title = "Viewer - demos.tf";
-		if (this.props.params.id) {
+		if (this.props.match.params.id) {
 			this.setState({loading: true});
-			this.provider.getDemo(this.props.params.id).then((demo) => {
+			this.provider.getDemo(this.props.match.params.id).then((demo) => {
 				return demo.url;
 			}).then((url) => {
 				return fetch(url, {mode: 'cors'});
@@ -121,14 +118,15 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 		return (
 			<div className="analyse-page">
 				<p>
-					To view a demo, select a file on your computer or use the "View" button on any demo stored on the site.
+					To view a demo, select a file on your computer or use the "View" button on any demo stored on the
+					site.
 				</p>
 				{(this.state.header === null || this.state.parser === null) ?
-					<DemoDropZone onDrop={this.onDrop}
-					          text="Drop file or click to select"/>:
+					<DemoDropZone onDrop={this.onDrop.bind(this)}
+								  text="Drop file or click to select"/> :
 					<Analyser header={this.state.header}
-					          isStored={!!this.props.params.id}
-					          parser={this.state.parser}
+							  isStored={!!this.props.match.params.id}
+							  parser={this.state.parser}
 					/>
 				}
 			</div>

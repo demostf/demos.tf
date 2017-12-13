@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import {fuzzyTime} from '../FuzzyTime';
 import {Duration} from '../Components/Duration'
 import {PlayerTable} from '../Components/PlayerTable'
@@ -11,6 +11,7 @@ import Spinner from 'react-spinner';
 
 import './DemoPage.css';
 import {Demo, ChatMessage} from "../Providers/DemoProvider";
+import {RouteComponentProps} from "react-router";
 
 export interface DemoPageState {
 	demo: Demo;
@@ -18,11 +19,12 @@ export interface DemoPageState {
 	showChat: boolean;
 }
 
-export interface DemoPageProps {
+export interface DemoPageParams {
+	id: number;
+}
+
+export interface DemoPageProps extends RouteComponentProps<DemoPageParams> {
 	provider: DemoProvider;
-	params: {
-		id: number;
-	}
 }
 
 export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
@@ -59,12 +61,13 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 	constructor(props) {
 		super(props);
 		this.loadedChat = false;
-		this.provider = props.demoProvider;
+		this.provider = DemoProvider.instance;
 	}
 
 	async componentDidMount() {
+		console.log(this.props);
 		document.title = 'Loading - demos.tf';
-		const demo = await this.provider.getDemo(this.props.params.id);
+		const demo = await this.provider.getDemo(this.props.match.params.id);
 		document.title = demo.server + ' - demos.tf';
 		this.setState({demo});
 	};
@@ -83,7 +86,7 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 			return;
 		}
 		this.loadedChat = true;
-		const chat = await this.provider.getChat(this.props.params.id);
+		const chat = await this.provider.getChat(this.props.match.params.id);
 		this.setState({chat});
 	}
 
@@ -107,18 +110,18 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 
 					<p>Demo uploaded
 						by <Link
-						to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
-					</Link> {fuzzyTime(demo.time.getTime())}
+							to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
+						</Link> {fuzzyTime(demo.time.getTime())}
 					</p>
 					<TeamBanner redScore={demo.redScore}
-					            blueScore={demo.blueScore}
-					            redName={demo.red} blueName={demo.blue}/>
+								blueScore={demo.blueScore}
+								redName={demo.red} blueName={demo.blue}/>
 					<PlayerTable players={demo.players}/>
 
 					<p className="demo-info">
 						<span>{demo.map}</span>
 						<Duration className="time"
-						          duration={demo.duration}/>
+								  duration={demo.duration}/>
 					</p>
 
 					{chatTable}
@@ -130,14 +133,14 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 							View
 						</Link>
 						<button className=" pure-button"
-						        onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
+								onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
 						</button>
 					</p>
-					<Footer />
+					<Footer/>
 				</div>
 			);
 		} else {
-			return <Spinner />
+			return <Spinner/>
 		}
 	}
 }

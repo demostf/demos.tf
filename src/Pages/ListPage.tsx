@@ -14,6 +14,7 @@ import './ListPage.css';
 import 'react-spinner/react-spinner.css';
 import {DemoInfo} from "../Providers/DemoProvider";
 import Element = JSX.Element;
+import {RouteComponentProps} from "react-router";
 
 export interface ListPageState {
 	demos: DemoInfo[];
@@ -23,13 +24,11 @@ export interface ListPageState {
 	subjectName: string;
 }
 
-export interface ListPageProps {
-	params: {
-		steamid?: string;
-	};
-	route: {
-		path: string;
-	}
+export interface ListPageParams {
+	steamid?: string;
+}
+
+export interface ListPageProps extends RouteComponentProps<ListPageParams> {
 	demoListProvider: DemoListProvider;
 }
 
@@ -37,8 +36,8 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 	static page = 'list';
 
 	endpoint: string;
-	playerProvider: PlayerProvider;
-	provider: DemoListProvider;
+	playerProvider = new PlayerProvider();
+	provider = DemoListProvider.instance;
 
 	state: ListPageState = {
 		demos: [],
@@ -55,11 +54,10 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 	constructor(props: ListPageProps) {
 		super(props);
 
-		const params = props.params || {};
-		this.playerProvider = new PlayerProvider();
+		const params = props.match.params || {};
 		if (params.steamid) {
 			this.state.steamid = params.steamid;
-			this.state.isUploads = props.route.path.substr(0, 9) === '/uploads/';
+			this.state.isUploads = props.location.pathname.substr(0, 9) === '/uploads/';
 			if (this.state.isUploads) {
 				this.endpoint = 'uploads/' + params.steamid;
 			} else {
@@ -69,17 +67,16 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 			this.state.isUploads = false;
 			this.endpoint = 'demos';
 		}
-		this.provider = props.demoListProvider;
 		this.provider.endPoint = this.endpoint;
 	}
 
 	componentWillReceiveProps(props) {
-		const params = props.params || {};
+		const params = props.match.params || {};
 		let isUploads = false, steamid = '';
 		this.playerProvider = new PlayerProvider();
 		if (params.steamid) {
 			steamid = params.steamid;
-			isUploads = props.route.path.substr(0, 9) === '/uploads/';
+			isUploads = props.location.pathname.substr(0, 9) === '/uploads/';
 			if (isUploads) {
 				this.endpoint = 'uploads/' + params.steamid;
 			} else {
@@ -93,14 +90,15 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 		this.setState({steamid, isUploads});
 	}
 
-	filterChange = () => {
+	filterChange() {
 		this.provider.reset();
+		this.loading = false;
 		this.setState({demos: []});
 		this.rowMap = {};
 		this.loadPage();
-	};
+	}
 
-	loadPage = async () => {
+	async loadPage() {
 		if (this.loading || !this.provider.more) {
 			return;
 		}
@@ -118,9 +116,9 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 		this.setState({demos});
 		this.loading = false;
 		if (demos.length < 40 && this.provider.more) {
-			setTimeout(this.loadPage, 10);
+			setTimeout(this.loadPage.bind(this), 10);
 		}
-	};
+	}
 
 	getSubjectName = async () => {
 		if (this.state.steamid) {
@@ -142,19 +140,22 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 		});
 	};
 
-	renderItem = (i) => {
+	renderItem(i) {
 		if (i > this.state.demos.length - 5 && this.provider.more) {
 			this.loadPage();
 		}
 		const demo = this.state.demos[i];
+		if (!demo) {
+			return null;
+		}
 		if (this.rowMap[demo.id]) {
 			return this.rowMap[demo.id];
 		}
 		this.rowMap[demo.id] = <DemoRow i={i} key={i} {...demo} />;
 		return this.rowMap[demo.id];
-	};
+	}
 
-	renderItems = (items, ref) => {
+	renderItems(items, ref) {
 		return (
 			<table ref={ref} className="demolist">
 				<thead className="head">
@@ -171,7 +172,7 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 				</tbody>
 			</table>
 		)
-	};
+	}
 
 	render() {
 		this.getSubjectName();
@@ -193,7 +194,7 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 					this.provider.endPoint = this.endpoint;
 					this.filterChange();
 					this.setState({isUploads, demos: []});
-					this.context.router.push('/' + (isUploads ? 'uploads' : 'profiles') + '/' + this.state.steamid);
+					this.props.history.push('/' + (isUploads ? 'uploads' : 'profiles') + '/' + this.state.steamid);
 				}
 			};
 			demoTitle = (
@@ -215,14 +216,14 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 				<div className="search">
 					<FilterBar provider={this.provider}
 							   filter={this.provider.filter}
-							   onChange={this.filterChange}/>
+							   onChange={this.filterChange.bind(this)}/>
 				</div>
 
 				{!this.state.loading ?
 					(<ReactList
 						type="uniform"
-						itemRenderer={this.renderItem}
-						itemsRenderer={this.renderItems}
+						itemRenderer={this.renderItem.bind(this)}
+						itemsRenderer={this.renderItems.bind(this)}
 						length={this.state.demos.length}
 					/>) : (<Spinner/>)}
 				<Footer/>

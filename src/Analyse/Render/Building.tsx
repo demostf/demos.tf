@@ -45,17 +45,23 @@ export function Building({building, mapBoundary, targetSize, scale}: BuildingPro
 	const scaledY = (worldHeight - y) / worldHeight * targetSize.height;
 	const maxHealth = healthMap[building.level];
 	const alpha = building.health / maxHealth;
-	const image = getIcon(building);
+	try {
+		const image = getIcon(building);
 
-	const angle = (building.angle) ?
-		<polygon points="-6,14 0, 16 6,14 0,24" fill="white"
-		         transform={`rotate(${270 - building.angle})`}/>: '';
+		const angle = (building.angle) ?
+			<polygon points="-6,14 0, 16 6,14 0,24" fill="white"
+					 transform={`rotate(${270 - building.angle})`}/> : '';
 
-	return <g transform={`translate(${scaledX} ${scaledY}) scale(${1/scale})`}
-	          opacity={alpha}>
-		{angle}
-		<SVGImage href={image} className={"player-icon"} height={32}
-		       width={32}
-		       transform={`translate(-16 -16)`}/>
-	</g>
+		return <g transform={`translate(${scaledX} ${scaledY}) scale(${1 / scale})`}
+				  opacity={alpha}>
+			{angle}
+			<SVGImage href={image} className={"player-icon"} height={32}
+					  width={32}
+					  transform={`translate(-16 -16)`}/>
+		</g>
+	} catch (e) {
+		console.log(e);
+
+		return null;
+	}
 }
