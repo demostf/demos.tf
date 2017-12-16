@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {DemoDropZone} from '../Components/Dropzone';
 import {Analyser} from '../Analyse/Analyser';
-import {Demo, Header} from 'tf2-demo';
+import {Demo, Header} from '@demostf/demo.js';
 
 import './AboutPage.css';
 import {DemoProvider} from "../Providers/DemoProvider";

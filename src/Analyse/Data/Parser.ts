@@ -1,12 +1,12 @@
 import {
 	Header, Packet, Player, UserInfo, Match
-} from 'tf2-demo/build/index';
-import {Demo} from 'tf2-demo/build/Demo'
+} from '@demostf/demo.js';
+import {Demo} from '@demostf/demo.js/build/Demo'
 import {getMapBoundaries} from "../MapBoundries";
 import {PlayerCache, CachedPlayer} from "./PlayerCache";
 import {BuildingCache, CachedBuilding} from "./BuildingCache";
-import {Building} from "tf2-demo/build/Data/Building";
-import {PlayerResource} from "tf2-demo/build/Data/PlayerResource";
+import {Building} from "@demostf/demo.js/build/Data/Building";
+import {PlayerResource} from "@demostf/demo.js/build/Data/PlayerResource";
 
 export {CachedPlayer} from './PlayerCache';
 

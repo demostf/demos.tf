@@ -16,7 +16,7 @@ module.exports = {
 	devtool: 'source-map',
 	entry: {
 		app: [
-			'./src/index.js'
+			'./src/index.tsx'
 		],
 		polyfills: [
 			`whatwg-fetch`,
@@ -121,13 +121,6 @@ module.exports = {
 				use: [
 					'url-loader?limit=5000&hash=sha512&digest=hex&name=[hash].[ext]',
 					'image-webpack-loader'
-				]
-			},
-			{
-				test: /\.js$/,
-				use: ['babel-loader'],
-				include: [
-					path.join(__dirname, 'src')
 				]
 			},
 			{

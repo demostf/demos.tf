@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import {App} from './App';
 
 if (process.env.NODE_ENV !== 'production') {
-	window.React = React;
+	window['React'] = React;
 }
 
 const root = document.getElementById('react-root');

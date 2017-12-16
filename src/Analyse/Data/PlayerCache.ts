@@ -1,10 +1,10 @@
 import {PositionCache, Point} from './PositionCache';
-import {Player, UserInfo} from 'tf2-demo';
+import {Player, UserInfo} from '@demostf/demo.js';
 import {ViewAngleCache} from "./ViewAngleCache";
 import {PlayerMetaCache} from "./PlayerMetaCache";
 import {HealthCache} from "./HealthCache";
-import {LifeState} from "tf2-demo/build/Data/Player";
-import {PlayerResource} from "tf2-demo/build/Data/PlayerResource";
+import {LifeState} from "@demostf/demo.js/build/Data/Player";
+import {PlayerResource} from "@demostf/demo.js/build/Data/PlayerResource";
 import {SparseDataCache} from "./SparseDataCache";
 
 export class CachedPlayer {

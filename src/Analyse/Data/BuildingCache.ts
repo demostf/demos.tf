@@ -1,7 +1,7 @@
 import {Point} from "./PositionCache";
 import {DataCache} from "./DataCache";
 import {SparseDataCache} from "./SparseDataCache";
-import {Building, Sentry} from "tf2-demo/build/Data/Building";
+import {Building, Sentry} from "@demostf/demo.js/build/Data/Building";
 
 export interface CachedBuilding {
 	type: number;

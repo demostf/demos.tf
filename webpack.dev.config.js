@@ -11,7 +11,7 @@ module.exports = {
 			// 'webpack-dev-server/client?http://localhost:3000',
 			// 'webpack/hot/only-dev-server',
 			'react-hot-loader/patch',
-			'./src/index.js'
+			'./src/index.tsx'
 		]
 	},
 	output: {
@@ -39,11 +39,6 @@ module.exports = {
 				use: [
 					'url-loader?limit=5000&hash=sha512&digest=hex&name=[hash].[ext]'
 				]
-			},
-			{
-				test: /\.js$/,
-				use: ['react-hot-loader/webpack', 'babel-loader'],
-				include: path.join(__dirname, 'src')
 			},
 			{
 				test: /\.css$/,

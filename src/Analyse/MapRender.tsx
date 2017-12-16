@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Header} from "tf2-demo";
+import {Header} from "@demostf/demo.js";
 import {CachedPlayer} from "./Data/Parser";
 import {Player as PlayerDot} from './Render/Player';
 import {Building as BuildingDot} from './Render/Building';
