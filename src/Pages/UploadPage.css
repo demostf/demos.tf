@@ -1,23 +1,25 @@
-.upload-page .teams input, .upload-page .teams input:focus {
-	background: transparent none;
-	border: none;
-	outline: none;
-	text-align: inherit;
-	font-family: Arial, sans-serif;
-	font-size: 45px;
-	font-weight: bold;
-	float: inherit;
-}
+.upload-page .teams {
+  input, input:focus {
+    background: transparent none;
+    border: none;
+    outline: none;
+    text-align: inherit;
+    font-family: Arial, sans-serif;
+    font-size: 45px;
+    font-weight: bold;
+    float: inherit;
+  }
 
-.upload-page .teams .blue input {
-	text-align: right;
+  .blue input {
+    text-align: right;
+  }
 }
 
 .demo-info {
-	font-weight: bold;
-	padding-bottom: 15px;
+  font-weight: bold;
+  padding-bottom: 15px;
 }
 
 .demo-info span.time {
-	float: right;
+  float: right;
 }

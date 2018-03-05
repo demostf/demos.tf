@@ -94,15 +94,15 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 					</p>
 					<ul>
 						<li>
-							<a href="https://api.demos.tf/demos/"><code>/demos/</code></a>
+							<a href="https://api.demos.tf/demos/">/demos/</a>
 							lists all demos
 						</li>
 						<li>
-							<a href={"https://api.demos.tf/uploads/" + steamId}><code>/uploads/$steamid</code></a>
+							<a href={"https://api.demos.tf/uploads/" + steamId}>/uploads/$steamid</a>
 							lists demos uploaded by a user.
 						</li>
 						<li>
-							<a href={"https://api.demos.tf/profiles/" + steamId}><code>/profiles/$steamid</code></a>
+							<a href={"https://api.demos.tf/profiles/" + steamId}>/profiles/$steamid</a>
 							lists demos in which a user played.
 						</li>
 					</ul>
@@ -119,16 +119,15 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 					</p>
 					<ul>
 						<li>
-							<a href="https://api.demos.tf/demos/?map=cp_granary"><code>map=xxxx</code></a>
+							<a href="https://api.demos.tf/demos/?map=cp_granary">map=xxxx</a>
 							only show demos for a specific map.
 						</li>
 						<li>
-							<a href="https://api.demos.tf/demos/?type=6v6"><code>type=xxx</code></a>
-							only show <code>4v4</code>, <code>6v6</code>
-							or <code>hl</code> demos.
+							<a href="https://api.demos.tf/demos/?type=6v6">type=xxx</a>
+							only show <code>4v4</code>, <code>6v6</code> or <code>hl</code> demos.
 						</li>
 						<li>
-							<a href={"https://api.demos.tf/demos/?players[]=" + steamId}><code>players[]=xxxx</code></a>
+							<a href={"https://api.demos.tf/demos/?players[]=" + steamId}>players[]=xxxx</a>
 							only show demos where a specific player has
 							played.<br/>
 							<ul>
@@ -140,8 +139,8 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 									played.
 								</li>
 								<li>
-									Note that when using the <code>/profiles/$steamid</code>
-									endpoint the user for the endpoint is
+									Note that when using the <code>/profiles/$steamid</code> endpoint
+									the user for the endpoint is
 									added to the filter.
 								</li>
 							</ul>
@@ -321,8 +320,7 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 					</p>
 					<ul>
 						<li>
-							<code>key</code>
-							the api key of the user uploading the demo
+							<code>key</code> the api key of the user uploading the demo
 						</li>
 						<li>
 							<code>name</code> the name of the demo file
@@ -334,8 +332,7 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 							<code>blu</code> the name of the BLU team
 						</li>
 						<li>
-							<code>demo</code>
-							the demo file to be uploaded, as form file upload
+							<code>demo</code> the demo file to be uploaded, as form file upload
 						</li>
 					</ul>
 				</Section>

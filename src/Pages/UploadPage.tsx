@@ -175,6 +175,7 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 				</section>
 				<Section title="API Key">
 					<pre>{AuthProvider.instance.user && AuthProvider.instance.user.key}</pre>
+					<p>This key is used by the plugin to authenticate you as the uploader and link the uploaded demo to your account</p>
 				</Section>
 
 				<PluginSection user={AuthProvider.instance.user}/>

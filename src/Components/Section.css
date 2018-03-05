@@ -22,7 +22,7 @@ section > div > h3:after {
 	display: block;
 	height: 2px;
 	position: absolute;
-	top: 60%;
+	top: 45%;
 }
 
 section > div > h3:before {

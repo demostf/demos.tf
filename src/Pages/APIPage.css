@@ -13,9 +13,8 @@
   }
 
   section li {
-    & > a:first-child > code:after, & > code:first-child:after {
-      content: ':';
-      font-weight: normal;
+    & > a:first-child {
+      padding-right: 0.5ex;
     }
   }
 }

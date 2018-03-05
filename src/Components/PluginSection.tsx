@@ -29,8 +29,7 @@ export function PluginSection(props: PluginSectionProps) {
 			<h5>How to install</h5>
 			<ol>
 				<li>Make sure <a
-					href="http://wiki.alliedmods.net/Installing_SourceMod">SourceMod</a>
-					is
+					href="http://wiki.alliedmods.net/Installing_SourceMod">SourceMod</a> is
 					installed on
 					your server.
 				</li>
@@ -40,14 +39,11 @@ export function PluginSection(props: PluginSectionProps) {
 				</a> is installed on your server.
 				</li>
 				<li>Download the plugin.</li>
-				<li>Upload the .smx file to
-					<code>/tf/addons/sourcemod/plugins/</code>
-					on your server.
+				<li>Upload the .smx file to <code>/tf/addons/sourcemod/plugins/</code> on your server.
 				</li>
 				{keyStep}
 				<li>Add the following code to
-					<code>/tf/cfg/server.cfg</code>
-					on the server:
+					<code>/tf/cfg/server.cfg</code> on the server:
 					<pre>sm_demostf_apikey {(props.user && props.user.key) || '<<API KEY>>'}</pre>
 				</li>
 				<li>Restart the server</li>

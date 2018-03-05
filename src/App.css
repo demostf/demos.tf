@@ -181,7 +181,7 @@ pre {
   width: 1em;
 }
 
-code, kbd, pre, samp {
+kbd, pre, samp {
   font-family: monospace, monospace;
   font-size: 1em;
 }
@@ -224,4 +224,8 @@ pre {
   height: 64px;
   margin-left: -30px;
   margin-top: -10px;
+}
+
+code {
+  font-family: monospace;
 }
