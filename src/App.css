@@ -152,6 +152,12 @@ pre {
   background-color: #E6E6E6;
   text-decoration: none;
   min-width: 150px;
+
+  &.pure-button-tertiary {
+    background-color: transparent;
+    text-decoration: underline;
+    color: rgba(0, 0, 0, 0.6);
+  }
 }
 
 .pure-button:hover {
@@ -220,7 +226,7 @@ pre {
 }
 
 .topbar {
-  display:inline-block;
+  display: inline-block;
   height: 64px;
   margin-left: -30px;
   margin-top: -10px;

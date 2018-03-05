@@ -129,10 +129,10 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 					<p className="demo-download">
 						<a className=" pure-button pure-button-primary"
 						   href={demo.url} download={demo.name}>Download</a>
-						<Link className=" pure-button" to={"/viewer/" + this.state.demo.id}>
+						<Link className="pure-button-secondary pure-button" to={"/viewer/" + this.state.demo.id}>
 							View
 						</Link>
-						<button className=" pure-button"
+						<button className="pure-button-tertiary pure-button"
 								onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
 						</button>
 					</p>
