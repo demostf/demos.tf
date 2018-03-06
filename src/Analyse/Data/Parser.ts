@@ -28,7 +28,7 @@ export class Parser {
 	playerCache: PlayerCache;
 	entityPlayerReverseMap: { [entityId: string]: number } = {};
 	nextMappedPlayer = 0;
-	entityPlayerMap: { [playerId: string]: Player } = {};
+	entityPlayerMap: Map<number, Player> = new Map();
 	ticks: number;
 	match: Match;
 	startTick = 0;
@@ -164,7 +164,7 @@ export class Parser {
 
 	private getPlayerId(player: Player) {
 		if (!this.entityPlayerReverseMap[player.user.entityId]) {
-			this.entityPlayerMap[this.nextMappedPlayer] = player;
+			this.entityPlayerMap.set(this.nextMappedPlayer, player);
 			this.entityPlayerReverseMap[player.user.entityId] = this.nextMappedPlayer;
 			this.nextMappedPlayer++;
 		}
@@ -174,7 +174,7 @@ export class Parser {
 	getPlayersAtTick(tick: number) {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
-			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap[i].user))
+			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap.get(i).user));
 		}
 		return players;
 	}

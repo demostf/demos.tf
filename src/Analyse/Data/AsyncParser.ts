@@ -25,7 +25,7 @@ export interface CachedDemo {
 	intervalPerTick: number;
 	world: World;
 	nextMappedPlayer: number;
-	entityPlayerMap: {[playerId: string]: Player};
+	entityPlayerMap: Map<number, Player>;
 	now: number;
 }
 
@@ -35,7 +35,7 @@ export class AsyncParser {
 	header: Header;
 	playerCache: PlayerCache;
 	nextMappedPlayer = 0;
-	entityPlayerMap: {[playerId: string]: Player} = {};
+	entityPlayerMap: Map<number, Player> = new Map();
 	ticks: number;
 	match: Match;
 	deaths: {[tick: string]: CachedDeath[]} = {};
@@ -90,7 +90,7 @@ export class AsyncParser {
 	getPlayersAtTick(tick: number) {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
-			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap[i].user));
+			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap.get(i).user));
 		}
 		return players;
 	}
