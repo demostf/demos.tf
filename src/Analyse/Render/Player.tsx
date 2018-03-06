@@ -16,6 +16,7 @@ export interface PlayerProp {
 }
 
 const healthMap = {
+	0: 100, //fallback
 	1: 125,//scout
 	2: 150,//sniper
 	3: 200,//soldier,
@@ -47,7 +48,6 @@ export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 	const scaledY = (worldHeight - y) / worldHeight * targetSize.height;
 	const maxHealth = healthMap[player.classId];
 	const alpha = player.health / maxHealth;
-	const image = require(`../../images/class_icons/${classMap[player.classId]}.svg`) as string;
 	const teamColor = (player.team === 'red') ? '#a75d50' : '#5b818f';
 	const imageOpacity = player.health === 0 ? 0 : (1 + alpha) / 2;
 
@@ -58,11 +58,19 @@ export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 				 transform={`rotate(${270 - player.viewAngle})`}/>
 		<circle r={16} strokeWidth={1} stroke="white" fill={teamColor}
 				opacity={alpha}/>
-		<SVGImage href={image}
-				  className={"player-icon " + player.team}
-				  opacity={imageOpacity}
-				  height={32}
-				  width={32}
-				  transform={`translate(-16 -16)`}/>
+		{getClassImage(player, imageOpacity)}
 	</g>
+}
+
+function getClassImage(player: CachedPlayer, imageOpacity: number) {
+	if (!classMap[player.classId]) {
+		return [];
+	}
+	const image = require(`../../images/class_icons/${classMap[player.classId]}.svg`) as string;
+	return <SVGImage href={image}
+					 className={"player-icon " + player.team}
+					 opacity={imageOpacity}
+					 height={32}
+					 width={32}
+					 transform={`translate(-16 -16)`}/>
 }
