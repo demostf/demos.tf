@@ -49,7 +49,7 @@ export function MapRender({header, players, size, world, scale, buildings}: MapR
 	const background = `url(${image})`;
 
 	const playerDots = players
-		.filter((player: CachedPlayer) => player.position.x && (player.teamId === 2 || player.teamId === 3))
+		.filter((player: CachedPlayer) => player.position.x)
 		.map((player: CachedPlayer, key) => {
 			return <PlayerDot key={key} player={player} mapBoundary={world}
 			                  targetSize={size} scale={scale}/>
