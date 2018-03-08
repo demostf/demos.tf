@@ -16,6 +16,8 @@ export function DemoRow(props: DemoRowProps) {
 		formatName = 'Ultiduo';
 	} else if (props.playerCount <= 19 && props.playerCount >= 17) {
 		formatName = 'HL';
+	} else if (props.playerCount <= 15 && props.playerCount >= 14) {
+		formatName = 'Prolander';
 	} else if (props.playerCount <= 13 && props.playerCount >= 11) {
 		formatName = '6v6';
 	} else if (props.playerCount <= 9 && props.playerCount >= 7) {
