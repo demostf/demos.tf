@@ -20,6 +20,12 @@ export function DemoRow(props: DemoRowProps) {
 		formatName = '6v6';
 	} else if (props.playerCount <= 9 && props.playerCount >= 7) {
 		formatName = '4v4';
+	} else if (props.playerCount === 6) {
+		formatName = '3v3';
+	} else if (props.playerCount === 4) {
+		formatName = '2v2';
+	} else if (props.playerCount === 2) {
+		formatName = '1v1';
 	}
 	return (
 		<tr key={props.i}
