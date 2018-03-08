@@ -65,7 +65,6 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 	}
 
 	async componentDidMount() {
-		console.log(this.props);
 		document.title = 'Loading - demos.tf';
 		const demo = await this.provider.getDemo(this.props.match.params.id);
 		document.title = demo.server + ' - demos.tf';
@@ -100,6 +99,16 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 			chatTable = [];
 		}
 		const demo = this.state.demo;
+
+		// emulate teams in 1v1 ffa
+		if (demo.players.length === 2 && demo.players[0].team === '' && demo.players[1].team === '') {
+			console.log('ffa');
+			demo.players[0].team = 'red';
+			demo.players[1].team = 'blue';
+
+			demo.redScore = demo.players[0].kills;
+			demo.blueScore = demo.players[1].kills;
+		}
 		if (this.state.demo.id !== 0) {
 			return (
 				<div>
