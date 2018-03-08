@@ -105,9 +105,20 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 			console.log('ffa');
 			demo.players[0].team = 'red';
 			demo.players[1].team = 'blue';
-
-			demo.redScore = demo.players[0].kills;
-			demo.blueScore = demo.players[1].kills;
+		}
+		if (demo.map.substr(0, 3) === 'dm_') {
+			demo.redScore = 0;
+			demo.blueScore = 0
+			for (const player of demo.players) {
+				switch (player.team) {
+					case 'red':
+						demo.redScore += player.kills;
+						break;
+					case 'blue':
+						demo.blueScore += player.kills;
+						break;
+				}
+			}
 		}
 		if (this.state.demo.id !== 0) {
 			return (
