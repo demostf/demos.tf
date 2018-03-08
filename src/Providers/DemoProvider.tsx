@@ -191,9 +191,9 @@ export class DemoProvider extends BaseProvider {
 			throw new Error(await response.text());
 		}
 		const body = await response.text();
-		const expected = 'STV available at: https://demos.tf/';
-		if (body.substr(0, expected.length) === expected) {
-			return body.substr(expected.length);
+		const matches = body.match(/STV available at: https?:\/\/[^/]+\/(\d+)/);
+		if (matches) {
+			return matches[1];
 		} else {
 			return '';
 		}
