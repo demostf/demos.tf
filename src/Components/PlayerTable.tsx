@@ -12,6 +12,7 @@ function getPlayerPairs(players: Player[]) {
 			blue: Player[];
 		}
 	} = {
+		Unknown: {red: [], blue: []},
 		scout: {red: [], blue: []},
 		soldier: {red: [], blue: []},
 		pyro: {red: [], blue: []},
@@ -42,7 +43,7 @@ function getPlayerPairs(players: Player[]) {
 	};
 	for (const className in classes) {
 		if (classes.hasOwnProperty(className)) {
-			const classPlayers = classes[className];
+			const classPlayers = classes[className || 'Unknown'];
 			const length = Math.max(classPlayers.red.length, classPlayers.blue.length);
 			for (let j = 0; j < length; j++) {
 				sortedPlayers.push({
@@ -68,7 +69,7 @@ export function PlayerTable(props: PlayerTableProps) {
 				<td className="team red"/>
 				<td className="name red">
 					{(pair.red) ? <Link
-							to={"/profiles/" + pair.red.steamid}>{pair.red.name}</Link> : ''}
+						to={"/profiles/" + pair.red.steamid}>{pair.red.name}</Link> : ''}
 				</td>
 				<td className="stat red">{pair.red.kills || '0'}</td>
 				<td className="stat red">{pair.red.assists || '0'}</td>
@@ -81,7 +82,7 @@ export function PlayerTable(props: PlayerTableProps) {
 				<td className="stat blue">{pair.blue.kills || '0'}</td>
 				<td className="name blue">
 					{(pair.blue.steamid) ? <Link
-							to={"/profiles/" + pair.blue.steamid}>{pair.blue.name}</Link> : ''}
+						to={"/profiles/" + pair.blue.steamid}>{pair.blue.name}</Link> : ''}
 				</td>
 				<td className="team blue"/>
 			</tr>
@@ -91,22 +92,22 @@ export function PlayerTable(props: PlayerTableProps) {
 	return (
 		<table className="players">
 			<thead>
-			<tr>
-				<th className="team red"/>
-				<th className="name red">Name</th>
-				<th className="stat red">K</th>
-				<th className="stat red">A</th>
-				<th className="stat red">D</th>
-				<th className="class"/>
-				<th className="stat blue">D</th>
-				<th className="stat blue">A</th>
-				<th className="stat blue">K</th>
-				<th className="name blue">Name</th>
-				<th className="team blue"/>
-			</tr>
+				<tr>
+					<th className="team red"/>
+					<th className="name red">Name</th>
+					<th className="stat red">K</th>
+					<th className="stat red">A</th>
+					<th className="stat red">D</th>
+					<th className="class"/>
+					<th className="stat blue">D</th>
+					<th className="stat blue">A</th>
+					<th className="stat blue">K</th>
+					<th className="name blue">Name</th>
+					<th className="team blue"/>
+				</tr>
 			</thead>
 			<tbody>
-			{rows}
+				{rows}
 			</tbody>
 		</table>
 	);
