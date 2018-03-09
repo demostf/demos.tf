@@ -105,6 +105,8 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 			console.log('ffa');
 			demo.players[0].team = 'red';
 			demo.players[1].team = 'blue';
+			demo.red = demo.players[0].name;
+			demo.blue = demo.players[1].name;
 		}
 		if (demo.map.substr(0, 3) === 'dm_') {
 			demo.redScore = 0;
