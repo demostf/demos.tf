@@ -57,7 +57,7 @@
     "zopfli-webpack-plugin": "^0.1.0"
   },
   "dependencies": {
-    "@demostf/demo.js": "^2.0.2",
+    "@demostf/demo.js": "^2.1.1",
     "@types/react-loadable": "^5.3.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
