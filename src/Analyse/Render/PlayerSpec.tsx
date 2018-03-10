@@ -8,6 +8,7 @@ export interface PlayerSpecProps {
 import './PlayerSpec.css';
 
 const healthMap = {
+	0: 100,//fallback
 	1: 125,//scout
 	2: 150,//sniper
 	3: 200,//soldier,

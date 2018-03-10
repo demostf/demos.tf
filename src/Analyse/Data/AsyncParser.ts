@@ -8,8 +8,8 @@ import {BuildingCache, CachedBuilding} from "./BuildingCache";
 export interface CachedDeath {
 	tick: number;
 	victim: Player;
-	assister: Player|null;
-	killer: Player|null;
+	assister: Player | null;
+	killer: Player | null;
 	weapon: string;
 	victimTeam: number;
 	assisterTeam: number;
@@ -20,7 +20,7 @@ export interface CachedDemo {
 	header: Header;
 	playerCache: PlayerCache;
 	ticks: number;
-	deaths: {[tick: string]: CachedDeath[]};
+	deaths: { [tick: string]: CachedDeath[] };
 	buildingCache: BuildingCache;
 	intervalPerTick: number;
 	world: World;
@@ -38,7 +38,7 @@ export class AsyncParser {
 	entityPlayerMap: Map<number, Player> = new Map();
 	ticks: number;
 	match: Match;
-	deaths: {[tick: string]: CachedDeath[]} = {};
+	deaths: { [tick: string]: CachedDeath[] } = {};
 	buildingCache: BuildingCache;
 	intervalPerTick: number;
 	world: World;
@@ -91,6 +91,14 @@ export class AsyncParser {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
 			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap.get(i).user));
+		}
+
+		// fake teams in 1v1 ffa
+		if (players.length === 2 && players[0].teamId === 0 && players[0].teamId === 0) {
+			players[0].teamId = 2;
+			players[0].team = 'red';
+			players[1].teamId = 3;
+			players[1].team = 'blue';
 		}
 		return players;
 	}
