@@ -6,6 +6,7 @@ export interface PlayerSpecProps {
 }
 
 import './PlayerSpec.css';
+import {SteamAvatar} from "../../Components/SteamAvatar";
 
 const healthMap = {
 	0: 100,//fallback
@@ -89,10 +90,11 @@ export function PlayerSpec({player}: PlayerSpecProps) {
 	const healthPercent = Math.min(100, player.health / healthMap[player.classId] * 100);
 	const healthStatusClass = (player.health > healthMap[player.classId]) ? 'overhealed' : (player.health <= 0 ? 'dead' : '');
 	const webpClass = (canUseWebP) ? ' webp' : '';
+
 	return (
 		<div
 			className={"playerspec " + player.team + " " + healthStatusClass + webpClass}>
-			<div className={classMap[player.classId] + " class-icon"}/>
+			{getPlayerIcon(player)}
 			<div className="health-container">
 				<div className="healthbar"
 					 style={{width: healthPercent + '%'}}/>
@@ -101,6 +103,14 @@ export function PlayerSpec({player}: PlayerSpecProps) {
 			</div>
 		</div>
 	);
+}
+
+function getPlayerIcon(player: CachedPlayer) {
+	if (classMap[player.classId]) {
+		return <div className={classMap[player.classId] + " class-icon"}/>
+	} else {
+		return <SteamAvatar steamId={player.user.steamId}/>
+	}
 }
 
 export interface UberSpecProps {

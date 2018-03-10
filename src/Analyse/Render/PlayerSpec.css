@@ -26,7 +26,7 @@
     height: 28px;
   }
 
-  .class-icon {
+  .class-icon, .steam-avatar {
     width: 42px;
     height: 42px;
     display: inline-block;
@@ -117,7 +117,7 @@
       background-image: url('../../images/charge_red.svg');
     }
 
-    .class-icon {
+    .class-icon, .steam-avatar {
       right: 0;
       left: auto;
     }
