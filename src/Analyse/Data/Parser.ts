@@ -26,7 +26,7 @@ export class Parser {
 	demo: Demo;
 	header: Header;
 	playerCache: PlayerCache;
-	entityPlayerReverseMap: { [entityId: string]: number } = {};
+	entityPlayerReverseMap: Map<string, number> = new Map();
 	nextMappedPlayer = 0;
 	entityPlayerMap: Map<number, Player> = new Map();
 	ticks: number;
@@ -46,8 +46,10 @@ export class Parser {
 
 	setTick(tick: number, players: Player[], buildings: Map<number, Building>, playerResources: PlayerResource[]) {
 		for (const player of players) {
-			const playerId = this.getPlayerId(player);
-			this.playerCache.setPlayer(tick, playerId, player, playerResources[player.user.entityId]);
+			if (player.user.steamId !== 'BOT') {
+				const playerId = this.getPlayerId(player);
+				this.playerCache.setPlayer(tick, playerId, player, playerResources[player.user.entityId]);
+			}
 		}
 		for (const building of buildings.values()) {
 			if (building.health > 0) {
@@ -145,9 +147,9 @@ export class Parser {
 
 			}
 
-			const killerId = killer ? this.entityPlayerReverseMap[killer.user.entityId] : null;
-			const assisterId = assister ? this.entityPlayerReverseMap[assister.user.entityId] : null;
-			const victimId = this.entityPlayerReverseMap[victim.user.entityId];
+			const killerId = killer ? this.entityPlayerReverseMap.get(killer.user.steamId) as number : null;
+			const assisterId = assister ? this.entityPlayerReverseMap.get(assister.user.steamId) as number : null;
+			const victimId = this.entityPlayerReverseMap.get(victim.user.steamId) as number;
 
 			this.deaths[deathTick].push({
 				tick: deathTick,
@@ -162,13 +164,13 @@ export class Parser {
 		}
 	}
 
-	private getPlayerId(player: Player) {
-		if (!this.entityPlayerReverseMap[player.user.entityId]) {
+	private getPlayerId(player: Player): number {
+		if (!this.entityPlayerReverseMap.has(player.user.steamId)) {
 			this.entityPlayerMap.set(this.nextMappedPlayer, player);
-			this.entityPlayerReverseMap[player.user.entityId] = this.nextMappedPlayer;
+			this.entityPlayerReverseMap.set(player.user.steamId, this.nextMappedPlayer);
 			this.nextMappedPlayer++;
 		}
-		return this.entityPlayerReverseMap[player.user.entityId];
+		return this.entityPlayerReverseMap.get(player.user.steamId) as number;
 	}
 
 	getPlayersAtTick(tick: number) {
