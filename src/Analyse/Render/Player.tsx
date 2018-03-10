@@ -29,6 +29,7 @@ const healthMap = {
 };
 
 const classMap = {
+	0: "empty",
 	1: "scout",
 	2: "sniper",
 	3: "soldier",
