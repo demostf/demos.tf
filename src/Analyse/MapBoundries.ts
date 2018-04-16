@@ -288,6 +288,96 @@ const overWriteMapBoundaries = {
 			"x": 3464,
 			"y": 1851
 		}
+	},
+	'dm_airfusion_final': {
+		"boundaryMin": {
+			"x": -855,
+			"y": -2533
+		},
+		"boundaryMax": {
+			"x": 2315,
+			"y": 337
+		}
+	},
+	'dm_biohazard_cal': {
+		"boundaryMin": {
+			"x": 422,
+			"y": 366
+		},
+		"boundaryMax": {
+			"x": 2486,
+			"y": 1942
+		}
+	},
+	'dm_caverns_r1': {
+		"boundaryMin": {
+			"x": -1979,
+			"y": -1476
+		},
+		"boundaryMax": {
+			"x": 1091,
+			"y": 1884
+		}
+	},
+	'dm_ethic': {
+		"boundaryMin": {
+			"x": -1549,
+			"y": -1537
+		},
+		"boundaryMax": {
+			"x": 273,
+			"y": -19
+		}
+	},
+	'dm_killbox_kbh_2p': {
+		"boundaryMin": {
+			"x": -1510,
+			"y": -1017
+		},
+		"boundaryMax": {
+			"x": 1010,
+			"y": 1017
+		}
+	},
+	'dm_lockdown_r6': {
+		"boundaryMin": {
+			"x": -4670,
+			"y": 1257
+		},
+		"boundaryMax": {
+			"x": -2382,
+			"y": 6343
+		}
+	},
+	'dm_lostarena': {
+		"boundaryMin": {
+			"x": -867,
+			"y": -1421
+		},
+		"boundaryMax": {
+			"x": 1277,
+			"y": 1041
+		}
+	},
+	'dm_lostvillage_v3': {
+		"boundaryMin": {
+			"x": -513,
+			"y": -1830
+		},
+		"boundaryMax": {
+			"x": 2163,
+			"y": 2000
+		}
+	},
+	'dm_tigcrik_r2': {
+		"boundaryMin": {
+			"x": -1608,
+			"y": -402
+		},
+		"boundaryMax": {
+			"x": 264,
+			"y": 1268
+		}
 	}
 };
 
