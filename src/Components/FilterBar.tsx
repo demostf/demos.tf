@@ -5,6 +5,14 @@ import {PlayerProvider} from '../Providers/PlayerProvider'
 import './FilterBar.css';
 import 'react-select/dist/react-select.css';
 import {DemoListProvider, DemoListFilter} from "../Providers/DemoProvider";
+import {config} from '../config';
+
+const typeOptions: Option[] = Object.keys(config.gameTypes).map(key => {
+	return {
+		value: key,
+		label: config.gameTypes[key]
+	}
+});
 
 export interface FilterBarProps {
 	provider: DemoListProvider;
@@ -82,12 +90,6 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 	};
 
 	render() {
-		const typeOptions: Option[] = [
-			{value: '4v4', label: '4v4'},
-			{value: '6v6', label: '6v6'},
-			{value: 'hl', label: 'Highlander'}
-		];
-
 		return (
 			<div className="filterbar">
 				<Select

@@ -1,12 +1,17 @@
 import * as React from 'react';
 import {Section} from './Section';
 import {User} from "../Providers/AuthProvider";
+import {config} from '../config';
 
 export interface PluginSectionProps {
 	user: User | null;
 }
 
 export function PluginSection(props: PluginSectionProps) {
+	if (!config.showUpload) {
+		return (<span/>);
+	}
+
 	const keyStep = (!(props.user && props.user.key)) ? (
 		<li>
 			Login to retrieve your api-key

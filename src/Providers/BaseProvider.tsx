@@ -1,9 +1,10 @@
+import {config} from '../config';
+
 export class BaseProvider {
 	base = BaseProvider.getBaseUrl();
 
 	static getBaseUrl() {
-		// return 'https://api.demos.tf/';
-		return `${window.location.protocol}//api.${window.location.host}/`;
+		return config.api;
 	}
 
 	getApiUrl(url) {

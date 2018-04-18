@@ -4,6 +4,7 @@ import {Section} from '../Components/Section';
 
 import './APIPage.css';
 import {AuthProvider, User} from "../Providers/AuthProvider";
+import {config} from '../config';
 
 export interface APIPageProps {
 	user: User;
@@ -311,7 +312,7 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 					</ul>
 				</Section>
 
-				<Section title="Uploading Demos">
+				{config.showUpload ? <Section title="Uploading Demos">
 					<p>
 						Demos can be uploaded by making a <code> POST </code>
 						request to
@@ -335,7 +336,7 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 							<code>demo</code> the demo file to be uploaded, as form file upload
 						</li>
 					</ul>
-				</Section>
+				</Section> : []}
 			</div>
 		);
 	}
