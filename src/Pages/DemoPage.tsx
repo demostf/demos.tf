@@ -8,6 +8,7 @@ import {ChatTable} from '../Components/ChatTable'
 import {DemoProvider} from '../Providers/DemoProvider';
 import {Footer} from '../Components/Footer';
 import Spinner from 'react-spinner';
+import {config} from '../config';
 
 import './DemoPage.css';
 import {Demo, ChatMessage} from "../Providers/DemoProvider";
@@ -131,9 +132,9 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 					<h3>{demo.name}</h3>
 
 					<p>Demo uploaded
-						by <Link
+						{config.showUpload ? ['by ', <Link
 							to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
-						</Link> {fuzzyTime(demo.time.getTime())}
+						</Link>, ' '] : []} {fuzzyTime(demo.time.getTime())}
 					</p>
 					<TeamBanner redScore={demo.redScore}
 								blueScore={demo.blueScore}

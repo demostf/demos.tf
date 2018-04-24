@@ -9,6 +9,7 @@ import {FilterBar} from '../Components/FilterBar';
 import Select from 'react-select';
 import {PlayerProvider} from '../Providers/PlayerProvider';
 import Spinner from 'react-spinner';
+import {config} from '../config';
 
 import './ListPage.css';
 import 'react-spinner/react-spinner.css';
@@ -199,12 +200,13 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 			};
 			demoTitle = (
 				<span className="listType">
-					<Select options={options}
-							clearable={false}
-							value={this.state.isUploads ? 'uploads' : 'demos'}
-							onChange={setListType}
-							searchable={false}
-					/> {this.state.isUploads ? 'by' : 'for'} {this.state.subjectName}
+					{config.showUpload ?
+						<Select options={options}
+								clearable={false}
+								value={this.state.isUploads ? 'uploads' : 'demos'}
+								onChange={setListType}
+								searchable={false}
+						/> : (this.state.isUploads ? 'Uploads ' : 'Demos ')}{this.state.isUploads ? 'by' : 'for'} {this.state.subjectName}
 				</span>
 			);
 		}
