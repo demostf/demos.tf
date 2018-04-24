@@ -24,7 +24,7 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: 'demos.tf',
+			title: 'everythingFPS',
 			chunks: ['app'],
 			inlineSource: '\.css$',
 			template: '!!html-loader!src/index.html'

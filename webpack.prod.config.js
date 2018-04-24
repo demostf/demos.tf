@@ -77,7 +77,7 @@ module.exports = {
 			background: '#444'
 		}),
 		new HtmlWebpackPlugin({
-			title: 'demos.tf',
+			title: 'everythingFPS',
 			chunks: ['app'],
 			inlineSource: '\.css$',
 			template: '!!html-loader!src/index.html'
