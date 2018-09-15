@@ -15,5 +15,5 @@ export const config: Config = {
 	},
 	showDonate: true,
 	showUpload: true,
-	api: 'https://api.demos.tf/'
+	api: `https://api.${window.location.host}/`
 };
