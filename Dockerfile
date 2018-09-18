@@ -1,7 +1,7 @@
 FROM node:10-stretch AS build
 WORKDIR /root/build
 COPY . .
-RUN apt update && apt install -y git build-essential libpng16-16 libpng-dev xcftools
+RUN apt update && apt install -y git build-essential libpng16-16 libpng-dev xcftools webp
 RUN make
 
 FROM fholzer/nginx-brotli:v1.10.3
