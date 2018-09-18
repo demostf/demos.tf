@@ -7,7 +7,7 @@ Frontend code for [demos.tf](http://demos.tf), see [the api code](https://github
 ## Api base url
 
 
-The api is expected to be reachable at the `api` subdomain of the domain that the site is hosted on, this can be changed in `src/Providers/BaseProvider.js`.
+The api is expected to be reachable at the `api` subdomain of the domain that the site is hosted on, this can be changed in `src/config.ts`.
 
 ## Docker image
 
@@ -57,5 +57,5 @@ make watch
 or 
 
 ```
-node webpack.dev.server.js
+node node_modules/.bin/webpack-dev-server --hot --inline --config webpack.dev.config.js
 ```
