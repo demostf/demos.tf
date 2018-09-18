@@ -55,38 +55,6 @@
 	& > span {
 		vertical-align: top;
 	}
-
-	div.Select {
-		vertical-align: middle;
-		display: inline-block;
-		width: 200px;
-		margin-top: -13px;
-	}
-
-	div.Select div.Select-placeholder {
-		padding: 4px;
-		cursor: pointer;
-	}
-
-	div.Select div.Select-control, div.Select-control:hover {
-		height: 62px;
-		border-radius: 0;
-		border: none;
-	}
-
-	div.Select .Select-arrow, .Select-value-label {
-		vertical-align: middle;
-	}
-
-	div.Select .Select-value {
-		padding-top: 10px;
-	}
-
-	div.Select div.Select-control {
-		height: 62px;
-		border-radius: 0;
-		border: 1px solid #ccc;
-	}
 }
 
 @media (max-width: 950px) {

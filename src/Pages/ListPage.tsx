@@ -25,6 +25,7 @@ export interface ListPageState {
 	loading: boolean;
 	subjectName: string;
 }
+
 export interface ListPageParams {
 	steamid?: string;
 }
@@ -198,11 +199,31 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 			demoTitle = (
 				<span className="listType">
 					{config.showUpload ?
-						<StringSelect options={['Uploads', 'Demos']}
-										  isClearable={false}
-										  value={this.state.isUploads ? 'Uploads' : 'Demos'}
-										  onChange={setListType}
-										  isSearchable={false}
+						<StringSelect
+							options={['Uploads', 'Demos']}
+							isClearable={false}
+							value={this.state.isUploads ? 'Uploads' : 'Demos'}
+							onChange={setListType}
+							isSearchable={false}
+
+							styles={{
+								control: (base) => ({
+									...base,
+									borderRadius: 0,
+									border: 'none',
+									height: 62,
+									background: 'transparent',
+									position: 'relative',
+									top: 5
+								}),
+								container: (base) => ({
+									...base,
+									width: 200,
+									display: 'inline-block',
+									cursor: 'pointer',
+									marginTop: 0
+								})
+							}}
 						/> : (this.state.isUploads ? 'Uploads ' : 'Demos ')}{this.state.isUploads ? 'by' : 'for'} {this.state.subjectName}
 				</span>
 			);
