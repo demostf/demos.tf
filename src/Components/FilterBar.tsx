@@ -64,7 +64,6 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 
 	async setStateFromFilter() {
 		const selectedUsers = await Promise.all(this.props.filter['players[]'].map(steamId => this.playerProvider.getUser(steamId)));
-		console.log(selectedUsers);
 
 		this.setState({
 			map: this.props.provider.filter.map ? this.props.provider.filter.map : '',
@@ -120,6 +119,14 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 					onChange={(value: OptionType | null) => this.setType(value)}
 					isClearable={true}
 					value={this.state.type}
+					styles={{
+						control: (base) => ({
+							...base,
+							borderTopRightRadius: 0,
+							borderBottomRightRadius: 0,
+							borderRightWidth: 0
+						})
+					}}
 				/>
 				<StringSelect
 					className="map"
@@ -128,6 +135,12 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 					onChange={value => this.setMap(value)}
 					isClearable={true}
 					value={this.state.map}
+					styles={{
+						control: (base) => ({
+							...base,
+							borderRadius: 0
+						})
+					}}
 				/>
 				<PlayerSelect
 					className="players"
@@ -141,6 +154,14 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 					getOptionValue={(user: SteamUser) => user.steamid}
 					cacheOptions={false}
 					value={this.state.selectedUsers}
+					styles={{
+						control: (base) => ({
+							...base,
+							borderTopLeftRadius: 0,
+							borderBottomLeftRadius: 0,
+							borderLeftWidth: 0
+						})
+					}}
 				/>
 			</div>
 		);
