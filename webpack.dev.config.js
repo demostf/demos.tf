@@ -6,11 +6,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	devtool: 'cheap-eval-source-map',
+	mode: 'development',
 	entry: {
 		app: [
-			// 'webpack-dev-server/client?http://localhost:3000',
-			// 'webpack/hot/only-dev-server',
-			'react-hot-loader/patch',
 			'./src/index.tsx'
 		]
 	},
@@ -33,7 +31,7 @@ module.exports = {
 	],
 	module: {
 		rules: [
-			{test: /\.tsx?$/, use: ['react-hot-loader/webpack', 'ts-loader']},
+			{test: /\.tsx?$/, use: ['ts-loader']},
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [

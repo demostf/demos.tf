@@ -1,18 +1,33 @@
 import * as React from 'react';
-import Select, {Async, Option} from 'react-select';
+import Select, {Async} from 'react-select';
 import {PlayerProvider} from '../Providers/PlayerProvider'
 
 import './FilterBar.css';
-import 'react-select/dist/react-select.css';
-import {DemoListProvider, DemoListFilter} from "../Providers/DemoProvider";
+import {DemoListProvider, DemoListFilter, SteamUser} from "../Providers/DemoProvider";
 import {config} from '../config';
+import {OptionsType} from "react-select/lib/types";
+import {StringSelect} from "./StringSelect";
 
-const typeOptions: Option[] = Object.keys(config.gameTypes).map(key => {
+export interface OptionType {
+	value: string,
+	label: string
+}
+
+const typeOptions: OptionsType<OptionType> = Object.keys(config.gameTypes).map(key => {
 	return {
 		value: key,
 		label: config.gameTypes[key]
 	}
 });
+
+class PlayerSelect extends Async<SteamUser> {
+
+}
+
+class GameTypeSelect extends Select<OptionType> {
+
+}
+
 
 export interface FilterBarProps {
 	provider: DemoListProvider;
@@ -21,104 +36,111 @@ export interface FilterBarProps {
 }
 
 export interface FilterBarState {
-	type: string;
-	mpa: string;
-	players: string;
+	maps: string[];
+	selectedUsers: SteamUser[];
+	map: string;
+	type: null | OptionType;
 }
 
 export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
-	selectedUsers = [];
 	playerProvider: PlayerProvider;
+
+	state: FilterBarState = {
+		maps: [],
+		selectedUsers: [],
+		map: '',
+		type: null
+	};
 
 	constructor(props) {
 		super(props);
 		this.playerProvider = new PlayerProvider();
 	}
 
-	getMaps = async () => {
-		const maps = await this.props.provider.listMaps();
-		return {
-			options: maps.map(map => {
-				return {value: map, label: map};
-			}),
-			complete: true
-		};
-	};
+	componentDidMount() {
+		this.props.provider.listMaps().then(maps => this.setState({maps}));
+		this.setStateFromFilter();
+	}
 
-	setFilter = (type, value) => {
-		if (type === 'players[]') {
-			this.selectedUsers = value;
-		}
-		if (value && value.value) {
-			value = value.value;
-		}
-		if (value && value.map) {
-			value = value.map(player => player.value);
-		}
-		this.props.provider.setFilter(type, value);
+	async setStateFromFilter() {
+		const selectedUsers = await Promise.all(this.props.filter['players[]'].map(steamId => this.playerProvider.getUser(steamId)));
+		console.log(selectedUsers);
+
+		this.setState({
+			map: this.props.provider.filter.map ? this.props.provider.filter.map : '',
+			type: this.props.provider.filter.type ? {
+				value: this.props.provider.filter.type,
+				label: config.gameTypes[this.props.provider.filter.type]
+			} : null,
+			selectedUsers
+		});
+	}
+
+	setType = (value: OptionType | null) => {
+		const type = value ? value.value : null;
+		this.props.provider.setFilter('type', type);
 		if (this.props.onChange) {
 			this.props.onChange();
 		}
+		this.setState({type: value});
 	};
 
-	searchUsers = (query) => {
-		return this.playerProvider.search(query)
-			.then(users => users.map(user => {
-				return {
-					value: user.steamid,
-					label: user.name
-				}
-			}))
-			.then(users => {
-				const selectedUsers = this.props.filter['players[]'].map(steamId => {
-					return {
-						value: steamId,
-						label: PlayerProvider.nameMap[steamId]
-					};
-				});
-				return {
-					options: users.concat(selectedUsers),
-					complete: false
-				};
-			});
+	setMap = (map) => {
+		this.props.provider.setFilter('map', map);
+		if (this.props.onChange) {
+			this.props.onChange();
+		}
+		this.setState({map});
 	};
 
-	onInputChange = (type, value) => {
-		const newState = {};
-		newState[type] = value;
-		this.setState(newState);
+	setPlayers = (selectedUsers: SteamUser[]) => {
+		this.props.provider.setFilter('players[]', selectedUsers.map(user => user.steamid));
+		if (this.props.onChange) {
+			this.props.onChange();
+		}
+		this.setState({selectedUsers});
+	};
+
+	searchUsers = async (query): Promise<SteamUser[]> => {
+		const selectedUsers = await Promise.all(this.props.filter['players[]'].map(steamId => this.playerProvider.getUser(steamId)));
+		if (query.length < 3) {
+			return selectedUsers;
+		}
+		const foundUsers = await this.playerProvider.search(query);
+		return foundUsers.concat(selectedUsers);
 	};
 
 	render() {
 		return (
 			<div className="filterbar">
-				<Select
+				<GameTypeSelect
 					className="type"
-					value={this.props.filter.type}
 					placeholder="All Types"
 					options={typeOptions}
-					onInputChange={value => this.onInputChange('type', value)}
-					onChange={value => this.setFilter('type', value)}
-					searchable={true}
+					onChange={(value: OptionType | null) => this.setType(value)}
+					isClearable={true}
+					value={this.state.type}
 				/>
-				<Async
+				<StringSelect
 					className="map"
-					value={this.props.filter.map}
 					placeholder="All Maps"
-					loadOptions={this.getMaps}
-					onChange={value => this.setFilter('map', value)}
-					searchable={true}
+					options={this.state.maps}
+					onChange={value => this.setMap(value)}
+					isClearable={true}
+					value={this.state.map}
 				/>
-				<Async
+				<PlayerSelect
 					className="players"
-					multi={true}
-					value={this.selectedUsers}
+					isMulti={true}
+					defaultOptions={this.state.selectedUsers}
 					placeholder="All Players"
 					loadOptions={this.searchUsers}
-					onChange={value => this.setFilter('players[]', value)}
-					minimumInput={2}
-					cache={false}
-					searchable={true}
+					onChange={this.setPlayers}
+					isClearable={true}
+					getOptionLabel={(user: SteamUser) => user.name}
+					getOptionValue={(user: SteamUser) => user.steamid}
+					cacheOptions={false}
+					value={this.state.selectedUsers}
 				/>
 			</div>
 		);

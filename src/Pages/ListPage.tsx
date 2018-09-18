@@ -15,7 +15,8 @@ import './ListPage.css';
 import 'react-spinner/react-spinner.css';
 import {DemoInfo} from "../Providers/DemoProvider";
 import Element = JSX.Element;
-import {RouteComponentProps} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router";
+import {StringSelect} from "../Components/StringSelect";
 
 export interface ListPageState {
 	demos: DemoInfo[];
@@ -24,7 +25,6 @@ export interface ListPageState {
 	loading: boolean;
 	subjectName: string;
 }
-
 export interface ListPageParams {
 	steamid?: string;
 }
@@ -33,7 +33,7 @@ export interface ListPageProps extends RouteComponentProps<ListPageParams> {
 	demoListProvider: DemoListProvider;
 }
 
-export class ListPage extends React.Component<ListPageProps, ListPageState> {
+class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 	static page = 'list';
 
 	endpoint: string;
@@ -180,12 +180,9 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 		let demoTitle: Element | string = 'Demos';
 
 		if (this.state.steamid) {
-			const options = [
-				{value: 'uploads', 'label': 'Uploads'},
-				{value: 'demos', 'label': 'Demos'}
-			];
 			const setListType = (type) => {
-				const isUploads = type.value == 'uploads';
+				const isUploads = type.toLowerCase() === 'uploads';
+				console.log(isUploads);
 				if (isUploads !== this.state.isUploads) {
 					if (isUploads) {
 						this.endpoint = 'uploads/' + this.state.steamid;
@@ -201,11 +198,11 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 			demoTitle = (
 				<span className="listType">
 					{config.showUpload ?
-						<Select options={options}
-								clearable={false}
-								value={this.state.isUploads ? 'uploads' : 'demos'}
-								onChange={setListType}
-								searchable={false}
+						<StringSelect options={['Uploads', 'Demos']}
+										  isClearable={false}
+										  value={this.state.isUploads ? 'Uploads' : 'Demos'}
+										  onChange={setListType}
+										  isSearchable={false}
 						/> : (this.state.isUploads ? 'Uploads ' : 'Demos ')}{this.state.isUploads ? 'by' : 'for'} {this.state.subjectName}
 				</span>
 			);
@@ -234,3 +231,4 @@ export class ListPage extends React.Component<ListPageProps, ListPageState> {
 	}
 }
 
+export const ListPage = withRouter(ListPageNoRouter);

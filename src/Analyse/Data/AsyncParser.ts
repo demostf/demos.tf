@@ -44,8 +44,8 @@ export class AsyncParser {
 	world: World;
 	progressCallback: (progress: number) => void;
 
-	constructor(bufffer: ArrayBuffer, progressCallback: (progress: number) => void) {
-		this.buffer = bufffer;
+	constructor(buffer: ArrayBuffer, progressCallback: (progress: number) => void) {
+		this.buffer = buffer;
 		this.progressCallback = progressCallback;
 	}
 
@@ -90,7 +90,10 @@ export class AsyncParser {
 	getPlayersAtTick(tick: number) {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
-			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap.get(i).user));
+			let entity = this.entityPlayerMap.get(i);
+			if (entity) {
+				players.push(this.playerCache.getPlayer(tick, i, entity.user));
+			}
 		}
 
 		// fake teams in 1v1 ffa

@@ -176,7 +176,10 @@ export class Parser {
 	getPlayersAtTick(tick: number) {
 		const players: CachedPlayer[] = [];
 		for (let i = 0; i < this.nextMappedPlayer; i++) {
-			players.push(this.playerCache.getPlayer(tick, i, this.entityPlayerMap.get(i).user));
+			let entity = this.entityPlayerMap.get(i);
+			if (entity) {
+				players.push(this.playerCache.getPlayer(tick, i, entity.user));
+			}
 		}
 		return players;
 	}

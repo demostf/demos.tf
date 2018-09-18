@@ -37,7 +37,7 @@ export class DemoListProvider extends BaseProvider {
 	cachedDemos: DemoInfo[] = [];
 	lastPage = 0;
 	_endPoint = 'demos';
-	cachedMaps: string[] = [];
+	cachedMaps: Promise<string[]>|null = null;
 	filter: DemoListFilter = {
 		map: '',
 		type: '',
@@ -102,11 +102,11 @@ export class DemoListProvider extends BaseProvider {
 		return this.demos;
 	}
 
-	async listMaps(): Promise<string[]> {
-		if (this.cachedMaps.length > 0) {
-			return this.cachedMaps;
+	listMaps(): Promise<string[]> {
+		if (!this.cachedMaps) {
+			this.cachedMaps = this.request('maps') as Promise<string[]>;
 		}
-		return this.cachedMaps = await this.request('maps');
+		return this.cachedMaps;
 	}
 
 	get demos(): DemoInfo[] {
@@ -124,9 +124,11 @@ export interface ChatMessage {
 	user: string;
 }
 
+export type SteamId = string;
+
 export interface SteamUser {
 	id: number;
-	steamid: string;
+	steamid: SteamId;
 	name: string;
 }
 

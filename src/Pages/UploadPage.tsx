@@ -13,7 +13,7 @@ import './UploadPage.css';
 import '../Components/TeamBanner.css';
 import {AuthProvider, User} from "../Providers/AuthProvider";
 import Element = JSX.Element;
-import {RouteComponentProps} from "react-router";
+import {History} from "history";
 
 export interface GetStringDataView extends DataView {
 	getString: (offset: number, length: number) => string;
@@ -23,7 +23,7 @@ function parseHeader(file, cb) {
 	const reader = new FileReader();
 
 	reader.onload = function () {
-		const view: GetStringDataView = new DataView(reader.result) as GetStringDataView;
+		const view: GetStringDataView = new DataView(reader.result as ArrayBuffer) as GetStringDataView;
 		cb({
 			'type': view.getString(0, 8),
 			'server': view.getString(16, 260),
@@ -58,11 +58,12 @@ export interface UploadPageState {
 	error: null | string;
 }
 
-export interface UploadPageProps extends RouteComponentProps<{}> {
+export interface UploadPageProps {
 	user: User;
+	history: History;
 }
 
-export class UploadPage extends React.Component<UploadPageProps, UploadPageState> {
+export class UploadPageNoRouter extends React.Component<UploadPageProps, UploadPageState> {
 	provider: DemoProvider;
 
 	static page = 'upload';
@@ -184,3 +185,5 @@ export class UploadPage extends React.Component<UploadPageProps, UploadPageState
 		);
 	}
 }
+
+export const UploadPage = withRouter(UploadPageNoRouter);

@@ -2,12 +2,12 @@
 
 const webpack = require("webpack");
 const path = require("path");
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-const CompressionPlugin = require("zopfli-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
@@ -22,6 +22,7 @@ module.exports = {
 			`whatwg-fetch`,
 		],
 	},
+	mode: 'production',
 	output: {
 		path: path.join(__dirname, "build"),
 		filename: "[name]-[hash].js",
@@ -57,7 +58,7 @@ module.exports = {
 			debug: false
 		}),
 		new CleanPlugin(['build']),
-		new ExtractTextPlugin({
+		new MiniCssExtractPlugin({
 			filename: '[contenthash].css'
 		}),
 		new webpack.NoEmitOnErrorsPlugin({
@@ -84,11 +85,6 @@ module.exports = {
 		}),
 		new HtmlWebpackInlineSourcePlugin(),
 		new CompressionPlugin({
-			algorithm: "zopfli",
-			test: /\.(js|css|html|svg)$/,
-			threshold: 1024
-		}),
-		new BrotliPlugin({
 			test: /\.(js|css|html|svg)$/,
 			threshold: 1024
 		}),
@@ -125,10 +121,11 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				use: ExtractTextPlugin.extract({
-					fallback: "style-loader",
-					use: ['css-loader', 'postcss-loader']
-				})
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					'postcss-loader'
+				]
 			}
 		]
 	}
