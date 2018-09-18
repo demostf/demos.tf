@@ -16,29 +16,4 @@
   div.players {
     width: calc(100% - (150px + 200px));
   }
-
-  span.Select-arrow {
-    display: none;
-  }
-
-  span.Select-clear {
-    right: 0;
-  }
-
-  div.Select-control {
-    border-radius: 0;
-    margin-right: -1px;
-    border-right-width: 0;
-  }
-
-  @media (max-width: 650px) {
-    div.Select {
-      width: 100%;
-    }
-
-    div.Select div.Select-control {
-      border-radius: 4px;
-      border-width: 1px;
-    }
-  }
 }

@@ -31,11 +31,11 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.tsx', '.ts'],
-		alias: {
-			'react': 'preact-compat',
-			'react-dom': 'preact-compat',
-			'create-react-class': 'preact-compat/lib/create-react-class'
-		}
+		// alias: {
+		// 	'react': 'preact-compat',
+		// 	'react-dom': 'preact-compat',
+		// 	'create-react-class': 'preact-compat/lib/create-react-class'
+		// }
 	},
 	plugins: [
 		new webpack.LoaderOptionsPlugin({
@@ -61,17 +61,8 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: '[contenthash].css'
 		}),
-		new webpack.NoEmitOnErrorsPlugin({
-			mangle: { topLevel: true }
-		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new MinifyPlugin(),
-		new webpack.DefinePlugin({
-			'process.env': {
-				// Useful to reduce the size of client-side libraries, e.g. react
-				NODE_ENV: JSON.stringify('production')
-			}
-		}),
 		new FaviconsWebpackPlugin({
 			logo: './src/images/logo.png',
 			title: 'demos.tf',
