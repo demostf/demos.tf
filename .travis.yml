@@ -3,7 +3,7 @@ language: node_js
 node_js:
 - "9"
 install:
-- sudo apt-get install -y xcftools
+- sudo apt-get install -y xcftools libpng
 - make node_modules
 script:
 - make
