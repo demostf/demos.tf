@@ -1,6 +1,5 @@
 'use strict';
 
-const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -26,8 +25,7 @@ module.exports = {
 			chunks: ['app'],
 			inlineSource: '\.css$',
 			template: '!!html-loader!src/index.html'
-		}),
-		new webpack.NamedModulesPlugin()
+		})
 	],
 	module: {
 		rules: [

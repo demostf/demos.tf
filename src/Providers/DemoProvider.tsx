@@ -163,15 +163,17 @@ export interface Demo {
 export class DemoProvider extends BaseProvider {
 	static instance = new DemoProvider();
 
-	cached: Demo[] = [];
+	cached: Map<number, Demo> = new Map();
 
-	async getDemo(id): Promise<Demo> {
-		if (this.cached[id]) {
-			return this.cached[id];
+	async getDemo(id: number): Promise<Demo> {
+		const cached = this.cached.get(id);
+		if (cached) {
+			return cached;
 		}
 		const response = await this.request('demos/' + id);
-		this.cached[id] = this.formatResponse(response);
-		return this.cached[id];
+		const result = this.formatResponse(response);
+		this.cached.set(id, result);
+		return result;
 	}
 
 	getChat(id): Promise<ChatMessage[]> {

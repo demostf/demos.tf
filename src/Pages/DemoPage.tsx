@@ -21,7 +21,7 @@ export interface DemoPageState {
 }
 
 export interface DemoPageParams {
-	id: number;
+	id?: string;
 }
 
 export interface DemoPageProps extends RouteComponentProps<DemoPageParams> {
@@ -67,7 +67,7 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 
 	async componentDidMount() {
 		document.title = 'Loading - demos.tf';
-		const demo = await this.provider.getDemo(this.props.match.params.id);
+		const demo = await this.provider.getDemo(parseInt(this.props.match.params.id || '0', 10));
 		document.title = demo.server + ' - demos.tf';
 		this.setState({demo});
 	};
@@ -111,7 +111,7 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 		}
 		if (demo.map.substr(0, 3) === 'dm_') {
 			demo.redScore = 0;
-			demo.blueScore = 0
+			demo.blueScore = 0;
 			for (const player of demo.players) {
 				switch (player.team) {
 					case 'red':

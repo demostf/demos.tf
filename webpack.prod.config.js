@@ -62,7 +62,6 @@ module.exports = {
 			filename: '[contenthash].css'
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new MinifyPlugin(),
 		new FaviconsWebpackPlugin({
 			logo: './src/images/logo.png',
 			title: 'demos.tf',
