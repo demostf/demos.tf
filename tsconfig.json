@@ -9,7 +9,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "target": "ES6",
-    "declaration": true,
+    "declaration": false,
     "strictNullChecks": true,
     "sourceMap": true,
     "jsx": "react",

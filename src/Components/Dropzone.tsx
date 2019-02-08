@@ -10,9 +10,9 @@ export interface DropzoneProps {
 
 export function DemoDropZone(props: DropzoneProps) {
 	return (
-		<DropZone onDrop={props.onDrop}
-					   className="dropzone">
-			{props.text ? props.text : 'Drop files or click to upload'}
+		<DropZone onDrop={props.onDrop}>
+			{({getRootProps, getInputProps}) => <button className="dropzone" {...getRootProps()}>{this.state.message}
+				{props.text ? props.text : 'Drop files or click to upload'}<input {...getInputProps()}/></button>}
 		</DropZone>
 	);
 }

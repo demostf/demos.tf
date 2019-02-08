@@ -2,10 +2,9 @@ import * as React from 'react';
 import {MapRender} from './MapRender';
 import {Header} from '@demostf/demo.js';
 import {MapContainer} from "./MapContainer";
-import throttle from 'lodash.throttle';
+import {throttle, debounce} from 'throttle-debounce';
 import {Timeline} from './Render/Timeline';
 import {SpecHUD} from './Render/SpecHUD';
-import debounce from 'lodash.debounce';
 import {AnalyseMenu} from './AnalyseMenu'
 
 import './Analyser.css'
@@ -218,7 +217,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 	}
 
-	private syncPlayTick = debounce(() => {
+	private syncPlayTick = debounce(500, () => {
 		if (this.session && this.isSessionOwner) {
 			this.session.send(JSON.stringify({
 				type: 'tick',
@@ -226,13 +225,13 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 				tick: this.state.tick
 			}));
 		}
-	}, 500);
+	});
 
-	private setHash = debounce((tick) => {
+	private setHash = debounce(250, (tick) => {
 		if (!this.session && this.props.isStored) {
 			history.replaceState('', '', '#' + tick * 2);
 		}
-	}, 250);
+	});
 
 	animFrame(timestamp) {
 		const timePassed = timestamp - this.playStartTime;
@@ -293,9 +292,9 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 						   value={playButtonText}
 						   disabled={disabled}/>
 					<Timeline parser={this.parser} tick={this.state.tick}
-							  onSetTick={throttle((tick) => {
+							  onSetTick={throttle(50, (tick) => {
 								  this.setTickNow(tick);
-							  }, 50)}
+							  })}
 							  disabled={disabled}/>
 				</div>
 			</div>
