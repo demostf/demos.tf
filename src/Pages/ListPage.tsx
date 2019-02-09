@@ -17,6 +17,7 @@ import {DemoInfo} from "../Providers/DemoProvider";
 import Element = JSX.Element;
 import {RouteComponentProps, withRouter} from "react-router";
 import {StringSelect} from "../Components/StringSelect";
+import {Info} from '../Components/Info'
 
 export interface ListPageState {
 	demos: DemoInfo[];
@@ -232,6 +233,18 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 		return (
 			<div>
 				<h1>{demoTitle}</h1>
+
+				<Info title="Where are my demos?">
+					<p>
+						Due to an issue while upgrading the server resulting in a loss of the database,
+						the database had to be reverted to a backup from the 23th of January, thus any demo uploaded
+						between the 23th of January and the 9th of February is no longer in the database.
+					</p>
+					<p>
+						The actual demo files of that period are still saved and I'll try to re-import them into the database once
+						I have enough time to do so.
+					</p>
+				</Info>
 
 				<div className="search">
 					<FilterBar provider={this.provider}

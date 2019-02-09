@@ -1,0 +1,17 @@
+.info-popup {
+    text-align: left;
+    background-color: #f8f8f8;
+    margin: 0 -30px;
+    padding-bottom: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
+    cursor: pointer;
+
+    h2 {
+        margin: 0 -30px;
+        padding: 5px 30px;
+        text-align: left;
+        font-size: 20px;
+        background-color: #bbbbbb;
+    }
+}
