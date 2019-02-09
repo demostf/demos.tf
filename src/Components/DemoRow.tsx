@@ -6,6 +6,7 @@ import {DemoInfo} from "../Providers/DemoProvider";
 
 export interface DemoRowProps extends DemoInfo {
 	i: number;
+	highlightUsers: string[];
 }
 
 export function DemoRow(props: DemoRowProps) {
@@ -33,7 +34,7 @@ export function DemoRow(props: DemoRowProps) {
 		<tr key={props.i}
 		    className={((props.i % 2 === 0) ? 'even': 'odd')}>
 			<td className="title">
-				<Link to={'/' + props.id}>
+				<Link to={'/' + props.id + (props.highlightUsers.length ? '#' + props.highlightUsers.join(';') : '')}>
 					{props.server} - {props.red}
 					&nbsp;vs&nbsp;{props.blue}
 				</Link>

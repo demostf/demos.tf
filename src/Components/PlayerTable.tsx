@@ -59,13 +59,16 @@ function getPlayerPairs(players: Player[]) {
 
 export interface PlayerTableProps {
 	players: Player[];
+	highlightUsers: string[];
 }
 
 export function PlayerTable(props: PlayerTableProps) {
 	const playerPairs = getPlayerPairs(props.players);
 	const rows = playerPairs.map((pair, i) => {
+		const highlightRed = props.highlightUsers.includes(pair.red.steamid);
+		const highlightBlue = props.highlightUsers.includes(pair.blue.steamid);
 		return (
-			<tr key={i}>
+			<tr key={i} className={(highlightRed ? 'highlight-red ' : '') + (highlightBlue ? 'highlight-blue' : '')}>
 				<td className="team red"/>
 				<td className="name red">
 					{(pair.red) ? <Link

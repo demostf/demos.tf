@@ -18,6 +18,7 @@ export interface DemoPageState {
 	demo: Demo;
 	chat: ChatMessage[];
 	showChat: boolean;
+	highlightUsers: string[];
 }
 
 export interface DemoPageParams {
@@ -56,7 +57,8 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 			url: ''
 		},
 		chat: [],
-		showChat: false
+		showChat: false,
+		highlightUsers: []
 	};
 
 	constructor(props) {
@@ -68,8 +70,9 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 	async componentDidMount() {
 		document.title = 'Loading - demos.tf';
 		const demo = await this.provider.getDemo(parseInt(this.props.match.params.id || '0', 10));
+		const hash = this.props.location.hash ? this.props.location.hash.substr(1) : '';
 		document.title = demo.server + ' - demos.tf';
-		this.setState({demo});
+		this.setState({demo, highlightUsers: hash.split(';')});
 	};
 
 	toggleChat = () => {
@@ -139,7 +142,7 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 					<TeamBanner redScore={demo.redScore}
 								blueScore={demo.blueScore}
 								redName={demo.red} blueName={demo.blue}/>
-					<PlayerTable players={demo.players}/>
+					<PlayerTable players={demo.players} highlightUsers={this.state.highlightUsers}/>
 
 					<p className="demo-info">
 						<span>{demo.map}</span>

@@ -25,6 +25,7 @@ export interface ListPageState {
 	isUploads: boolean;
 	loading: boolean;
 	subjectName: string;
+	highlightUsers: string[];
 }
 
 export interface ListPageParams {
@@ -47,7 +48,8 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 		steamid: '',
 		isUploads: false,
 		loading: true,
-		subjectName: ''
+		subjectName: '',
+		highlightUsers: []
 	};
 
 	loading = false;
@@ -58,6 +60,7 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 		super(props);
 
 		const params = props.match.params || {};
+		this.state.highlightUsers = this.provider.filter["players[]"];
 		if (params.steamid) {
 			this.state.steamid = params.steamid;
 			this.state.isUploads = props.location.pathname.substr(0, 9) === '/uploads/';
@@ -65,6 +68,9 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 				this.endpoint = 'uploads/' + params.steamid;
 			} else {
 				this.endpoint = 'profiles/' + params.steamid;
+			}
+			if (!this.state.highlightUsers.includes(params.steamid)) {
+				this.state.highlightUsers.push(params.steamid);
 			}
 		} else {
 			this.state.isUploads = false;
@@ -90,13 +96,13 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 		}
 		this.provider.endPoint = this.endpoint;
 		this.filterChange();
-		this.setState({steamid, isUploads});
+		this.setState({steamid, isUploads, highlightUsers: this.provider.filter["players[]"]});
 	}
 
 	filterChange() {
 		this.provider.reset();
 		this.loading = false;
-		this.setState({demos: []});
+		this.setState({demos: [], highlightUsers: this.provider.filter["players[]"]});
 		this.rowMap = {};
 		this.loadPage();
 	}
@@ -154,7 +160,7 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 		if (this.rowMap[demo.id]) {
 			return this.rowMap[demo.id];
 		}
-		this.rowMap[demo.id] = <DemoRow i={i} key={i} {...demo} />;
+		this.rowMap[demo.id] = <DemoRow i={i} key={i} {...demo} highlightUsers={this.state.highlightUsers} />;
 		return this.rowMap[demo.id];
 	}
 
