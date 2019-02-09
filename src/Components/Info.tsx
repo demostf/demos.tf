@@ -18,7 +18,7 @@ export class Info extends Component<InfoProps, InfoState> {
 	};
 
 	render(): ReactNode {
-		return <div class="info-popup" onClick={() => this.setState({expanded: !this.state.expanded})}>
+		return <div className="info-popup" onClick={() => this.setState({expanded: !this.state.expanded})}>
 			<h2>{this.props.title}</h2>
 			{this.state.expanded ? this.props.children : []}
 		</div>;
