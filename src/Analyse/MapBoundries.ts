@@ -378,6 +378,26 @@ const overWriteMapBoundaries = {
 			"x": 264,
 			"y": 1268
 		}
+	},
+	'cp_kalinka_rc5': {
+		"boundaryMin": {
+			"x": -4117,
+			"y": -5036
+		},
+		"boundaryMax": {
+			"x": 4117,
+			"y": 4740
+		}
+	},
+	'cp_cardinal_rc1a': {
+		"boundaryMin": {
+			"x": -6716,
+			"y": -1782
+		},
+		"boundaryMax": {
+			"x": 6716,
+			"y": 1782
+		}
 	}
 };
 
