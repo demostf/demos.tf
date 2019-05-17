@@ -4,7 +4,7 @@ RUN apt update && apt install -y git build-essential libpng16-16 libpng-dev xcft
 COPY . .
 RUN rm package-lock.json && make
 
-FROM fholzer/nginx-brotli:v1.15.8
+FROM fholzer/nginx-brotli:v1.16.0
 
 RUN apk add --no-cache libintl gettext
 
