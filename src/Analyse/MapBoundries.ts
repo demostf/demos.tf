@@ -398,6 +398,16 @@ const overWriteMapBoundaries = {
 			"x": 6716,
 			"y": 1782
 		}
+	},
+	'koth_airfield': {
+		"boundaryMin": {
+			"x": -3102,
+			"y": -2094
+		},
+		"boundaryMax": {
+			"x": 3102,
+			"y": 2094
+		}
 	}
 };
 
