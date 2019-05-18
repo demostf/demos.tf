@@ -1,9 +1,15 @@
+dist: xenial
+addons:
+  apt:
+    packages:
+      - xcftools
+      - libpng16-16
+      - webp
 sudo: required
 language: node_js
 node_js:
-- "9"
+- "11"
 install:
-- sudo apt-get install -y xcftools libpng16-16
-- make node_modules
+- rm package-lock.json && make node_modules
 script:
 - make
