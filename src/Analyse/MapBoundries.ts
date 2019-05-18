@@ -379,7 +379,7 @@ const overWriteMapBoundaries = {
 			"y": 1268
 		}
 	},
-	'cp_kalinka_rc5': {
+	'cp_kalinka': {
 		"boundaryMin": {
 			"x": -4117,
 			"y": -5036
@@ -389,7 +389,7 @@ const overWriteMapBoundaries = {
 			"y": 4740
 		}
 	},
-	'cp_cardinal_rc1a': {
+	'cp_cardinal': {
 		"boundaryMin": {
 			"x": -6716,
 			"y": -1782
