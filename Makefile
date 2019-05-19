@@ -29,8 +29,8 @@ watch: node_modules
 	node node_modules/.bin/webpack-dev-server --hot --inline --config webpack.dev.config.js
 
 .PHONY: analyse
-analyse: node_modules
-	node_modules/.bin/webpack --config webpack.prod.config.js --json | tail +3 | node_modules/.bin/webpack-bundle-size-analyzer
+analyse: build/js/main.js
+	node_modules/.bin/webpack-bundle-analyzer build/stats.json
 
 .PHONY: beta
 beta:

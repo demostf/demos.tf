@@ -11,6 +11,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const MinifyPlugin = require("babel-minify-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
 	devtool: 'source-map',
@@ -91,7 +92,11 @@ module.exports = {
 				stripPrefix: 'build',
 				staticFileGlobs: ['build/*.js', 'build/*.css']
 			}
-		)
+		),
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'disabled',
+			generateStatsFile: true
+		})
 	],
 	module: {
 		rules: [
