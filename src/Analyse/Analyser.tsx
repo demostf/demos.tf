@@ -68,6 +68,7 @@ const syncUri = 'wss://sync.demos.tf';
 export class Analyser extends React.Component<AnalyseProps, {}> {
 	parser: AsyncParser;
 	session?: WebSocket;
+	owner_token?: string;
 	isSessionOwner = false;
 	sessionName: string;
 
@@ -159,12 +160,18 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		}
 		this.isSessionOwner = true;
 		this.setState({isShared: true});
+		this.owner_token = generateSession();
+		this.openSession();
+	}
+
+	openSession() {
 		this.session = new WebSocket(syncUri);
 		this.session.onopen = () => {
 			if (this.session) {
 				this.session.send(JSON.stringify({
 					type: 'create',
-					session: this.sessionName
+					session: this.sessionName,
+					token: this.owner_token
 				}));
 				this.session.send(JSON.stringify({
 					type: 'tick',
@@ -177,7 +184,15 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 					play: this.state.playing
 				}));
 			}
-		}
+		};
+		this.session.onclose = () => {
+			this.session = undefined;
+			setTimeout(this.openSession.bind(this), 250);
+		};
+		this.session.onerror = () => {
+			this.session = undefined;
+			setTimeout(this.openSession.bind(this), 250);
+		};
 	}
 
 	joinSession(name: string) {
@@ -206,7 +221,15 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 					}
 				}
 			}
-		}
+		};
+		this.session.onclose = () => {
+			this.session = undefined;
+			setTimeout(() => this.joinSession(this.sessionName), 250);
+		};
+		this.session.onerror = () => {
+			this.session = undefined;
+			setTimeout(() => this.joinSession(this.sessionName), 250);
+		};
 	}
 
 	togglePlay() {
