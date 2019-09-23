@@ -68,9 +68,9 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 				this.endpoint = 'uploads/' + params.steamid;
 			} else {
 				this.endpoint = 'profiles/' + params.steamid;
-			}
-			if (!this.state.highlightUsers.includes(params.steamid)) {
-				this.state.highlightUsers.push(params.steamid);
+				if (!this.state.highlightUsers.includes(params.steamid)) {
+					this.state.highlightUsers.push(params.steamid);
+				}
 			}
 		} else {
 			this.state.isUploads = false;
