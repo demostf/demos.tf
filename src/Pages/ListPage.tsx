@@ -225,7 +225,7 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 								}),
 								container: (base) => ({
 									...base,
-									width: 200,
+									width: 230,
 									display: 'inline-block',
 									cursor: 'pointer',
 									marginTop: 0
