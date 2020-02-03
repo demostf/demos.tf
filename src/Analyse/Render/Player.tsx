@@ -1,13 +1,12 @@
 import * as React from 'react';
-import {CachedPlayer} from "../Data/Parser";
-import {MapBoundary} from "../Data/PositionCache";
+import {PlayerState, WorldBoundaries} from "@demostf/parser";
 import {SVGImage} from './SVGImage';
 
 import './Player.css';
 
 export interface PlayerProp {
-	player: CachedPlayer;
-	mapBoundary: MapBoundary;
+	player: PlayerState;
+	mapBoundary: WorldBoundaries;
 	targetSize: {
 		width: number;
 		height: number;
@@ -42,8 +41,8 @@ const classMap = {
 };
 
 export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
-	const worldWidth = mapBoundary.boundaryMax.x - mapBoundary.boundaryMin.x;
-	const worldHeight = mapBoundary.boundaryMax.y - mapBoundary.boundaryMin.y;
+	const worldWidth = mapBoundary.boundary_max.x - mapBoundary.boundary_min.x;
+	const worldHeight = mapBoundary.boundary_max.y - mapBoundary.boundary_min.y;
 	const {x, y} = player.position;
 	const scaledX = x / worldWidth * targetSize.width;
 	const scaledY = (worldHeight - y) / worldHeight * targetSize.height;
@@ -63,8 +62,8 @@ export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 	</g>
 }
 
-function getClassImage(player: CachedPlayer, imageOpacity: number) {
-	if (!classMap[player.classId]) {
+function getClassImage(player: PlayerState, imageOpacity: number) {
+	if (!classMap[player.playerClass]) {
 		return [];
 	}
 	const image = require(`../../images/class_icons/${classMap[player.classId]}.svg`);

@@ -1,19 +1,18 @@
 import * as React from 'react';
-import {Parser} from "../Data/Parser";
-import {PlayersSpec} from './PlayerSpec';
-import {KillFeed} from './KillFeed';
+// import {PlayersSpec} from './PlayerSpec';
+// import {KillFeed} from './KillFeed';
 import {AsyncParser} from "../Data/AsyncParser";
-import {CachedPlayer} from "../Data/PlayerCache";
+import {PlayerState} from "@demostf/parser";
 
 export interface SpecHUDProps {
 	tick: number;
 	parser: AsyncParser;
-	players: CachedPlayer[];
+	players: PlayerState[];
 }
 
 export function SpecHUD({tick, parser, players}: SpecHUDProps) {
 	return (<div className="spechud">
-		<KillFeed tick={tick} deaths={parser.deaths}/>
-		<PlayersSpec players={players}/>
+		{/*<KillFeed tick={tick} deaths={parser.deaths}/>*/}
+		{/*<PlayersSpec players={players}/>*/}
 	</div>)
 }

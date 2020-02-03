@@ -1,26 +1,22 @@
 import * as React from 'react';
 
-import {Header} from "@demostf/demo.js";
-import {CachedPlayer} from "./Data/Parser";
 import {Player as PlayerDot} from './Render/Player';
-import {Building as BuildingDot} from './Render/Building';
-import {MapBoundary} from './Data/PositionCache';
+// import {Building as BuildingDot} from './Render/Building';
 import {findMapAlias} from './MapBoundries';
+import {PlayerState, Header, WorldBoundaries} from "@demostf/parser";
 
 export interface MapRenderProps {
 	header: Header;
-	players: CachedPlayer[];
-	buildings: CachedBuilding[];
+	players: PlayerState[];
 	size: {
 		width: number;
 		height: number;
 	},
-	world: MapBoundary;
+	world: WorldBoundaries;
 	scale: number;
 }
 
 import './MapRender.css';
-import {CachedBuilding} from "./Data/BuildingCache";
 
 declare const require: {
 	<T>(path: string): T;
@@ -41,7 +37,7 @@ function canUseWebP() {
 	}
 }
 
-export function MapRender({header, players, size, world, scale, buildings}: MapRenderProps) {
+export function MapRender({header, players, size, world, scale}: MapRenderProps) {
 	const mapAlias = findMapAlias(header.map);
 	const image = (canUseWebP()) ?
 		((require(`../images/leveloverview/dist/${mapAlias}.webp`) as any)) :
@@ -49,25 +45,25 @@ export function MapRender({header, players, size, world, scale, buildings}: MapR
 	const background = `url(${image})`;
 
 	const playerDots = players
-		.filter((player: CachedPlayer) => player.position.x)
-		.map((player: CachedPlayer, key) => {
+		.filter((player: PlayerState) => player.position.x)
+		.map((player: PlayerState, key) => {
 			return <PlayerDot key={key} player={player} mapBoundary={world}
 			                  targetSize={size} scale={scale}/>
 		});
 
-	const buildingDots = buildings
-		.filter((building: CachedBuilding) => building.position.x)
-		.map((building: CachedBuilding, key) => {
-			return <BuildingDot key={100 + key} building={building}
-			                    mapBoundary={world}
-			                    targetSize={size} scale={scale}/>
-		});
+	// const buildingDots = buildings
+	// 	.filter((building: CachedBuilding) => building.position.x)
+	// 	.map((building: CachedBuilding, key) => {
+	// 		return <BuildingDot key={100 + key} building={building}
+	// 		                    mapBoundary={world}
+	// 		                    targetSize={size} scale={scale}/>
+	// 	});
 
 	return (
 		<svg className="map-background" width={size.width} height={size.height}
 		     style={{backgroundImage: background}}>
 			{playerDots}
-			{buildingDots}
+			{/*{buildingDots}*/}
 		</svg>
 	);
 }

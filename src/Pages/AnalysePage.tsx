@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {DemoDropZone} from '../Components/Dropzone';
 import {Analyser} from '../Analyse/Analyser';
-import {Demo, Header} from '@demostf/demo.js';
+import {ParsedDemo, Header} from "@demostf/parser";
 
 import './AboutPage.css';
 import {DemoProvider} from "../Providers/DemoProvider";
@@ -11,7 +11,7 @@ import {AsyncParser} from "../Analyse/Data/AsyncParser";
 
 export interface AnalysePageState {
 	demoFile: File | null;
-	demo: Demo | null;
+	demo: ParsedDemo | null;
 	header: Header | null;
 	loading: boolean;
 	error?: string;
@@ -57,7 +57,7 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 			});
 			parser.cache().then(() => {
 				this.setState({
-					header: parser.header,
+					header: parser.demo.header,
 					loading: false,
 					parser
 				});

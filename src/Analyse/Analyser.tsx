@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {MapRender} from './MapRender';
-import {Header} from '@demostf/demo.js';
 import {MapContainer} from "./MapContainer";
 import {throttle, debounce} from 'throttle-debounce';
 import {Timeline} from './Render/Timeline';
 import {SpecHUD} from './Render/SpecHUD';
 import {AnalyseMenu} from './AnalyseMenu'
+import {Header} from "@demostf/parser";
 
 import './Analyser.css'
 import {AsyncParser} from "./Data/AsyncParser";
@@ -92,7 +92,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	constructor(props: AnalyseProps) {
 		super(props);
 		this.parser = props.parser;
-		this.intervalPerTick = this.parser.intervalPerTick;
+		this.intervalPerTick = props.header.interval_per_tick;
 		this.sessionName = generateSession();
 		if (props.isStored && window.location.hash) {
 			const parsed = parseInt(window.location.hash.substr(1), 10);
@@ -107,8 +107,8 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	componentDidMount() {
 		const world = this.parser.world;
 		const worldSize = {
-			width: world.boundaryMax.x - world.boundaryMin.x,
-			height: world.boundaryMax.y - world.boundaryMin.y,
+			width: world.boundary_max.x - world.boundary_min.x,
+			height: world.boundary_max.y - world.boundary_min.y,
 		};
 		this.setState({worldSize});
 	}
@@ -260,7 +260,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		const timePassed = timestamp - this.playStartTime;
 		const targetTick = this.playStartTick + (Math.round(timePassed * this.intervalPerTick));
 		this.lastFrameTime = timestamp;
-		if (targetTick >= (this.parser.ticks - 1)) {
+		if (targetTick >= (this.parser.demo.tickCount - 1)) {
 			this.pause();
 		}
 		this.setHash(this.state.tick);
@@ -285,7 +285,6 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	render() {
 		const players = this.parser.getPlayersAtTick(this.state.tick);
-		const buildings = this.parser.getBuildingAtTick(this.state.tick);
 		const playButtonText = (this.state.playing) ? '⏸' : '▶️';
 		const disabled = (this.session && !this.isSessionOwner);
 
@@ -296,7 +295,6 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 								  onScale={scale => this.setState({scale})}>
 						<MapRender size={this.state.worldSize}
 								   players={players}
-								   buildings={buildings}
 								   header={this.props.header}
 								   world={this.parser.world}
 								   scale={this.state.scale}/>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Parser} from "../Data/Parser";
+import {ParsedDemo, PlayerState, Header, WorldBoundaries, Team} from "@demostf/parser";
 
 export interface TimelineProps {
 	parser: AsyncParser;
@@ -19,7 +19,7 @@ export class Timeline extends React.Component<TimelineProps, {}> {
 		return (<div className="timeline">
 			{this.background}
 			<input className="timeline-progress" type="range" min={0}
-			       max={parser.ticks} value={tick}
+			       max={parser.demo.tickCount} value={tick}
 			       disabled={this.props.disabled}
 			       onChange={(event) => {onSetTick(parseInt(event.target.value, 10))}}
 			/>
@@ -32,12 +32,12 @@ import Element = JSX.Element;
 import {AsyncParser} from "../Data/AsyncParser";
 
 function TimeLineBackground({parser}:{parser: AsyncParser}) {
-	const length = Math.floor(parser.ticks / 30);
+	const length = Math.floor(parser.demo.ticks / 30);
 	const blueHealth = new Uint16Array(length);
 	const redHealth = new Uint16Array(length);
 	let index = 0;
 	let maxHealth = 0;
-	for (let tick = 0; tick < parser.ticks; tick += 30) {
+	for (let tick = 0; tick < parser.demo.ticks; tick += 30) {
 		index++;
 		const players = parser.getPlayersAtTick(tick);
 		for (const player of players) {

@@ -1,47 +1,10 @@
-import {
-	Demo, Header, Player,
-	Match, World
-} from '@demostf/demo.js';
-import {PlayerCache, CachedPlayer} from "./PlayerCache";
-import {BuildingCache, CachedBuilding} from "./BuildingCache";
+import {ParsedDemo, PlayerState, WorldBoundaries, Header} from "@demostf/parser";
 
-export interface CachedDeath {
-	tick: number;
-	victim: Player;
-	assister: Player | null;
-	killer: Player | null;
-	weapon: string;
-	victimTeam: number;
-	assisterTeam: number;
-	killerTeam: number;
-}
-
-export interface CachedDemo {
-	header: Header;
-	playerCache: PlayerCache;
-	ticks: number;
-	deaths: { [tick: string]: CachedDeath[] };
-	buildingCache: BuildingCache;
-	intervalPerTick: number;
-	world: World;
-	nextMappedPlayer: number;
-	entityPlayerMap: Map<number, Player>;
-	now: number;
-}
 
 export class AsyncParser {
 	buffer: ArrayBuffer;
-	demo: Demo;
-	header: Header;
-	playerCache: PlayerCache;
-	nextMappedPlayer = 0;
-	entityPlayerMap: Map<number, Player> = new Map();
-	ticks: number;
-	match: Match;
-	deaths: { [tick: string]: CachedDeath[] } = {};
-	buildingCache: BuildingCache;
-	intervalPerTick: number;
-	world: World;
+	demo: ParsedDemo;
+	world: WorldBoundaries;
 	progressCallback: (progress: number) => void;
 
 	constructor(buffer: ArrayBuffer, progressCallback: (progress: number) => void) {
@@ -49,63 +12,36 @@ export class AsyncParser {
 		this.progressCallback = progressCallback;
 	}
 
-	cache(): Promise<void> {
-		return this.getCachedData().then((cachedData: CachedDemo) => {
-			this.ticks = cachedData.ticks;
-			this.header = cachedData.header;
-			this.playerCache = cachedData.playerCache;
-			this.buildingCache = cachedData.buildingCache;
-			this.deaths = cachedData.deaths;
-			this.intervalPerTick = cachedData.intervalPerTick;
-			this.world = cachedData.world;
-			this.nextMappedPlayer = cachedData.nextMappedPlayer;
-			this.entityPlayerMap = cachedData.entityPlayerMap;
-		});
-	}
-
-	getCachedData(): Promise<CachedDemo> {
+	cache(): Promise<ParsedDemo> {
 		return new Promise((resolve, reject) => {
-			const worker = new Worker(new URL('./ParseWorker.ts', import.meta.url));
+			const worker = new Worker(new URL('workerize-loader!./ParseWorker.ts', import.meta.url));
+			const worker = new Worker;
 			worker.postMessage({
 				buffer: this.buffer
 			}, [this.buffer]);
 			worker.onmessage = (event) => {
+				console.log(event.data);
 				if (event.data.error) {
 					reject(event.data.error);
 					return;
-				}
-				if (event.data.progress) {
+				} else if (event.data.progress) {
 					this.progressCallback(event.data.progress);
 					return;
+				} else if (event.data.demo) {
+					const cachedData: ParsedDemo = event.data.demo;
+					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.world, cachedData.data);
+					resolve(this.demo);
 				}
-				const cachedData: CachedDemo = event.data;
-				BuildingCache.rehydrate(cachedData.buildingCache);
-				PlayerCache.rehydrate(cachedData.playerCache);
-				resolve(event.data);
 			}
 		});
 	}
 
 	getPlayersAtTick(tick: number) {
-		const players: CachedPlayer[] = [];
-		for (let i = 0; i < this.nextMappedPlayer; i++) {
-			let entity = this.entityPlayerMap.get(i);
-			if (entity) {
-				players.push(this.playerCache.getPlayer(tick, i, entity.user));
-			}
+		const players: PlayerState[] = [];
+		for (let i = 0; i < this.demo.playerCount; i++) {
+			players.push(this.demo.getPlayer(tick, i));
 		}
 
-		// fake teams in 1v1 ffa
-		if (players.length === 2 && players[0].teamId === 0 && players[0].teamId === 0) {
-			players[0].teamId = 2;
-			players[0].team = 'red';
-			players[1].teamId = 3;
-			players[1].team = 'blue';
-		}
 		return players;
-	}
-
-	getBuildingAtTick(tick: number): CachedBuilding[] {
-		return this.buildingCache.getBuildings(tick);
 	}
 }

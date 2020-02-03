@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {CachedBuilding} from "../Data/BuildingCache";
-import {MapBoundary} from "../Data/PositionCache";
+// import {CachedBuilding} from "../Data/BuildingCache";
+// import {MapBoundary} from "../Data/PositionCache";
 import {SVGImage} from './SVGImage';
 
 import './Player.css';
