@@ -14,7 +14,8 @@ module.exports = {
 	output: {
 		path: path.join(__dirname, "build"),
 		filename: "[name]-[hash].js",
-		publicPath: '/'
+		publicPath: '/',
+		globalObject: 'this'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.tsx', '.ts']

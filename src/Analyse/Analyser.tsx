@@ -309,11 +309,13 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 					<SpecHUD parser={this.parser} tick={this.state.tick}
 							 players={players}/>
 				</div>
-				<div className="time-control">
+				<div className="time-control"
+					 title={`${tickToTime(this.state.tick)} (tick ${this.state.tick * 2})`}>
 					<input className="play-pause-button" type="button"
 						   onClick={this.togglePlay.bind(this)}
 						   value={playButtonText}
-						   disabled={disabled}/>
+						   disabled={disabled}
+					/>
 					<Timeline parser={this.parser} tick={this.state.tick}
 							  onSetTick={throttle(50, (tick) => {
 								  this.setTickNow(tick);
@@ -323,4 +325,9 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 			</div>
 		);
 	}
+}
+
+function tickToTime(tick: number): string {
+	let seconds = Math.floor(tick / 30);
+	return `${Math.floor(seconds/60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
