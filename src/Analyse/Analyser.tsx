@@ -328,6 +328,6 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 }
 
 function tickToTime(tick: number): string {
-	let seconds = Math.floor(tick / 30);
+	let seconds = Math.floor(tick / 33);
 	return `${Math.floor(seconds/60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
