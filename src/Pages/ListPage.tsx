@@ -17,7 +17,6 @@ import {DemoInfo} from "../Providers/DemoProvider";
 import Element = JSX.Element;
 import {RouteComponentProps, withRouter} from "react-router";
 import {StringSelect} from "../Components/StringSelect";
-import {Info} from '../Components/Info'
 
 export interface ListPageState {
 	demos: DemoInfo[];

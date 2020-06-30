@@ -129,12 +129,15 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 		if (this.state.demo.id !== 0) {
 			return (
 				<div>
+					{demo.url == '' ? <p className="deleted-demo">
+						This demo has been deleted and can no longer be downloaded.
+					</p> : []}
 					<h2>{demo.server} - {demo.red}
 						&nbsp;vs&nbsp;{demo.blue}</h2>
 
 					<h3>{demo.name}</h3>
 
-					<p>Demo uploaded
+					<p>Demo uploaded&nbsp;
 						{config.showUpload ? ['by ', <Link
 							to={'/uploads/' + demo.uploader.steamid}>{demo.uploader.name}
 						</Link>, ' '] : []} {fuzzyTime(demo.time.getTime())}
@@ -153,11 +156,16 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 					{chatTable}
 
 					<p className="demo-download">
-						<a className=" pure-button pure-button-primary"
-						   href={demo.url} download={demo.name}>Download</a>
-						<Link className="pure-button-secondary pure-button" to={"/viewer/" + this.state.demo.id}>
-							View
-						</Link>
+						{demo.url != '' ?
+							<>
+								<a className=" pure-button pure-button-primary"
+								   href={demo.url} download={demo.name}>Download</a>
+								<Link className="pure-button-secondary pure-button"
+									  to={"/viewer/" + this.state.demo.id}>
+									View
+								</Link>
+							</>
+							: []}
 						<button className="pure-button-tertiary pure-button"
 								onClick={this.toggleChat}>{this.state.showChat ? 'Hide Chat' : 'Show Chat'}
 						</button>

@@ -24,7 +24,7 @@
 		"css-loader": "^2.1.0",
 		"dataview-getstring": "^0.1.0",
 		"del": "^3.0.0",
-		"ejs-loader": "^0.3.1",
+		"ejs-loader": "^0.5.0",
 		"envify": "^4.1.0",
 		"express": "^4.16.4",
 		"favicons-webpack-plugin": "0.0.9",
@@ -50,7 +50,7 @@
 		"vinyl-source-stream": "^2.0.0",
 		"webpack": "^4.29.3",
 		"webpack-bundle-analyzer": "^3.3.2",
-		"webpack-dev-server": "^3.1.14",
+		"webpack-dev-server": "^3.11.0",
 		"worker-loader": "^2.0.0"
 	},
 	"dependencies": {
