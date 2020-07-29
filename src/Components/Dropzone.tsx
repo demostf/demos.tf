@@ -1,10 +1,10 @@
 import * as React from 'react';
-import DropZone from 'react-dropzone';
+import DropZone, {FileRejection} from 'react-dropzone';
 
 import './Dropzone.css';
 
 export interface DropzoneProps {
-	onDrop: (accepted: File[], rejected: File[]) => any;
+	onDrop: (accepted: File[], rejected: FileRejection[]) => any;
 	text?: string;
 }
 
