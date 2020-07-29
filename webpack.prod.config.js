@@ -3,7 +3,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CleanPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
@@ -58,7 +58,7 @@ module.exports = {
 			minimize: true,
 			debug: false
 		}),
-		new CleanPlugin(['build']),
+		new CleanWebpackPlugin(),
 		new MiniCssExtractPlugin({
 			filename: '[contenthash].css'
 		}),
