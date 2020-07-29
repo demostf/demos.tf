@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Select, {Async} from 'react-select';
+import Select, {OptionsType} from 'react-select';
+import Async from 'react-select/async';
 import {PlayerProvider} from '../Providers/PlayerProvider'
 
 import './FilterBar.css';
 import {DemoListProvider, DemoListFilter, SteamUser} from "../Providers/DemoProvider";
 import {config} from '../config';
-import {OptionsType} from "react-select/lib/types";
 import {StringSelect} from "./StringSelect";
 
 export interface OptionType {
@@ -93,6 +93,9 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 	};
 
 	setPlayers = (selectedUsers: SteamUser[]) => {
+		if (selectedUsers === null) {
+			selectedUsers = [];
+		}
 		this.props.provider.setFilter('players[]', selectedUsers.map(user => user.steamid));
 		if (this.props.onChange) {
 			this.props.onChange();

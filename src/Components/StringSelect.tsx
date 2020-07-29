@@ -1,20 +1,24 @@
 import * as React from 'react';
-import Select from "react-select";
-import {Props} from "react-select/lib/Select";
+import Select, {StylesConfig} from "react-select";
 
 export interface StringOptionType {
 	value: string;
 	label: string;
 }
 
-class StringTypeSelect extends Select<StringOptionType | string> {
+class StringTypeSelect extends Select<StringOptionType> {
 
 }
 
-export interface StringSelectProps extends Props<StringOptionType | string> {
+export interface StringSelectProps {
 	onChange: (value: string) => void;
 	value: string;
 	options: string[];
+	className?: string;
+	placeholder?: string;
+	isClearable?: boolean;
+	isSearchable?: boolean;
+	styles?: StylesConfig
 }
 
 export function StringSelect({options, value, onChange, ...props}: StringSelectProps) {
