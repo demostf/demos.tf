@@ -25,7 +25,7 @@ function getPlayerPairs(players: Player[]) {
 	};
 
 	for (const player of players) {
-		if (classes[player.class]) {
+		if (classes[player.class] && classes[player.class][player.team]) {
 			classes[player.class][player.team].push(player);
 		}
 	}
