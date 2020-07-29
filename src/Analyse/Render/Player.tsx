@@ -67,7 +67,7 @@ function getClassImage(player: CachedPlayer, imageOpacity: number) {
 	if (!classMap[player.classId]) {
 		return [];
 	}
-	const image = require(`../../images/class_icons/${classMap[player.classId]}.svg`) as string;
+	const image = require(`../../images/class_icons/${classMap[player.classId]}.svg`).default;
 	return <SVGImage href={image}
 					 className={"player-icon " + player.team}
 					 opacity={imageOpacity}

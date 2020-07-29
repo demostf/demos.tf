@@ -6,11 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const BrotliPlugin = require('brotli-webpack-plugin');
-const MinifyPlugin = require("babel-minify-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -73,9 +70,6 @@ module.exports = {
 			chunks: ['app'],
 			inlineSource: '\.css$',
 			template: '!!html-loader!src/index.html'
-		}),
-		new StyleExtHtmlWebpackPlugin({
-			minify: true
 		}),
 		new CompressionPlugin({
 			test: /\.(js|css|html|svg)$/,

@@ -14,6 +14,7 @@ import {Switch} from 'react-router';
 
 export function Loading(props) {
 	if (props.error) {
+		console.error(props.error);
 		return <div>Error!</div>;
 	} else if (props.pastDelay) {
 		return <div>Loading...</div>;
