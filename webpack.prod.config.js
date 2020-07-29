@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
@@ -74,7 +74,9 @@ module.exports = {
 			inlineSource: '\.css$',
 			template: '!!html-loader!src/index.html'
 		}),
-		new HtmlWebpackInlineSourcePlugin(),
+		new StyleExtHtmlWebpackPlugin({
+			minify: true
+		}),
 		new CompressionPlugin({
 			test: /\.(js|css|html|svg)$/,
 			threshold: 1024
