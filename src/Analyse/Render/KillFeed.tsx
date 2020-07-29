@@ -32,10 +32,10 @@ export function KillFeedItem({death}:{death: CachedDeath}) {
 	const alias = killAlias[death.weapon] ? killAlias[death.weapon] : death.weapon;
 	let killIcon;
 	try {
-		killIcon = require(`../../images/kill_icons/${alias}.png`) as string;
+		killIcon = require(`../../images/kill_icons/${alias}.png`).default;
 	} catch (e) {
 		console.log(alias);
-		killIcon = require(`../../images/kill_icons/skull.png`) as string;
+		killIcon = require(`../../images/kill_icons/skull.png`).default;
 	}
 
 	return <div className="kill">

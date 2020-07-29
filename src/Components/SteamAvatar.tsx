@@ -27,7 +27,7 @@ export class SteamAvatar extends React.Component<SteamAvatarProps, SteamAvatarSt
 				return response.json();
 			}).then((data: { avatar: string }) => {
 				if (!data) {
-					return (require(`../images/class_portraits/unknown.png`) as string);
+					return (require(`../images/class_portraits/unknown.png`).default);
 				}
 				const avatar = data.avatar;
 				SteamAvatar.avatarCache.set(steamId, avatar);
