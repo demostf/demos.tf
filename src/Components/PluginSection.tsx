@@ -39,7 +39,7 @@ export function PluginSection(props: PluginSectionProps) {
 					your server.
 				</li>
 				<li>Make sure the <a
-					href="https://code.google.com/p/sourcemod-curl-extension/">
+					href="https://github.com/spiretf/docker-comp-server/raw/master/curl.ext.so">
 					cURL extension
 				</a> is installed on your server.
 				</li>
