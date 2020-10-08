@@ -47,7 +47,8 @@
     "webpack": "^5.68.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.7.4",
+	"worker-loader": "^3.0.3"
   },
   "dependencies": {
     "@demostf/parser": "0.3",
@@ -62,6 +63,7 @@
     "react-select": "^5.2.2",
     "react-spinner": "^0.2.7",
     "throttle-debounce": "^3.0.1",
+	"webpack-cli": "^3.3.12",
     "whatwg-fetch": "^3.6.2"
   }
 }

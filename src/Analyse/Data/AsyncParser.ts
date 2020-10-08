@@ -1,5 +1,5 @@
 import {ParsedDemo, PlayerState, WorldBoundaries, Header} from "@demostf/parser";
-
+import Worker from "worker-loader!./ParseWorker"
 
 export class AsyncParser {
 	buffer: ArrayBuffer;
@@ -15,7 +15,6 @@ export class AsyncParser {
 	cache(): Promise<ParsedDemo> {
 		return new Promise((resolve, reject) => {
 			const worker = new Worker(new URL('workerize-loader!./ParseWorker.ts', import.meta.url));
-			const worker = new Worker;
 			worker.postMessage({
 				buffer: this.buffer
 			}, [this.buffer]);
