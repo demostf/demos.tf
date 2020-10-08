@@ -1,6 +1,9 @@
 import {parseDemo} from "@demostf/parser";
 import * as foo from "@demostf/parser";
 
+// @ts-ignore
+self.document = self;
+
 declare function postMessage(message: any, transfer?: any[]): void;
 
 /**

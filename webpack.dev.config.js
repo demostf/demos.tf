@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const path = require("path");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
@@ -45,6 +46,20 @@ module.exports = {
 			chunks: ['app'],
 			inlineSource: '\.css$',
 			template: '!!html-loader!src/index.html'
+		}),
+		new CopyPlugin ({
+			patterns: [
+				{
+					from: './node_modules/@demostf/parser/dist/*.js',
+					to: '',
+					flatten: true,
+				},
+				{
+					from: './node_modules/@demostf/parser/dist/*.wasm',
+					to: '',
+					flatten: true,
+				}
+			]
 		}),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',

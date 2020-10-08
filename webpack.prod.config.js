@@ -9,6 +9,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	devtool: 'source-map',
@@ -76,6 +77,20 @@ module.exports = {
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',
 			generateStatsFile: true
+		}),
+		new CopyPlugin ({
+			patterns: [
+				{
+					from: 'node_modules/@demostf/parser/dist/*.js',
+					to: '',
+					flatten: true,
+				},
+				{
+					from: 'node_modules/@demostf/parser/dist/*.wasm',
+					to: '',
+					flatten: true,
+				}
+			]
 		})
 	],
 	module: {
