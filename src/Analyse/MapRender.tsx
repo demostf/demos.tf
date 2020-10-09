@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Player as PlayerDot} from './Render/Player';
 // import {Building as BuildingDot} from './Render/Building';
 import {findMapAlias} from './MapBoundries';
-import {PlayerState, Header, WorldBoundaries} from "@demostf/parser";
+import {PlayerState, Header, WorldBoundaries} from "@demostf/parser-worker";
 
 export interface MapRenderProps {
 	header: Header;

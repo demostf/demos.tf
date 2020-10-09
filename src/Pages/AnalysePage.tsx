@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {DemoDropZone} from '../Components/Dropzone';
 import {Analyser} from '../Analyse/Analyser';
-import {ParsedDemo, Header} from "@demostf/parser";
+import {ParsedDemo, Header} from "@demostf/parser-worker";
 
 import './AboutPage.css';
 import {DemoProvider} from "../Providers/DemoProvider";

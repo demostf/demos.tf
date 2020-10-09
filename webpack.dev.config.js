@@ -50,12 +50,12 @@ module.exports = {
 		new CopyPlugin ({
 			patterns: [
 				{
-					from: './node_modules/@demostf/parser/dist/*.js',
+					from: './node_modules/@demostf/parser-worker/dist/*.js',
 					to: '',
 					flatten: true,
 				},
 				{
-					from: './node_modules/@demostf/parser/dist/*.wasm',
+					from: './node_modules/@demostf/parser-worker/dist/*.wasm',
 					to: '',
 					flatten: true,
 				}

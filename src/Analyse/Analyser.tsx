@@ -5,12 +5,12 @@ import {throttle, debounce} from 'throttle-debounce';
 import {Timeline} from './Render/Timeline';
 import {SpecHUD} from './Render/SpecHUD';
 import {AnalyseMenu} from './AnalyseMenu'
-import {Header} from "@demostf/parser";
+import {Header} from "@demostf/parser-worker";
 
 import './Analyser.css'
 import {AsyncParser} from "./Data/AsyncParser";
 import {getMapBoundaries} from "./MapBoundries";
-import {WorldBoundaries} from "@demostf/parser/pkg";
+import {WorldBoundaries} from "@demostf/parser-worker/pkg";
 
 export interface AnalyseProps {
 	header: Header;
@@ -278,7 +278,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	animFrame(timestamp) {
 		const timePassed = timestamp - this.playStartTime;
-		const targetTick = this.playStartTick + (Math.round(timePassed * this.intervalPerTick));
+		const targetTick = this.playStartTick + (Math.round(timePassed * this.intervalPerTick * 2));
 		this.lastFrameTime = timestamp;
 		if (targetTick >= (this.parser.demo.tickCount - 1)) {
 			this.pause();

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ParsedDemo, PlayerState, Header, WorldBoundaries, Team} from "@demostf/parser";
+import {ParsedDemo, PlayerState, Header, WorldBoundaries, Team} from "@demostf/parser-worker";
 
 export interface TimelineProps {
 	parser: AsyncParser;

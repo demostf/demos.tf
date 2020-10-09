@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {PlayerState, WorldBoundaries} from "@demostf/parser";
+import {PlayerState, WorldBoundaries} from "@demostf/parser-worker";
 import {SVGImage} from './SVGImage';
 
 import './Player.css';

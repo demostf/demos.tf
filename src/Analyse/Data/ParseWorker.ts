@@ -1,4 +1,4 @@
-import {parseDemo} from "@demostf/parser";
+import {parseDemo} from "@demostf/parser-worker";
 
 declare function postMessage(message: any, transfer?: any[]): void;
 

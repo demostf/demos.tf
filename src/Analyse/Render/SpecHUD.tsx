@@ -2,7 +2,7 @@ import * as React from 'react';
 // import {PlayersSpec} from './PlayerSpec';
 // import {KillFeed} from './KillFeed';
 import {AsyncParser} from "../Data/AsyncParser";
-import {PlayerState} from "@demostf/parser";
+import {PlayerState} from "@demostf/parser-worker";
 
 export interface SpecHUDProps {
 	tick: number;

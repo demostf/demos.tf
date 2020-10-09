@@ -105,7 +105,6 @@ export default class DemoPage extends React.Component<DemoPageProps, DemoPageSta
 
 		// emulate teams in 1v1 ffa
 		if (demo.players.length === 2 && demo.players[0].team === '' && demo.players[1].team === '') {
-			console.log('ffa');
 			demo.players[0].team = 'red';
 			demo.players[1].team = 'blue';
 			demo.red = demo.players[0].name;

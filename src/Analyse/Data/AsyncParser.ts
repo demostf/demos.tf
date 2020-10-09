@@ -1,4 +1,4 @@
-import {ParsedDemo, PlayerState, WorldBoundaries, Header} from "@demostf/parser";
+import {ParsedDemo, PlayerState, WorldBoundaries, Header} from "@demostf/parser-worker";
 import Worker from "worker-loader!./ParseWorker"
 import {getMapBoundaries} from "../MapBoundries";
 
