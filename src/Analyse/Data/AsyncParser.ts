@@ -1,5 +1,6 @@
 import {ParsedDemo, PlayerState, WorldBoundaries, Header} from "@demostf/parser";
 import Worker from "worker-loader!./ParseWorker"
+import {getMapBoundaries} from "../MapBoundries";
 
 export class AsyncParser {
 	buffer: ArrayBuffer;
@@ -19,7 +20,6 @@ export class AsyncParser {
 				buffer: this.buffer
 			}, [this.buffer]);
 			worker.onmessage = (event) => {
-				console.log(event.data);
 				if (event.data.error) {
 					reject(event.data.error);
 					return;
@@ -28,7 +28,8 @@ export class AsyncParser {
 					return;
 				} else if (event.data.demo) {
 					const cachedData: ParsedDemo = event.data.demo;
-					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.world, cachedData.data);
+					this.world = cachedData.world;
+					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.world, cachedData.header, cachedData.data);
 					resolve(this.demo);
 				}
 			}

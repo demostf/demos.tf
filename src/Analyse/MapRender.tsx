@@ -45,10 +45,10 @@ export function MapRender({header, players, size, world, scale}: MapRenderProps)
 	const background = `url(${image})`;
 
 	const playerDots = players
-		.filter((player: PlayerState) => player.position.x)
+		.filter((player: PlayerState) => player.health)
 		.map((player: PlayerState, key) => {
 			return <PlayerDot key={key} player={player} mapBoundary={world}
-			                  targetSize={size} scale={scale}/>
+			                  targetSize={size} scale={scale} />
 		});
 
 	// const buildingDots = buildings

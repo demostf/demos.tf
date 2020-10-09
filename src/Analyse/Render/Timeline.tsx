@@ -32,18 +32,18 @@ import Element = JSX.Element;
 import {AsyncParser} from "../Data/AsyncParser";
 
 function TimeLineBackground({parser}:{parser: AsyncParser}) {
-	const length = Math.floor(parser.demo.ticks / 30);
+	const length = Math.floor(parser.demo.tickCount / 30);
 	const blueHealth = new Uint16Array(length);
 	const redHealth = new Uint16Array(length);
 	let index = 0;
 	let maxHealth = 0;
-	for (let tick = 0; tick < parser.demo.ticks; tick += 30) {
+	for (let tick = 0; tick < parser.demo.tickCount; tick += 30) {
 		index++;
 		const players = parser.getPlayersAtTick(tick);
 		for (const player of players) {
-			if (player.teamId === 2) {
+			if (player.team === 2) {
 				redHealth[index] += player.health;
-			} else if (player.teamId === 3) {
+			} else if (player.team === 3) {
 				blueHealth[index] += player.health;
 			}
 		}

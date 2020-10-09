@@ -9,6 +9,8 @@ import {Header} from "@demostf/parser";
 
 import './Analyser.css'
 import {AsyncParser} from "./Data/AsyncParser";
+import {getMapBoundaries} from "./MapBoundries";
+import {WorldBoundaries} from "@demostf/parser/pkg";
 
 export interface AnalyseProps {
 	header: Header;
@@ -21,6 +23,7 @@ export interface AnalyseState {
 		width: number;
 		height: number;
 	}
+	backgroundBoundaries: WorldBoundaries;
 	tick: number;
 	playing: boolean;
 	scale: number;
@@ -77,6 +80,18 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 			width: 0,
 			height: 0
 		},
+		backgroundBoundaries: {
+			boundary_min: {
+				x: 0, y: 0, free: () => {
+				}
+			},
+			boundary_max: {
+				x: 0, y: 0, free: () => {
+				}
+			},
+			free: () => {
+			}
+		},
 		tick: 0,
 		playing: false,
 		scale: 1,
@@ -105,12 +120,17 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	}
 
 	componentDidMount() {
-		const world = this.parser.world;
+		const map = this.parser.demo.header.map;
+
+		const backgroundBoundaries = getMapBoundaries(map);
+		if (!backgroundBoundaries) {
+			throw new Error(`Map not supported "${map}".`);
+		}
 		const worldSize = {
-			width: world.boundary_max.x - world.boundary_min.x,
-			height: world.boundary_max.y - world.boundary_min.y,
+			width: backgroundBoundaries.boundary_max.x - backgroundBoundaries.boundary_min.x,
+			height: backgroundBoundaries.boundary_max.y - backgroundBoundaries.boundary_min.y,
 		};
-		this.setState({worldSize});
+		this.setState({worldSize, backgroundBoundaries});
 	}
 
 	setTickNow(tick) {
@@ -296,7 +316,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 						<MapRender size={this.state.worldSize}
 								   players={players}
 								   header={this.props.header}
-								   world={this.parser.world}
+								   world={this.state.backgroundBoundaries}
 								   scale={this.state.scale}/>
 					</MapContainer>
 					<AnalyseMenu sessionName={this.sessionName}
@@ -327,5 +347,5 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 function tickToTime(tick: number): string {
 	let seconds = Math.floor(tick / 33);
-	return `${Math.floor(seconds/60)}:${String(seconds % 60).padStart(2, '0')}`;
+	return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }

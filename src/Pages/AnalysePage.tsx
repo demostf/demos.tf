@@ -55,7 +55,7 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 			const parser = new AsyncParser(buffer, (progress) => {
 				this.setState({progress});
 			});
-			parser.cache().then(() => {
+			parser.cache().then((demo) => {
 				this.setState({
 					header: parser.demo.header,
 					loading: false,

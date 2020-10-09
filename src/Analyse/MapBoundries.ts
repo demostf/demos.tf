@@ -41,11 +41,11 @@ export function findMapAlias(map: string): string {
 }
 
 export interface MapBoundries {
-	boundaryMin: {
+	boundary_min: {
 		x: number;
 		y: number;
 	};
-	boundaryMax: {
+	boundary_max: {
 		x: number;
 		y: number;
 	}
