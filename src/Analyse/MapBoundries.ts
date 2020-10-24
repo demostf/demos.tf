@@ -408,6 +408,16 @@ const overWriteMapBoundaries = {
 			"x": 3102,
 			"y": 2094
 		}
+	},
+	'koth_clearcut': {
+		"boundaryMin": {
+			"x": -4501,
+			"y": -2560
+		},
+		"boundaryMax": {
+			"x": 4601,
+			"y": 2560
+		}
 	}
 };
 
