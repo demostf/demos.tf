@@ -411,22 +411,22 @@ const overWriteMapBoundaries = {
 	},
 	'koth_clearcut': {
 		"boundaryMin": {
-			"x": -4501,
-			"y": -2560
+			"x": -4432,
+			"y": -1283
 		},
 		"boundaryMax": {
-			"x": 4601,
-			"y": 2560
+			"x": 4438,
+			"y": 1255
 		}
 	},
 	'cp_villa': {
 		"boundaryMin": {
-			"x": -6541,
-			"y": -3708
+			"x": -5988,
+			"y": -2466
 		},
 		"boundaryMax": {
-			"x": 6201,
-			"y": 3460
+			"x": 5988,
+			"y": 2466
 		}
 	}
 };
