@@ -418,6 +418,16 @@ const overWriteMapBoundaries = {
 			"x": 4601,
 			"y": 2560
 		}
+	},
+	'cp_villa': {
+		"boundaryMin": {
+			"x": -6541,
+			"y": -3708
+		},
+		"boundaryMax": {
+			"x": 6201,
+			"y": 3460
+		}
 	}
 };
 
