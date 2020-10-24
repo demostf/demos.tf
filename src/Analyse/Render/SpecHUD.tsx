@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import {PlayersSpec} from './PlayerSpec';
+import {PlayersSpec} from './PlayerSpec';
 // import {KillFeed} from './KillFeed';
 import {AsyncParser} from "../Data/AsyncParser";
 import {PlayerState} from "@demostf/parser-worker";
@@ -13,6 +13,6 @@ export interface SpecHUDProps {
 export function SpecHUD({tick, parser, players}: SpecHUDProps) {
 	return (<div className="spechud">
 		{/*<KillFeed tick={tick} deaths={parser.deaths}/>*/}
-		{/*<PlayersSpec players={players}/>*/}
+		<PlayersSpec players={players}/>
 	</div>)
 }

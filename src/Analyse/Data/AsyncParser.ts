@@ -28,6 +28,7 @@ export class AsyncParser {
 					return;
 				} else if (event.data.demo) {
 					const cachedData: ParsedDemo = event.data.demo;
+					console.log(cachedData.data.length);
 					this.world = cachedData.world;
 					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.world, cachedData.header, cachedData.data);
 					resolve(this.demo);
