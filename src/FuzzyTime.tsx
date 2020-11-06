@@ -1,4 +1,14 @@
-export function fuzzyTime(date: number): string {
+import * as React from 'react';
+
+export function fuzzyTime(timestamp: number) {
+	let relative = formatFuzzyTime(timestamp);
+	let date = new Date(timestamp);
+	return <span title={date.toLocaleString()}>
+		{relative}
+	</span>
+}
+
+export function formatFuzzyTime(date: number): string {
 	// Make a fuzzy time
 	const elapsed = Math.round((+new Date - date));
 
