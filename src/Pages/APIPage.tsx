@@ -146,6 +146,14 @@ export class APIPage extends React.Component<APIPageProps, {}> {
 								</li>
 							</ul>
 						</li>
+						<li>
+							<a href="https://api.demos.tf/demos/?before=1454455622">before=xxx</a>
+							only show demos upload before a certain time.
+						</li>
+						<li>
+							<a href="https://api.demos.tf/demos/?after=1454455622">after=xxx</a>
+							only show demos upload after a certain time.
+						</li>
 					</ul>
 					<p>
 						All filters should be provided as query parameter
