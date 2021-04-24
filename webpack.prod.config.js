@@ -22,7 +22,7 @@ module.exports = {
 	mode: 'production',
 	output: {
 		path: path.join(__dirname, "build"),
-		filename: "[name]-[hash].js",
+		filename: "[name]-[contenthash].js",
 		libraryTarget: 'umd',
 		publicPath: '/'
 	},
@@ -90,7 +90,7 @@ module.exports = {
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [
-					'url-loader?limit=5000&hash=sha512&digest=hex&name=[hash].[ext]',
+					'url-loader?limit=5000&hash=sha512&digest=hex&name=[contenthash].[ext]',
 					'image-webpack-loader'
 				]
 			},
