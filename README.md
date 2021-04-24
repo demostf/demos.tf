@@ -1,6 +1,6 @@
 # demos.tf
 
-[![Build Status](https://travis-ci.org/demostf/demos.tf.svg?branch=master)](https://travis-ci.org/demostf/demos.tf)
+[![CI](https://github.com/demostf/demos.tf/actions/workflows/build.yml/badge.svg)](https://github.com/demostf/demos.tf/actions/workflows/build.yml)
 
 Frontend code for [demos.tf](http://demos.tf), see [the api code](https://github.com/demostf/api) for the backend.
 
