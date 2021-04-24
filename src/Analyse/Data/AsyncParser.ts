@@ -4,6 +4,7 @@ import {
 } from '@demostf/demo.js';
 import {PlayerCache, CachedPlayer} from "./PlayerCache";
 import {BuildingCache, CachedBuilding} from "./BuildingCache";
+const Worker = require("worker-loader!./ParseWorker").default;
 
 export interface CachedDeath {
 	tick: number;
@@ -65,7 +66,6 @@ export class AsyncParser {
 
 	getCachedData(): Promise<CachedDemo> {
 		return new Promise((resolve, reject) => {
-			const Worker = require("worker-loader!./ParseWorker");
 			const worker = new Worker;
 			worker.postMessage({
 				buffer: this.buffer

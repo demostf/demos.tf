@@ -4,7 +4,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	devtool: 'cheap-eval-source-map',
+	devtool: 'eval-cheap-source-map',
 	mode: 'development',
 	entry: {
 		app: [
@@ -13,9 +13,9 @@ module.exports = {
 	},
 	output: {
 		path: path.join(__dirname, "build"),
-		filename: "[name]-[hash].js",
-		publicPath: '/',
-		globalObject: 'this'
+		filename: "[name]-[contenthash].js",
+		libraryTarget: 'umd',
+		publicPath: '/'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.tsx', '.ts']
