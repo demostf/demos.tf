@@ -1,10 +1,10 @@
-FROM node:11-stretch AS build
+FROM node:15-stretch AS build
 WORKDIR /root/build
 RUN apt update && apt install -y git build-essential libpng16-16 libpng-dev xcftools webp
 COPY . .
 RUN rm package-lock.json && make
 
-FROM fholzer/nginx-brotli:v1.16.0
+FROM fholzer/nginx-brotli:v1.19.1
 
 RUN apk add --no-cache libintl gettext
 
