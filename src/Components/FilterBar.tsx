@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Select, {OptionsType} from 'react-select';
+import Select, {ActionMeta, OptionsType, ValueType} from 'react-select';
 import Async from 'react-select/async';
 import {PlayerProvider} from '../Providers/PlayerProvider'
 
@@ -20,7 +20,7 @@ const typeOptions: OptionsType<OptionType> = Object.keys(config.gameTypes).map(k
 	}
 });
 
-class PlayerSelect extends Async<SteamUser> {
+class PlayerSelect extends Async<SteamUser, true> {
 
 }
 
@@ -93,9 +93,6 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 	};
 
 	setPlayers = (selectedUsers: SteamUser[]) => {
-		if (selectedUsers === null) {
-			selectedUsers = [];
-		}
 		this.props.provider.setFilter('players[]', selectedUsers.map(user => user.steamid));
 		if (this.props.onChange) {
 			this.props.onChange();

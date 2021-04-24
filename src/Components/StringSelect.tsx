@@ -18,7 +18,7 @@ export interface StringSelectProps {
 	placeholder?: string;
 	isClearable?: boolean;
 	isSearchable?: boolean;
-	styles?: StylesConfig
+	styles?: StylesConfig<StringOptionType, false>
 }
 
 export function StringSelect({options, value, onChange, ...props}: StringSelectProps) {

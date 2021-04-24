@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 	devtool: 'source-map',
@@ -26,13 +27,12 @@ module.exports = {
 		libraryTarget: 'umd',
 		publicPath: '/'
 	},
+	optimization: {
+		minimize: true,
+		minimizer: [new TerserPlugin()],
+	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.tsx', '.ts'],
-		// alias: {
-		// 	'react': 'preact-compat',
-		// 	'react-dom': 'preact-compat',
-		// 	'create-react-class': 'preact-compat/lib/create-react-class'
-		// }
 	},
 	plugins: [
 		new webpack.LoaderOptionsPlugin({
