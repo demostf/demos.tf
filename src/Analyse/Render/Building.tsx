@@ -34,7 +34,7 @@ function getIcon(building: CachedBuilding) {
 			break;
 	}
 	const team = building.team === 2 ? 'red' : 'blue';
-	return require(`../../images/building_icons/${icon}_${team}.png`).default;
+	return require(`../../images/building_icons/${icon}_${team}.png`);
 }
 
 export function Building({building, mapBoundary, targetSize, scale}: BuildingProp) {

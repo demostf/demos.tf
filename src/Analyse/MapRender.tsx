@@ -44,8 +44,8 @@ function canUseWebP() {
 export function MapRender({header, players, size, world, scale, buildings}: MapRenderProps) {
 	const mapAlias = findMapAlias(header.map);
 	const image = (canUseWebP()) ?
-		((require(`../images/leveloverview/dist/${mapAlias}.webp`) as any).default) :
-		((require(`../images/leveloverview/dist/${mapAlias}.jpg`) as any).default);
+		((require(`../images/leveloverview/dist/${mapAlias}.webp`) as any)) :
+		((require(`../images/leveloverview/dist/${mapAlias}.jpg`) as any));
 	const background = `url(${image})`;
 
 	const playerDots = players
