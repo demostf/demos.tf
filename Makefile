@@ -20,7 +20,7 @@ sources=$(wildcard js/*) $(wildcard js/*/*) $(wildcard css/*/*)  $(wildcard css/
 
 .PHONY: build
 build: node_modules $(sources)
-	node node_modules/.bin/webpack --colors --display-error-details --config webpack.prod.config.js
+	node node_modules/.bin/webpack --config webpack.prod.config.js
 
 build/js/main.js: build
 

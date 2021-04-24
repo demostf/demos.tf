@@ -4,7 +4,6 @@ const webpack = require("webpack");
 const path = require("path");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
@@ -59,7 +58,6 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: '[contenthash].css'
 		}),
-		new webpack.optimize.OccurrenceOrderPlugin(),
 		new FaviconsWebpackPlugin({
 			logo: './src/images/logo.png',
 			title: 'demos.tf',
@@ -75,20 +73,6 @@ module.exports = {
 			test: /\.(js|css|html|svg)$/,
 			threshold: 1024
 		}),
-		new SWPrecacheWebpackPlugin(
-			{
-				maximumFileSizeToCacheInBytes: 750000,
-				cacheId: 'demos-tf',
-				filename: 'service-worker.js',
-				minify: true,
-				dontCacheBustUrlsMatching: [
-					/^(?=.*\.\w{1,7}$)/, // I'm cache busting js and css files myself
-				],
-				verbose: false,
-				stripPrefix: 'build',
-				staticFileGlobs: ['build/*.js', 'build/*.css']
-			}
-		),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',
 			generateStatsFile: true
