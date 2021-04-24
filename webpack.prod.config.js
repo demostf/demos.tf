@@ -90,9 +90,9 @@ module.exports = {
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [
-					'url-loader?limit=5000&hash=sha512&digest=hex&name=[contenthash].[ext]',
 					'image-webpack-loader'
-				]
+				],
+				type: 'asset/inline'
 			},
 			{
 				test: /\.css$/,
