@@ -29,8 +29,11 @@ export class AuthProvider extends BaseProvider {
 		this.token = this.user.token;
 	}
 
-	newToken(): Promise<string> {
-		return this.request('auth/token', {}, false);
+	async newToken(): Promise<string> {
+		if (navigator.userAgent.search("YandexBot") !== -1 || navigator.userAgent.search("PetalBot") !== -1) {
+			return "bot";
+		}
+		return await this.request('auth/token', {}, false);
 	}
 
 	async getUser(): Promise<User> {
