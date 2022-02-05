@@ -19,6 +19,16 @@
 	  "y": 2260
 	}
   },
+  "cp_gullywash_f6": {
+	"boundaryMin": {
+	  "x": -4717,
+	  "y": -2643
+	},
+	"boundaryMax": {
+	  "x": 4765,
+	  "y": 2567
+	}
+  },
   "cp_process_final": {
 	"boundaryMin": {
 	  "x": -5222,
