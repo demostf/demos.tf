@@ -2,16 +2,16 @@ import {BaseProvider} from './BaseProvider';
 
 export interface User {
 	token: string;
-	key: string|null;
-	name: string|null;
-	steamid: string|null;
+	key: string | null;
+	name: string | null;
+	steamid: string | null;
 }
 
 export class AuthProvider extends BaseProvider {
 	static instance = new AuthProvider();
 
-	token: string|null;
-	user: User|null;
+	token: string | null;
+	user: User | null;
 
 	async login() {
 		const token = await this.getToken();
@@ -39,7 +39,7 @@ export class AuthProvider extends BaseProvider {
 	}
 
 	async newToken(): Promise<string> {
-		if (navigator.userAgent.search("YandexBot") !== -1 || navigator.userAgent.search("PetalBot") !== -1) {
+		if (isBot()) {
 			return "bot";
 		}
 		return await this.request('auth/token', {}, false);
@@ -62,4 +62,11 @@ export class AuthProvider extends BaseProvider {
 		}
 		return this.token;
 	}
+}
+
+function isBot(): boolean {
+	return navigator.userAgent.search("YandexBot") !== -1
+		|| navigator.userAgent.search("PetalBot") !== -1
+		|| navigator.userAgent.search("Applebot") !== -1
+		|| navigator.userAgent.search("Googlebot") !== -1
 }
