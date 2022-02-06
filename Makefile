@@ -26,7 +26,7 @@ build/js/main.js: build
 
 .PHONY: watch
 watch: node_modules
-	node node_modules/.bin/webpack --config webpack.prod.config.js --watch
+	node node_modules/.bin/webpack --config webpack.dev.config.js --watch
 
 .PHONY: analyse
 analyse: build/js/main.js

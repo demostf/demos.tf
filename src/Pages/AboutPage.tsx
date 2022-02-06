@@ -15,10 +15,10 @@ export interface AboutPageState {
 
 export interface AboutPageProps {
 	demoListProvider: DemoListProvider;
-	user: User;
+	user: User | null;
 }
 
-export class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
+export default class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
 	static page = 'about';
 	demoProvider: DemoListProvider = DemoListProvider.instance;
 

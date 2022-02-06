@@ -21,15 +21,13 @@ export interface AnalysePageState {
 
 export interface AnalysePageProps {
 	match: {
-		params: {
-			id?: number;
-		}
+		id?: string;
 	}
 }
 
 import "./AnalysePage.css";
 
-export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageState> {
+export default class AnalysePage extends React.Component<AnalysePageProps, AnalysePageState> {
 	static page = 'analyse';
 	provider: DemoProvider = DemoProvider.instance;
 
@@ -73,9 +71,9 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 
 	componentDidMount() {
 		document.title = "Viewer - demos.tf";
-		if (this.props.match.params.id) {
+		if (this.props.match.id) {
 			this.setState({loading: true});
-			this.provider.getDemo(this.props.match.params.id).then((demo) => {
+			this.provider.getDemo(parseInt(this.props.match.id, 10)).then((demo) => {
 				return demo.url;
 			}).then((url) => {
 				return fetch(url, {mode: 'cors'});
@@ -125,7 +123,7 @@ export class AnalysePage extends React.Component<AnalysePageProps, AnalysePageSt
 					<DemoDropZone onDrop={this.onDrop.bind(this)}
 								  text="Drop file or click to select"/> :
 					<Analyser header={this.state.header}
-							  isStored={!!this.props.match.params.id}
+							  isStored={!!this.props.match.id}
 							  parser={this.state.parser}
 					/>
 				}

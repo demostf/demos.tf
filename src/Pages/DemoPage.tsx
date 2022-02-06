@@ -9,10 +9,9 @@ import {DemoProvider} from '../Providers/DemoProvider';
 import {Footer} from '../Components/Footer';
 import Spinner from 'react-spinner';
 import {config} from '../config';
-
 import './DemoPage.css';
 import {Demo, ChatMessage} from "../Providers/DemoProvider";
-import {RouteComponentProps} from "react-router";
+import {Location} from "history";
 
 export interface DemoPageState {
 	demo: Demo;
@@ -21,15 +20,15 @@ export interface DemoPageState {
 	highlightUsers: string[];
 }
 
-export interface DemoPageParams {
-	id?: string;
-}
-
-export interface DemoPageProps extends RouteComponentProps<DemoPageParams> {
+export interface DemoPageProps {
 	provider: DemoProvider;
+	match: {
+		id?: string;
+	},
+	location: Location
 }
 
-export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
+export default class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 	static page = 'demo';
 	loadedChat = false;
 	provider: DemoProvider;
@@ -69,8 +68,8 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 
 	async componentDidMount() {
 		document.title = 'Loading - demos.tf';
-		const demo = await this.provider.getDemo(parseInt(this.props.match.params.id || '0', 10));
-		const hash = this.props.location.hash ? this.props.location.hash.substr(1) : '';
+		const demo = await this.provider.getDemo(parseInt(this.props.match.id || '0', 10));
+		const hash = this.props.location.hash ? this.props.location.hash.substring(1) : '';
 		document.title = demo.server + ' - demos.tf';
 		this.setState({demo, highlightUsers: hash.split(';')});
 	};
@@ -89,7 +88,7 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 			return;
 		}
 		this.loadedChat = true;
-		const chat = await this.provider.getChat(this.props.match.params.id);
+		const chat = await this.provider.getChat(this.props.match.id);
 		this.setState({chat});
 	}
 
@@ -112,7 +111,7 @@ export class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
 			demo.red = demo.players[0].name;
 			demo.blue = demo.players[1].name;
 		}
-		if (demo.map.substr(0, 3) === 'dm_') {
+		if (demo.map.substring(0, 3) === 'dm_') {
 			demo.redScore = 0;
 			demo.blueScore = 0;
 			for (const player of demo.players) {

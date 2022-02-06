@@ -61,10 +61,10 @@ function TimeLineBackground({parser}:{parser: AsyncParser}) {
 		     preserveAspectRatio="none">
 			<path d={redHealthPath} stroke="red" strokeWidth={2}
 			      fill="transparent"
-			      vector-effect="non-scaling-stroke" strokeOpacity={0.5}/>
+			      vectorEffect="non-scaling-stroke" strokeOpacity={0.5}/>
 			<path d={blueHealthPath} stroke="blue" strokeWidth={2}
 			      fill="transparent" strokeOpacity={0.5}
-			      vector-effect="non-scaling-stroke"/>
+			      vectorEffect="non-scaling-stroke"/>
 		</svg>);
 }
 

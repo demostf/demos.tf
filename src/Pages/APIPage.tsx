@@ -7,10 +7,10 @@ import {AuthProvider, User} from "../Providers/AuthProvider";
 import {config} from '../config';
 
 export interface APIPageProps {
-	user: User;
+	user: User | null;
 }
 
-export class APIPage extends React.Component<APIPageProps, {}> {
+export default class APIPage extends React.Component<APIPageProps, {}> {
 	static page = 'api';
 
 	componentDidMount() {

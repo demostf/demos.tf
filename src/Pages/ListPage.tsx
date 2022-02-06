@@ -14,8 +14,9 @@ import './ListPage.css';
 import 'react-spinner/react-spinner.css';
 import {DemoInfo} from "../Providers/DemoProvider";
 import Element = JSX.Element;
-import {RouteComponentProps, withRouter} from "react-router";
 import {StringSelect} from "../Components/StringSelect";
+import {NavigateFunction} from "react-router";
+import {Location} from "history";
 
 export interface ListPageState {
 	demos: DemoInfo[];
@@ -26,15 +27,16 @@ export interface ListPageState {
 	highlightUsers: string[];
 }
 
-export interface ListPageParams {
-	steamid?: string;
-}
-
-export interface ListPageProps extends RouteComponentProps<ListPageParams> {
+export interface ListPageProps {
 	demoListProvider: DemoListProvider;
+	match: {
+		steamid?: string
+	},
+	navigate: NavigateFunction,
+	location: Location
 }
 
-class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
+export class ListPage extends React.Component<ListPageProps, ListPageState> {
 	static page = 'list';
 
 	endpoint: string;
@@ -57,17 +59,16 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 	constructor(props: ListPageProps) {
 		super(props);
 
-		const params = props.match.params || {};
 		this.state.highlightUsers = this.provider.filter["players[]"];
-		if (params.steamid) {
-			this.state.steamid = params.steamid;
-			this.state.isUploads = props.location.pathname.substr(0, 9) === '/uploads/';
+		if (this.props.match.steamid) {
+			this.state.steamid = this.props.match.steamid;
+			this.state.isUploads = this.props.location.pathname.substring(0, 9) === '/uploads/';
 			if (this.state.isUploads) {
-				this.endpoint = 'uploads/' + params.steamid;
+				this.endpoint = 'uploads/' + this.props.match.steamid;
 			} else {
-				this.endpoint = 'profiles/' + params.steamid;
-				if (!this.state.highlightUsers.includes(params.steamid)) {
-					this.state.highlightUsers.push(params.steamid);
+				this.endpoint = 'profiles/' + this.props.match.steamid;
+				if (!this.state.highlightUsers.includes(this.props.match.steamid)) {
+					this.state.highlightUsers.push(this.props.match.steamid);
 				}
 			}
 		} else {
@@ -83,7 +84,7 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 		this.playerProvider = new PlayerProvider();
 		if (params.steamid) {
 			steamid = params.steamid;
-			isUploads = props.location.pathname.substr(0, 9) === '/uploads/';
+			isUploads = props.location.pathname.substring(0, 9) === '/uploads/';
 			if (isUploads) {
 				this.endpoint = 'uploads/' + params.steamid;
 			} else {
@@ -184,7 +185,6 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 	render() {
 		this.getSubjectName();
 		let demoTitle: Element | string = 'Demos';
-
 		if (this.state.steamid) {
 			const setListType = (type) => {
 				const isUploads = type.toLowerCase() === 'uploads';
@@ -198,7 +198,7 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 					this.provider.endPoint = this.endpoint;
 					this.filterChange();
 					this.setState({isUploads, demos: []});
-					this.props.history.push('/' + (isUploads ? 'uploads' : 'profiles') + '/' + this.state.steamid);
+					this.props.navigate('/' + (isUploads ? 'uploads' : 'profiles') + '/' + this.state.steamid);
 				}
 			};
 			demoTitle = (
@@ -255,5 +255,3 @@ class ListPageNoRouter extends React.Component<ListPageProps, ListPageState> {
 		);
 	}
 }
-
-export const ListPage = withRouter(ListPageNoRouter);

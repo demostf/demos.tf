@@ -6,14 +6,13 @@ import {DemoProvider} from '../Providers/DemoProvider';
 import {DemoDropZone} from '../Components/Dropzone';
 import {Footer} from '../Components/Footer';
 import {PluginSection} from '../Components/PluginSection';
-import {withRouter} from 'react-router-dom'
 import 'dataview-getstring';
 
 import './UploadPage.css';
 import '../Components/TeamBanner.css';
 import {AuthProvider, User} from "../Providers/AuthProvider";
 import Element = JSX.Element;
-import {History} from "history";
+import {NavigateFunction} from "react-router-dom";
 
 export interface GetStringDataView extends DataView {
 	getString: (offset: number, length: number) => string;
@@ -60,10 +59,10 @@ export interface UploadPageState {
 
 export interface UploadPageProps {
 	user: User;
-	history: History;
+	navigate: NavigateFunction;
 }
 
-export class UploadPageNoRouter extends React.Component<UploadPageProps, UploadPageState> {
+export default class UploadPage extends React.Component<UploadPageProps, UploadPageState> {
 	provider: DemoProvider;
 
 	static page = 'upload';
@@ -130,7 +129,7 @@ export class UploadPageNoRouter extends React.Component<UploadPageProps, UploadP
 
 			this.setState({loading: false});
 			if (id) {
-				this.props.history.push('/' + id);
+				this.props.navigate('/' + id);
 			} else {
 				this.setState({error: `Error: unexpected response from api`});
 			}
@@ -185,5 +184,3 @@ export class UploadPageNoRouter extends React.Component<UploadPageProps, UploadP
 		);
 	}
 }
-
-export const UploadPage = withRouter(UploadPageNoRouter);
