@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Select, {ActionMeta, OptionsType, ValueType} from 'react-select';
+import Select, {Options} from 'react-select';
 import Async from 'react-select/async';
 import {PlayerProvider} from '../Providers/PlayerProvider'
 
@@ -13,21 +13,12 @@ export interface OptionType {
 	label: string
 }
 
-const typeOptions: OptionsType<OptionType> = Object.keys(config.gameTypes).map(key => {
+const typeOptions: Options<OptionType> = Object.keys(config.gameTypes).map(key => {
 	return {
 		value: key,
 		label: config.gameTypes[key]
 	}
 });
-
-class PlayerSelect extends Async<SteamUser, true> {
-
-}
-
-class GameTypeSelect extends Select<OptionType> {
-
-}
-
 
 export interface FilterBarProps {
 	provider: DemoListProvider;
@@ -112,7 +103,7 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 	render() {
 		return (
 			<div className="filterbar">
-				<GameTypeSelect
+				<Select
 					className="type"
 					placeholder="All Types"
 					options={typeOptions}
@@ -142,7 +133,7 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 						})
 					}}
 				/>
-				<PlayerSelect
+				<Async
 					className="players"
 					isMulti={true}
 					defaultOptions={this.state.selectedUsers}

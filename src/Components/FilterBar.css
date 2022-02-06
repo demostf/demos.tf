@@ -1,5 +1,6 @@
 .filterbar {
   margin-top: 20px;
+  display: flex;
 
   & > div {
     display: inline-block;
@@ -14,6 +15,6 @@
   }
 
   div.players {
-    width: calc(100% - (150px + 200px));
+    flex: 1 1;
   }
 }

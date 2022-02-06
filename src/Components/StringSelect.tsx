@@ -1,13 +1,9 @@
 import * as React from 'react';
-import Select, {StylesConfig} from "react-select";
+import Select, {StylesConfig, SelectInstance} from "react-select";
 
 export interface StringOptionType {
 	value: string;
 	label: string;
-}
-
-class StringTypeSelect extends Select<StringOptionType> {
-
 }
 
 export interface StringSelectProps {
@@ -22,7 +18,7 @@ export interface StringSelectProps {
 }
 
 export function StringSelect({options, value, onChange, ...props}: StringSelectProps) {
-	return <StringTypeSelect
+	return <Select
 		options={options.map(option => {
 			return {
 				value: option,

@@ -6,7 +6,6 @@ import {DemoListProvider} from '../Providers/DemoProvider';
 import {DemoRow} from '../Components/DemoRow';
 import {Footer} from '../Components/Footer';
 import {FilterBar} from '../Components/FilterBar';
-import Select from 'react-select';
 import {PlayerProvider} from '../Providers/PlayerProvider';
 import Spinner from 'react-spinner';
 import {config} from '../config';
