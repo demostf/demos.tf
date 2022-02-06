@@ -121,7 +121,7 @@ export class UploadPageNoRouter extends React.Component<UploadPageProps, UploadP
 
 	async upload() {
 		this.setState({loading: true});
-		if (!AuthProvider.instance.user) {
+		if (!AuthProvider.instance.user || !AuthProvider.instance.user.key) {
 			return;
 		}
 		try {

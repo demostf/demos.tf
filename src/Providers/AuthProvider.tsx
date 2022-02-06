@@ -2,9 +2,9 @@ import {BaseProvider} from './BaseProvider';
 
 export interface User {
 	token: string;
-	key: string;
-	name: string;
-	steamid: string;
+	key: string|null;
+	name: string|null;
+	steamid: string|null;
 }
 
 export class AuthProvider extends BaseProvider {
@@ -20,7 +20,16 @@ export class AuthProvider extends BaseProvider {
 
 	async logout() {
 		const token = await this.getToken();
-		this.user = await this.request('auth/logout/' + token);
+		if (token === "bot") {
+			this.user = {
+				token,
+				steamid: null,
+				name: null,
+				key: null,
+			}
+		} else {
+			this.user = await this.request('auth/logout/' + token);
+		}
 	}
 
 	async loadAuth() {
