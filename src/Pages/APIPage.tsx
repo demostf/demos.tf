@@ -148,11 +148,19 @@ export default class APIPage extends React.Component<APIPageProps, {}> {
 						</li>
 						<li>
 							<a href="https://api.demos.tf/demos/?before=1454455622">before=xxx</a>
-							only show demos upload before a certain time.
+							only show demos uploaded before a certain time.
 						</li>
 						<li>
 							<a href="https://api.demos.tf/demos/?after=1454455622">after=xxx</a>
-							only show demos upload after a certain time.
+							only show demos uploaded after a certain time.
+						</li>
+						<li>
+							<a href="https://api.demos.tf/demos/?before_id=12345">before=xxx</a>
+							only show demos with an id lower than the provided one.
+						</li>
+						<li>
+							<a href="https://api.demos.tf/demos/?after_id=12345">after=xxx</a>
+							only show demos with an id higher than the provided one.
 						</li>
 					</ul>
 					<p>
@@ -168,10 +176,9 @@ export default class APIPage extends React.Component<APIPageProps, {}> {
 					</p>
 
 					<p>
-						Most of the time the endpoints limit their results
-						to 50 items, however when using filters it might be
-						possible that less items are returned in a single
-						page even though more items are still available.
+						As an alternative to using <code>page</code> to offset the results
+						you can also use the <code>after_id</code> or <code>before_id</code>
+						to manually paginate your queries.
 					</p>
 				</Section>
 				<Section title="List response">
