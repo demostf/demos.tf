@@ -155,17 +155,24 @@ export default class APIPage extends React.Component<APIPageProps, {}> {
 							only show demos uploaded after a certain time.
 						</li>
 						<li>
-							<a href="https://api.demos.tf/demos/?before_id=12345">before=xxx</a>
+							<a href="https://api.demos.tf/demos/?before_id=12345">before_id=xxx</a>
 							only show demos with an id lower than the provided one.
 						</li>
 						<li>
-							<a href="https://api.demos.tf/demos/?after_id=12345">after=xxx</a>
+							<a href="https://api.demos.tf/demos/?after_id=12345">after_id=xxx</a>
 							only show demos with an id higher than the provided one.
 						</li>
 					</ul>
 					<p>
 						All filters should be provided as query parameter
 						and can be combined in any combination.
+					</p>
+				</Section>
+				<Section title="Sorting">
+					<p>
+						By default the demo listing will be sorted in descending order,
+						meaning newer demos will be listed first, this can be changed
+						by adding <a href="https://api.demos.tf/demos/?order=ASC">order=ASC</a>.
 					</p>
 				</Section>
 				<Section title="Paging">
