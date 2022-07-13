@@ -1,6 +1,6 @@
 .info-popup {
     text-align: left;
-    background-color: #f8f8f8;
+    background-color: var(--primary-color-accent);
     margin: 0 -30px;
     padding-bottom: 5px;
     padding-left: 30px;

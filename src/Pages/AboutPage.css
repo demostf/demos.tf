@@ -2,7 +2,7 @@
   border-bottom: 1px solid #ddd;
   margin: -10px -30px 50px;
   padding: 15px 30px;
-  background-color: #eee;
+  background-color: var(--primary-color-accent);
   line-height: 32px;
   font-size: 120%;
 }

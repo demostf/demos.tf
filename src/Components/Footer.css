@@ -4,8 +4,8 @@ footer {
   line-height: 35px;
   vertical-align: middle;
   padding: 10px 0;
-  color: #fff;
-  background-color: #444;
+  color: white;
+  background-color: var(--secondary-color);
 
   a, a:visited {
     color: #3498db;

@@ -14,7 +14,7 @@
 
 .playerspec {
   background-color: black;
-  color: white;
+  color: var(--primary-color);
   height: 42px;
   width: 200px;
   position: relative;

@@ -15,7 +15,7 @@ table.players {
 
     .name a {
         text-decoration: none;
-        color: black;
+        color: var(--text-primary);
         white-space: nowrap;
     }
 
@@ -55,7 +55,7 @@ table.players {
     }
 
     th {
-        border-bottom: solid 1px #ccc;
+        border-bottom: solid 1px var(--secondary-color-accent);
     }
 
     th.team {
@@ -75,7 +75,7 @@ table.players {
     }
 
     td.pov {
-        background-color: #ddd;
+        background-color: var(--secondary-color-accent);
     }
 
     .demo-info {

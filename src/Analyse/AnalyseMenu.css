@@ -12,7 +12,7 @@
   .share-session {
 
     background: transparent;
-    color: white;
+    color: var(--primary-color);
     font-size: 200%;
     width: 32px;
     height: 32px;
@@ -28,8 +28,8 @@
   }
 
   .share-text {
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--primary-color);
+    background-color: var(--text-secondary);
     padding: 5px;
     margin-top: 0;
     border: 1px #888 solid;

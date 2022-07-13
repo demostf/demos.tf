@@ -1,11 +1,23 @@
 .filterbar {
   margin-top: 20px;
   display: flex;
+  color: var(--text-primary);
 
   & > div {
+    > div {
+      background-color: var(--primary-color);
+    }
     display: inline-block;
   }
 
+  div {
+    border-color: var(--primary-color-accent);
+    color: var(--text-primary);
+    &:hover {
+      border-color: var(--primary-color-accent);
+    }
+  }
+  
   div.type {
     width: 150px;
   }
