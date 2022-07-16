@@ -1,6 +1,6 @@
-FROM node:15-stretch AS build
+FROM node:16-stretch AS build
 WORKDIR /root/build
-RUN apt update && apt install -y git build-essential libpng16-16 libpng-dev xcftools webp
+RUN apt update && apt install -y git build-essential libpng16-16 libpng-dev xcftools webp nasm
 COPY package*.json ./
 RUN npm ci
 COPY postcss.config.js tsconfig.json webpack.*.config.js Makefile ./
