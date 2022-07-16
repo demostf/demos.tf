@@ -52,6 +52,10 @@ function TimeLineBackground({parser}:{parser: AsyncParser}) {
 		}
 	}
 
+	let darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+	let redStroke = darkMode ? '#ff756bff' : '#ff000088';
+	let blueStroke = darkMode ? '#7378ffff' : '#0000ff88';
+	
 	const redHealthPath = redHealth.reduce(pathReducer, 'M 0 0');
 	const blueHealthPath = blueHealth.reduce(pathReducer, 'M 0 0');
 
@@ -59,11 +63,11 @@ function TimeLineBackground({parser}:{parser: AsyncParser}) {
 		<svg className="timeline-background"
 		     viewBox={`0 0 ${length} ${maxHealth}`}
 		     preserveAspectRatio="none">
-			<path d={redHealthPath} stroke="red" strokeWidth={2}
+			<path d={redHealthPath} stroke={redStroke} strokeWidth={2}
 			      fill="transparent"
-			      vectorEffect="non-scaling-stroke" strokeOpacity={0.5}/>
-			<path d={blueHealthPath} stroke="blue" strokeWidth={2}
-			      fill="transparent" strokeOpacity={0.5}
+			      vectorEffect="non-scaling-stroke"/>
+			<path d={blueHealthPath} stroke={blueStroke} strokeWidth={2}
+			      fill="transparent"
 			      vectorEffect="non-scaling-stroke"/>
 		</svg>);
 }

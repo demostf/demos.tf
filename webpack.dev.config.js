@@ -1,7 +1,14 @@
 'use strict';
 
+const webpack = require("webpack");
 const path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 	devtool: 'eval-cheap-source-map',
@@ -9,7 +16,10 @@ module.exports = {
 	entry: {
 		app: [
 			'./src/index.tsx'
-		]
+		],
+		polyfills: [
+			`whatwg-fetch`,
+		],
 	},
 	output: {
 		path: path.join(__dirname, "build"),
@@ -18,32 +28,53 @@ module.exports = {
 		publicPath: '/'
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.tsx', '.ts']
+		extensions: ['.js', '.jsx', '.tsx', '.ts'],
 	},
 	plugins: [
+		new CleanWebpackPlugin(),
+		new MiniCssExtractPlugin({
+			filename: '[contenthash].css'
+		}),
+		new FaviconsWebpackPlugin({
+			logo: './src/images/logo.png',
+			title: 'demos.tf',
+			background: '#444'
+		}),
 		new HtmlWebpackPlugin({
 			title: 'demos.tf',
 			chunks: ['app'],
 			inlineSource: '\.css$',
 			template: '!!html-loader!src/index.html'
+		}),
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'disabled',
+			generateStatsFile: true
 		})
 	],
 	module: {
 		rules: [
-			{test: /\.tsx?$/, use: ['ts-loader']},
+			{
+				test: /\.tsx?$/,
+				loader: 'ts-loader',
+				options: {
+					silent: true
+				}
+			},
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [
-					'url-loader?limit=5000&hash=sha512&digest=hex&name=[hash].[ext]'
-				]
+					'image-webpack-loader'
+				],
+				type: 'asset',
 			},
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader', 'postcss-loader']
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					'postcss-loader'
+				]
 			}
 		]
-	},
-	devServer: {
-		contentBase: path.resolve(__dirname, './src')
-	},
+	}
 };

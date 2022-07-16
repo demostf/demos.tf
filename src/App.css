@@ -259,7 +259,7 @@ pre {
 }
 
 .react-spinner_bar {
-  background-color: var(--primary-color-accent);
+  background-color: var(--text-primary);
 }
 
 .topbar {
