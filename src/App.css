@@ -1,3 +1,30 @@
+:root {
+  --primary-color: white;
+  --primary-color-accent: #f4f4f4;
+  --secondary-color: #444;
+  --secondary-color-accent: #333;
+  --text-primary: black;
+  --text-secondary: grey;
+  --highlight-primary: #3e95e6;
+  --highlight-secondary: #daecfa;
+  --button-primary: #0078e7;
+  --button-secondary: #e6e6e6;
+  --button-critical: rgb(202, 60, 60);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root  {
+    --primary-color: rgb(39, 39, 39);
+    --primary-color-accent: #1c1c1c;
+    --secondary-color: #171717;
+    --secondary-color-accent: #444;
+    --text-primary: #fff;
+    --text-secondary: rgb(169, 169, 169);
+    --highlight-primary: #0078e7;
+    --highlight-secondary: #448fbe;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -7,7 +34,7 @@ body, html, body > div, #pagecontainer {
   margin: 0;
   padding: 0;
   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #333;
+  color: var(--text-primary);
 }
 
 #pagecontainer {
@@ -18,7 +45,7 @@ body, html, body > div, #pagecontainer {
 }
 
 .page {
-  background-color: white;
+  background-color: var(--primary-color);
   width: 100%;
   min-height: 100%;
   max-width: 1100px;
@@ -28,7 +55,7 @@ body, html, body > div, #pagecontainer {
 }
 
 body {
-  background-color: #444;
+  background-color: var(--secondary-color);
 }
 
 #__bs_notify__ {
@@ -89,10 +116,20 @@ a {
   color: #0071b8;;
 }
 
+@media (prefers-color-scheme: dark) {
+  a {
+    color: #008ce3;
+  }
+}
 a:visited {
   color: #004c8b;
 }
 
+@media (prefers-color-scheme: dark) {
+  a:visited {
+    color: #0068be;
+  }
+}
 label + div.Select,
 label + select {
   margin-top: 5px;
@@ -104,7 +141,7 @@ h1 {
   padding: 20px 30px;
   line-height: 50px;
   font-size: 45px;
-  color: #34495e;
+  color: var(--text-secondary);
 }
 
 pre {
@@ -113,7 +150,7 @@ pre {
   margin: 20px 0 20px;
   font-size: 13px;
   line-height: 1.42857143;
-  color: #333;
+  color: var(--secondary-color);
   word-break: break-all;
   word-wrap: break-word;
   background-color: #f5f5f5;
@@ -130,8 +167,8 @@ pre {
 }
 
 .pure-button-primary, .pure-button-selected, a.pure-button-primary, a.pure-button-selected {
-  background-color: #0078e7;
-  color: #fff;
+  background-color: var(--button-primary);
+  color: var(--text-primary);
 }
 
 .pure-button {
@@ -147,7 +184,7 @@ pre {
   font-family: inherit;
   font-size: 100%;
   padding: .5em 1em;
-  color: #444;
+  color: var(--primary-color-accent);
   color: rgba(0, 0, 0, 0.8);
   background-color: #E6E6E6;
   text-decoration: none;
@@ -156,7 +193,7 @@ pre {
   &.pure-button-tertiary {
     background-color: transparent;
     text-decoration: underline;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--text-secondary);
   }
 }
 
@@ -168,13 +205,13 @@ pre {
 }
 
 .button-delete {
-  background: rgb(202, 60, 60);
-  color: white;
+  background: var(--button-critical);
+  color: var(--primary-color);
 }
 
 .button-pause {
   background: rgb(223, 117, 20);
-  color: white;
+  color: var(--primary-color);
 }
 
 .button-fa:before {
@@ -198,7 +235,7 @@ pre {
   margin: 20px 0 20px;
   font-size: 13px;
   line-height: 1.42857143;
-  color: #333;
+  color: var(--secondary-color);
   word-break: break-all;
   word-wrap: break-word;
   background-color: #f5f5f5;
@@ -211,7 +248,7 @@ pre {
   left: 0;
   width: 100%;
   text-align: center;
-  color: white;
+  color: var(--primary-color);
   font-size: 150%;
 }
 
@@ -222,7 +259,7 @@ pre {
 }
 
 .react-spinner_bar {
-  background-color: #444;
+  background-color: var(--primary-color-accent);
 }
 
 .topbar {

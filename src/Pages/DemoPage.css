@@ -12,11 +12,11 @@ table.players {
   }
 
   tr:nth-child(odd) {
-    background-color: #f4f4f4;
+    background-color: var(--primary-color-accent);
   }
 
   tr:nth-child(even) {
-    background-color: white;
+    background-color: var(--primary-color);
   }
 
   th {
