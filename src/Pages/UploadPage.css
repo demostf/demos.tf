@@ -8,6 +8,12 @@
     font-size: 45px;
     font-weight: bold;
     float: inherit;
+    color: #f4f4f4;
+
+    &::placeholder {
+      opacity: 0.5;
+      color: #f4f4f4;
+    }
   }
 
   .blue input {

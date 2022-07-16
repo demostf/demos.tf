@@ -55,7 +55,7 @@ function TimeLineBackground({parser}:{parser: AsyncParser}) {
 	let darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 	let redStroke = darkMode ? '#ff756bff' : '#ff000088';
 	let blueStroke = darkMode ? '#7378ffff' : '#0000ff88';
-	
+
 	const redHealthPath = redHealth.reduce(pathReducer, 'M 0 0');
 	const blueHealthPath = blueHealth.reduce(pathReducer, 'M 0 0');
 
