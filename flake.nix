@@ -13,19 +13,26 @@
       pkgs = import nixpkgs {
         inherit system;
       };
+      npmLd = pkgs.writeShellScriptBin "npm" ''
+        PATH="$PATH ${pkgs.nodejs-16_x}/bin" LD=$CC ${pkgs.nodejs-16_x}/bin/npm $@
+      '';
+      nodeLd = pkgs.writeShellScriptBin "node" ''
+        LD=$CC ${pkgs.nodejs-16_x}/bin/node $@
+      '';
     in rec {
       devShells.default = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
-          nodejs-16_x
           autoconf
           automake
           libtool
           pkg-config
           nasm
           zlib
+          python3
+          vips
+          npmLd
+          nodeLd
         ];
-
-        LD = "gcc";
       };
     });
 }
