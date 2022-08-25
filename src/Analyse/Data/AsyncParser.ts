@@ -23,6 +23,7 @@ export class AsyncParser {
 					reject(event.data.error);
 					return;
 				} else if (event.data.progress) {
+					console.log(event.data.progress);
 					this.progressCallback(event.data.progress);
 					return;
 				} else if (event.data.demo) {

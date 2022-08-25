@@ -9,7 +9,11 @@ declare function postMessage(message: any, transfer?: any[]): void;
 onmessage = (event: MessageEvent) => {
 	const buffer: ArrayBuffer = event.data.buffer;
 	const bytes = new Uint8Array(buffer);
-	parseDemo(bytes).then(parsed => {
+	parseDemo(bytes, (progress) => {
+		postMessage({
+			progress
+		});
+	}).then(parsed => {
 		postMessage({
 			demo: parsed
 		}, [parsed.data.buffer]);
