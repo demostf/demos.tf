@@ -33,6 +33,13 @@ const classMap = {
 	9: "engineer"
 };
 
+const teamMap = {
+	0: "other",
+	1: "spectator",
+	2: "red",
+	3: "blue",
+}
+
 export interface PlayersSpecProps {
 	players: PlayerState[];
 }
@@ -60,24 +67,27 @@ export function PlayersSpec({players}: PlayersSpecProps) {
 		.map((player, i) => <PlayerSpec key={i} player={player}/>)
 		.concat(
 			redPlayers
-				.filter(player => player.chargeLevel !== null)
+				.filter(player => player.playerClass === 5)
 				.map((player, i) => <UberSpec
-					key={i + 20}
-					team={player.team}
-					chargeLevel={player.chargeLevel !== null ? player.chargeLevel : 0}
+					key={i + 30}
+					team={teamMap[player.team]}
+					chargeLevel={player.charge}
 					isDeath={player.health < 1}
 				/>)
 		);
 	const bluePlayerSpecs = bluePlayers
-		.map((player, i) => <PlayerSpec key={i} player={player}/>).concat(
+		.map((player, i) => <PlayerSpec key={i + 20} player={player}/>).concat(
 			bluePlayers
-				.filter(player => player.chargeLevel !== null)
-				.map((player, i) => <UberSpec
-					key={i + 20}
-					team={player.team}
-					chargeLevel={player.chargeLevel !== null ? player.chargeLevel : 0}
-					isDeath={player.health < 1}
-				/>)
+				.filter(player => player.playerClass === 5)
+				.map((player, i) => {
+					// console.log(player);
+					return (<UberSpec
+						key={i + 50}
+						team={teamMap[player.team]}
+						chargeLevel={player.charge}
+						isDeath={player.health < 1}
+					/>)
+				})
 		);
 
 	return (<div>
@@ -87,18 +97,18 @@ export function PlayersSpec({players}: PlayersSpecProps) {
 }
 
 export function PlayerSpec({player}: PlayerSpecProps) {
-	const healthPercent = Math.min(100, player.health / healthMap[player.classId] * 100);
-	const healthStatusClass = (player.health > healthMap[player.classId]) ? 'overhealed' : (player.health <= 0 ? 'dead' : '');
+	const healthPercent = Math.min(100, player.health / healthMap[player.playerClass] * 100);
+	const healthStatusClass = (player.health > healthMap[player.playerClass]) ? 'overhealed' : (player.health <= 0 ? 'dead' : '');
 	const webpClass = (canUseWebP) ? ' webp' : '';
 
 	return (
 		<div
-			className={"playerspec " + player.team + " " + healthStatusClass + webpClass}>
+			className={"playerspec " + teamMap[player.team] + " " + healthStatusClass + webpClass}>
 			{getPlayerIcon(player)}
 			<div className="health-container">
 				<div className="healthbar"
 					 style={{width: healthPercent + '%'}}/>
-				<span className="player-name">{player.user.name}</span>
+				<span className="player-name">{player.info.name}</span>
 				<span className="health">{player.health}</span>
 			</div>
 		</div>
@@ -106,10 +116,10 @@ export function PlayerSpec({player}: PlayerSpecProps) {
 }
 
 function getPlayerIcon(player: PlayerState) {
-	if (classMap[player.classId]) {
+	if (classMap[player.playerClass]) {
 		return <div className={classMap[player.playerClass] + " class-icon"}/>
 	} else {
-		return <SteamAvatar steamId={player.user.steamId}/>
+		return <SteamAvatar steamId={player.info.steamId}/>
 	}
 }
 

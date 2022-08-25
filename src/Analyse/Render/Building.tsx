@@ -1,13 +1,12 @@
 import * as React from 'react';
-// import {CachedBuilding} from "../Data/BuildingCache";
-// import {MapBoundary} from "../Data/PositionCache";
+import {BuildingState, WorldBoundaries, BuildingType, Team} from "@demostf/parser-worker";
 import {SVGImage} from './SVGImage';
 
 import './Player.css';
 
 export interface BuildingProp {
-	building: CachedBuilding;
-	mapBoundary: MapBoundary;
+	building: BuildingState;
+	mapBoundary: WorldBoundaries;
 	targetSize: {
 		width: number;
 		height: number;
@@ -17,23 +16,30 @@ export interface BuildingProp {
 
 const healthMap = [0, 150, 180, 216];
 
-function getIcon(building: CachedBuilding) {
-	let icon;
-	switch (building.type) {
-		case 0:
-			icon = `sentry_${building.level}`;
-			break;
-		case 1:
-			icon = 'dispenser';
-			break;
-		case 2:
-			icon = 'tele_entrance';
-			break;
-		case 3:
-			icon = 'tele_exit';
-			break;
+function getBuildingType(type: BuildingType) {
+	switch (type) {
+		case BuildingType.TeleporterEntrance:
+			return 'tele_entrance';
+		case BuildingType.TeleporterExit:
+			return 'tele_exit';
+		case BuildingType.Dispenser:
+			return 'dispenser';
+		case BuildingType.Level1Sentry:
+			return 'sentry_1';
+		case BuildingType.Level2Sentry:
+			return 'sentry_2';
+		case BuildingType.Level3Sentry:
+			return 'sentry_3';
+		case BuildingType.MiniSentry:
+			return 'sentry_1';
+		default:
+			return 'unknown';
 	}
-	const team = building.team === 2 ? 'red' : 'blue';
+}
+
+function getIcon(building: BuildingState) {
+	const icon = getBuildingType(building.buildingType);
+	const team = building.team === Team.Red ? 'red' : 'blue';
 	return require(`../../images/building_icons/${icon}_${team}.png`);
 }
 

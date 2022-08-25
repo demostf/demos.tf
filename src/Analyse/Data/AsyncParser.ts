@@ -1,5 +1,4 @@
-import {ParsedDemo, PlayerState, WorldBoundaries, Header} from "@demostf/parser-worker";
-import Worker from "worker-loader!./ParseWorker"
+import {ParsedDemo, PlayerState, WorldBoundaries, Header, Kill} from "@demostf/parser-worker";
 import {getMapBoundaries} from "../MapBoundries";
 
 export class AsyncParser {
@@ -15,7 +14,7 @@ export class AsyncParser {
 
 	cache(): Promise<ParsedDemo> {
 		return new Promise((resolve, reject) => {
-			const worker = new Worker(new URL('workerize-loader!./ParseWorker.ts', import.meta.url));
+			const worker = new Worker(new URL('./ParseWorker.ts', import.meta.url));
 			worker.postMessage({
 				buffer: this.buffer
 			}, [this.buffer]);
@@ -30,19 +29,23 @@ export class AsyncParser {
 					const cachedData: ParsedDemo = event.data.demo;
 					console.log(cachedData.data.length);
 					this.world = cachedData.world;
-					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.world, cachedData.header, cachedData.data);
+					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.buildingCount, cachedData.world, cachedData.header, cachedData.data, cachedData.kills, cachedData.playerInfo);
 					resolve(this.demo);
 				}
 			}
 		});
 	}
 
-	getPlayersAtTick(tick: number) {
+	getPlayersAtTick(tick: number): PlayerState[] {
 		const players: PlayerState[] = [];
 		for (let i = 0; i < this.demo.playerCount; i++) {
 			players.push(this.demo.getPlayer(tick, i));
 		}
 
 		return players;
+	}
+
+	getKills(): Kill[] {
+		return this.demo.kills
 	}
 }

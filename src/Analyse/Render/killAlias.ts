@@ -33,5 +33,6 @@ export const killAlias = {
 	'wrench_jag': 'jag',
 	'loose_cannon_explosion': 'loose_cannon',
 	'samrevolver': 'big_kill',
-	'long_heatmaker': 'huo-long_heater'
+	'long_heatmaker': 'huo-long_heater',
+	'pep_pistol': 'pistol'
 };

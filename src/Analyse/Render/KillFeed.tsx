@@ -1,25 +1,20 @@
 import * as React from 'react';
 
 import './KillFeed.css';
-import {CachedDeath} from "../Data/Parser";
+import {Kill, PlayerState} from "@demostf/parser-worker";
 import {killAlias} from "./killAlias";
 
 export interface KillFeedProps {
-	deaths: {[tick: string]: CachedDeath[]}
+	kills: Kill[],
 	tick: number;
+	players: PlayerState[];
 }
 
-export function KillFeed({deaths, tick}:KillFeedProps) {
-	let relevantKills: CachedDeath[] = [];
-	for (const deathTickKey in deaths) {
-		const deathTick = parseInt(deathTickKey, 10);
-		if (deaths.hasOwnProperty(deathTickKey) && deathTick <= tick && deathTick >= (tick - 30 * 10)) {
-			relevantKills = relevantKills.concat(deaths[deathTickKey]);
-		}
-	}
+export function KillFeed({kills, tick, players}: KillFeedProps) {
+	let relevantKills: Kill[] = kills.filter(kill => kill.tick <= tick && kill.tick >= (tick - 30 * 10));
 
 	return <div className="killfeed">
-		{relevantKills.map((kill, i) => <KillFeedItem key={i} death={kill}/>)}
+		{relevantKills.map((kill, i) => <KillFeedItem key={i} kill={kill} players={players}/>)}
 	</div>
 }
 
@@ -28,8 +23,11 @@ const teamMap = {
 	3: 'blue'
 };
 
-export function KillFeedItem({death}:{death: CachedDeath}) {
-	const alias = killAlias[death.weapon] ? killAlias[death.weapon] : death.weapon;
+export function KillFeedItem({kill, players}: { kill: Kill, players: PlayerState[] }) {
+	const alias = killAlias[kill.weapon] ? killAlias[kill.weapon] : kill.weapon;
+	const attacker = getPlayer(players, kill.attacker);
+	const assister = getPlayer(players, kill.assister);
+	const victim = getPlayer(players, kill.victim);
 	let killIcon;
 	try {
 		killIcon = require(`../../images/kill_icons/${alias}.png`);
@@ -39,19 +37,23 @@ export function KillFeedItem({death}:{death: CachedDeath}) {
 	}
 
 	return <div className="kill">
-		{(death.killer && death.killer !== death.victim) ?
-			<span className={"player " + teamMap[death.killerTeam]}>
-				{death.killer.user.name}
+		{(attacker && kill.attacker !== kill.victim) ?
+			<span className={"player " + teamMap[attacker.team]}>
+				{attacker.info.name}
 				</span> : ''}
-		{(death.assister && death.assister !== death.victim) ?
-			<span className={teamMap[death.assisterTeam]}>﹢</span> : ''}
-		{(death.assister && death.assister !== death.victim) ?
-			(<span className={"player " + teamMap[death.assisterTeam]}>
-				{death.assister.user.name}
+		{(assister && kill.assister !== kill.victim) ?
+			<span className={teamMap[attacker.team]}>﹢</span> : ''}
+		{(assister && kill.assister !== kill.victim) ?
+			(<span className={"player " + teamMap[assister.team]}>
+				{assister.info.name}
 				</span>) : ''}
-		<img src={killIcon} className={`kill-icon ${death.weapon}`}/>
-		<span className={"player " + teamMap[death.victimTeam]}>
-			{death.victim.user.name}
+		<img src={killIcon} className={`kill-icon ${kill.weapon}`}/>
+		<span className={"player " + teamMap[victim.team]}>
+			{victim.info.name}
 			</span>
 	</div>
+}
+
+function getPlayer(players: PlayerState[], entityId: number): PlayerState {
+	return players.find(player => player.info.userId == entityId);
 }

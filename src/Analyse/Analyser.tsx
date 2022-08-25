@@ -305,6 +305,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	render() {
 		const players = this.parser.getPlayersAtTick(this.state.tick);
+		const kills = this.parser.getKills();
 		const playButtonText = (this.state.playing) ? '⏸' : '▶️';
 		const disabled = (this.session && !this.isSessionOwner);
 
@@ -325,7 +326,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 								 isShared={this.state.isShared}
 					/>
 					<SpecHUD parser={this.parser} tick={this.state.tick}
-							 players={players}/>
+							 players={players} kills={kills}/>
 				</div>
 				<div className="time-control"
 					 title={`${tickToTime(this.state.tick)} (tick ${this.state.tick * 2})`}>
