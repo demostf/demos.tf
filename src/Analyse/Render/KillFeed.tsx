@@ -19,6 +19,7 @@ export function KillFeed({kills, tick, players}: KillFeedProps) {
 }
 
 const teamMap = {
+	0: 'unknown',
 	2: 'red',
 	3: 'blue'
 };
@@ -27,13 +28,21 @@ export function KillFeedItem({kill, players}: { kill: Kill, players: PlayerState
 	const alias = killAlias[kill.weapon] ? killAlias[kill.weapon] : kill.weapon;
 	const attacker = getPlayer(players, kill.attacker);
 	const assister = getPlayer(players, kill.assister);
-	const victim = getPlayer(players, kill.victim);
+	let victim = getPlayer(players, kill.victim);
 	let killIcon;
 	try {
 		killIcon = require(`../../images/kill_icons/${alias}.png`);
 	} catch (e) {
 		console.log(alias);
 		killIcon = require(`../../images/kill_icons/skull.png`);
+	}
+	if (!victim) {
+		victim = {
+			team: 0,
+			info: {
+				name: 'Missing player'
+			}
+		};
 	}
 
 	return <div className="kill">
@@ -42,7 +51,7 @@ export function KillFeedItem({kill, players}: { kill: Kill, players: PlayerState
 				{attacker.info.name}
 				</span> : ''}
 		{(assister && kill.assister !== kill.victim) ?
-			<span className={teamMap[attacker.team]}>﹢</span> : ''}
+			<span className={teamMap[assister.team]}>﹢</span> : ''}
 		{(assister && kill.assister !== kill.victim) ?
 			(<span className={"player " + teamMap[assister.team]}>
 				{assister.info.name}
