@@ -9,16 +9,16 @@ import './PlayerSpec.css';
 import {SteamAvatar} from "../../Components/SteamAvatar";
 
 const healthMap = {
-	0: 100,//fallback
-	1: 125,//scout
-	2: 150,//sniper
-	3: 200,//soldier,
-	4: 175,//demoman,
-	5: 150,//medic,
-	6: 300,//heavy,
-	7: 175,//pyro
-	8: 125,//spy
-	9: 125,//engineer
+	0: 100, //fallback
+	1: 125, //scout
+	2: 150, //sniper
+	3: 200, //soldier,
+	4: 175, //demoman,
+	5: 150, //medic,
+	6: 300, //heavy,
+	7: 175, //pyro
+	8: 125, //spy
+	9: 125, //engineer
 };
 
 const classMap = {
@@ -31,6 +31,18 @@ const classMap = {
 	7: "pyro",
 	8: "spy",
 	9: "engineer"
+};
+
+const classSort = {
+	1: 1, //scout
+	3: 2, //soldier
+	7: 3, //pyro
+	4: 4, //demoman
+	6: 5, //heavy
+	9: 6, //engineer
+	5: 7, //medic
+	2: 8, //sniper
+	8: 9, //spy
 };
 
 const teamMap = {
@@ -62,6 +74,8 @@ export function PlayersSpec({players}: PlayersSpecProps) {
 		.filter((player) => player.team === 2);
 	const bluePlayers = players
 		.filter((player) => player.team === 3);
+	redPlayers.sort((a, b) => classSort[a.playerClass] - classSort[b.playerClass]);
+	bluePlayers.sort((a, b) => classSort[a.playerClass] - classSort[b.playerClass]);
 
 	const redPlayerSpecs = redPlayers
 		.map((player, i) => <PlayerSpec key={i} player={player}/>)
