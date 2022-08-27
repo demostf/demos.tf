@@ -5,12 +5,11 @@ import {throttle, debounce} from 'throttle-debounce';
 import {Timeline} from './Render/Timeline';
 import {SpecHUD} from './Render/SpecHUD';
 import {AnalyseMenu} from './AnalyseMenu'
-import {Header} from "@demostf/parser-worker";
+import {Header, WorldBoundaries} from "@demostf/parser-worker";
 
 import './Analyser.css'
 import {AsyncParser} from "./Data/AsyncParser";
 import {getMapBoundaries} from "./MapBoundries";
-import {WorldBoundaries} from "@demostf/parser-worker/pkg";
 
 export interface AnalyseProps {
 	header: Header;
