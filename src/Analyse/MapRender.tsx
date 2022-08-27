@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 import {Player as PlayerDot} from './Render/Player';
-// import {Building as BuildingDot} from './Render/Building';
+import {Building as BuildingDot} from './Render/Building';
 import {findMapAlias} from './MapBoundries';
-import {PlayerState, Header, WorldBoundaries} from "@demostf/parser-worker";
+import {PlayerState, Header, WorldBoundaries, BuildingState} from "@demostf/parser-worker";
 
 export interface MapRenderProps {
 	header: Header;
 	players: PlayerState[];
+	buildings: BuildingState[];
 	size: {
 		width: number;
 		height: number;
@@ -37,7 +38,7 @@ function canUseWebP() {
 	}
 }
 
-export function MapRender({header, players, size, world, scale}: MapRenderProps) {
+export function MapRender({header, players, size, world, scale, buildings}: MapRenderProps) {
 	const mapAlias = findMapAlias(header.map);
 	const image = (canUseWebP()) ?
 		((require(`../images/leveloverview/dist/${mapAlias}.webp`) as any)) :
@@ -51,19 +52,19 @@ export function MapRender({header, players, size, world, scale}: MapRenderProps)
 			                  targetSize={size} scale={scale} />
 		});
 
-	// const buildingDots = buildings
-	// 	.filter((building: CachedBuilding) => building.position.x)
-	// 	.map((building: CachedBuilding, key) => {
-	// 		return <BuildingDot key={100 + key} building={building}
-	// 		                    mapBoundary={world}
-	// 		                    targetSize={size} scale={scale}/>
-	// 	});
+	const buildingDots = buildings
+		.filter((building: PlayerState) => building.position.x)
+		.map((building: PlayerState, key) => {
+			return <BuildingDot key={100 + key} building={building}
+			                    mapBoundary={world}
+			                    targetSize={size} scale={scale}/>
+		});
 
 	return (
 		<svg className="map-background" width={size.width} height={size.height}
 		     style={{backgroundImage: background}}>
 			{playerDots}
-			{/*{buildingDots}*/}
+			{buildingDots}
 		</svg>
 	);
 }

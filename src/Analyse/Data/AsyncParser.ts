@@ -1,4 +1,4 @@
-import {ParsedDemo, PlayerState, WorldBoundaries, Header, Kill} from "@demostf/parser-worker";
+import {ParsedDemo, PlayerState, WorldBoundaries, Header, Kill, BuildingState} from "@demostf/parser-worker";
 import {getMapBoundaries} from "../MapBoundries";
 
 export class AsyncParser {
@@ -23,14 +23,13 @@ export class AsyncParser {
 					reject(event.data.error);
 					return;
 				} else if (event.data.progress) {
-					console.log(event.data.progress);
 					this.progressCallback(event.data.progress);
 					return;
 				} else if (event.data.demo) {
 					const cachedData: ParsedDemo = event.data.demo;
-					console.log(cachedData.data.length);
+					console.log(`packed data: ${(cachedData.data.length / (1024 * 1024)).toFixed(1)}MB`);
 					this.world = cachedData.world;
-					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.buildingCount, cachedData.world, cachedData.header, cachedData.data, cachedData.kills, cachedData.playerInfo);
+					this.demo = new ParsedDemo(cachedData.playerCount, cachedData.buildingCount, cachedData.world, cachedData.header, cachedData.data, cachedData.kills, cachedData.playerInfo, cachedData.tickCount);
 					resolve(this.demo);
 				}
 			}
@@ -44,6 +43,18 @@ export class AsyncParser {
 		}
 
 		return players;
+	}
+
+	getBuildingsAtTick(tick: number): BuildingState[] {
+		const buildings: BuildingState[] = [];
+		for (let i = 0; i < this.demo.buildingCount; i++) {
+			const building = this.demo.getBuilding(tick, i);
+			if (building.health > 0) {
+				buildings.push(building);
+			}
+		}
+
+		return buildings;
 	}
 
 	getKills(): Kill[] {

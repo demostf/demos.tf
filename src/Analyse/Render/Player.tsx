@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {PlayerState, WorldBoundaries} from "@demostf/parser-worker";
+import {PlayerState, WorldBoundaries, Team} from "@demostf/parser-worker";
 import {SVGImage} from './SVGImage';
 
 import './Player.css';
@@ -49,7 +49,7 @@ export function Player({player, mapBoundary, targetSize, scale}: PlayerProp) {
 	const scaledY = (worldHeight - y) / worldHeight * targetSize.height;
 	const maxHealth = healthMap[player.playerClass];
 	const alpha = player.health / maxHealth;
-	const teamColor = (player.team === 3) ? '#a75d50' : '#5b818f';
+	const teamColor = (player.team === Team.Red) ? '#a75d50' : '#5b818f';
 	const imageOpacity = player.health === 0 ? 0 : (1 + alpha) / 2;
 
 	return <g

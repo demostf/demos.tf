@@ -44,12 +44,17 @@ function getIcon(building: BuildingState) {
 }
 
 export function Building({building, mapBoundary, targetSize, scale}: BuildingProp) {
-	const worldWidth = mapBoundary.boundaryMax.x - mapBoundary.boundaryMin.x;
-	const worldHeight = mapBoundary.boundaryMax.y - mapBoundary.boundaryMin.y;
-	const {x, y} = building.position;
+	const worldWidth = mapBoundary.boundary_max.x - mapBoundary.boundary_min.x;
+	const worldHeight = mapBoundary.boundary_max.y - mapBoundary.boundary_min.y;
+	const x = building.position.x - mapBoundary.boundary_min.x;
+	const y = building.position.y - mapBoundary.boundary_min.y;
 	const scaledX = x / worldWidth * targetSize.width;
 	const scaledY = (worldHeight - y) / worldHeight * targetSize.height;
 	const maxHealth = healthMap[building.level];
+	if (!maxHealth) {
+		return null;
+	}
+
 	const alpha = building.health / maxHealth;
 	try {
 		const image = getIcon(building);

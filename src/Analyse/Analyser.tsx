@@ -305,6 +305,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	render() {
 		const players = this.parser.getPlayersAtTick(this.state.tick);
+		const buildings = this.parser.getBuildingsAtTick(this.state.tick);
 		const kills = this.parser.getKills();
 		const playButtonText = (this.state.playing) ? '⏸' : '▶️';
 		const disabled = (this.session && !this.isSessionOwner);
@@ -316,6 +317,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 								  onScale={scale => this.setState({scale})}>
 						<MapRender size={this.state.worldSize}
 								   players={players}
+								   buildings={buildings}
 								   header={this.props.header}
 								   world={this.state.backgroundBoundaries}
 								   scale={this.state.scale}/>
