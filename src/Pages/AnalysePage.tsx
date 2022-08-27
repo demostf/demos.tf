@@ -17,6 +17,8 @@ export interface AnalysePageState {
 	error?: string;
 	parser: AsyncParser | null;
 	progress: number;
+	downloadProgress: number,
+	current: string,
 }
 
 export interface AnalysePageProps {
@@ -37,6 +39,8 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 		header: null,
 		loading: false,
 		parser: null,
+		current: "Downloading demo",
+		downloadProgress: 0,
 		progress: 0
 	};
 
@@ -51,6 +55,7 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 	}
 
 	handleBuffer(buffer: ArrayBuffer) {
+		this.setState({current: "Processing demo"});
 		try {
 			const parser = new AsyncParser(buffer, (progress) => {
 				this.setState({progress});
@@ -78,7 +83,9 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 			}).then((url) => {
 				return fetch(url, {mode: 'cors'});
 			}).then((response) => {
-				return response.arrayBuffer();
+				return readBuffer(response, (downloadProgress) => {
+					this.setState({downloadProgress})
+				});
 			}).then((buffer) => {
 				this.handleBuffer(buffer)
 			});
@@ -106,9 +113,10 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 		if (this.state.loading) {
 			return <div className="analyse-progress">
 				<p>
-					Processing demo...
+					{this.state.current}...
 				</p>
 				<Spinner/>
+				<progress max={100} value={this.state.downloadProgress}/>
 				<progress max={100} value={this.state.progress}/>
 			</div>;
 		}
@@ -130,4 +138,31 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 			</div>
 		);
 	}
+}
+
+async function readBuffer(response: Response, progress: (progress: number) => void): Promise<ArrayBuffer> {
+	if (!response.body || !response.headers) {
+		throw new Error("invalid response");
+	}
+	const contentLength = +(response.headers.get('Content-Length') || 0);
+	let receivedLength = 0;
+
+	let data = new Uint8Array(contentLength);
+
+	const reader = response.body.getReader();
+
+	while(true) {
+		const {done, value} = await reader.read();
+
+		if (done) {
+			break;
+		}
+
+		data.set(value, receivedLength);
+		receivedLength += value.length;
+
+		progress((receivedLength / contentLength) * 100);
+	}
+
+	return data.buffer;
 }
