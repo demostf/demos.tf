@@ -12,6 +12,7 @@ export interface SpecHUDProps {
 }
 
 export function SpecHUD({tick, parser, players, kills}: SpecHUDProps) {
+	// console.log(tick);
 	return (<div className="spechud">
 		<KillFeed tick={tick} kills={kills} players={players}/>
 		<PlayersSpec players={players}/>

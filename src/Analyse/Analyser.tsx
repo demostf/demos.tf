@@ -111,7 +111,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 		if (props.isStored && window.location.hash) {
 			const parsed = parseInt(window.location.hash.substr(1), 10);
 			if (('#' + parsed) === window.location.hash) {
-				this.state.tick = Math.floor(parsed / 2);
+				this.state.tick = Math.floor(parsed);
 			} else {
 				this.joinSession(window.location.hash.substr(1));
 			}
@@ -271,15 +271,15 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 
 	private setHash = debounce(250, (tick) => {
 		if (!this.session && this.props.isStored) {
-			history.replaceState('', '', '#' + tick * 2);
+			history.replaceState('', '', '#' + tick);
 		}
 	});
 
 	animFrame(timestamp) {
-		const timePassed = timestamp - this.playStartTime;
-		const targetTick = this.playStartTick + (Math.round(timePassed * this.intervalPerTick * 2));
+		const timePassed = (timestamp - this.playStartTime) / 1000;
+		const targetTick = this.playStartTick + (Math.round(timePassed / this.intervalPerTick));
 		this.lastFrameTime = timestamp;
-		if (targetTick >= (this.parser.demo.tickCount - 1)) {
+		if (targetTick >= (this.parser.demo.tick - 1)) {
 			this.pause();
 		}
 		this.setHash(this.state.tick);
@@ -330,7 +330,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 							 players={players} kills={kills}/>
 				</div>
 				<div className="time-control"
-					 title={`${tickToTime(this.state.tick)} (tick ${this.state.tick * 2})`}>
+					 title={`${tickToTime(this.state.tick, this.intervalPerTick)} (tick ${this.state.tick})`}>
 					<input className="play-pause-button" type="button"
 						   onClick={this.togglePlay.bind(this)}
 						   value={playButtonText}
@@ -347,7 +347,7 @@ export class Analyser extends React.Component<AnalyseProps, {}> {
 	}
 }
 
-function tickToTime(tick: number): string {
-	let seconds = Math.floor(tick / 33);
+function tickToTime(tick: number, intervalPerTick: number): string {
+	let seconds = Math.floor(tick * intervalPerTick);
 	return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
