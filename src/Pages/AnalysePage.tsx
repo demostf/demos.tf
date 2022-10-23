@@ -123,7 +123,7 @@ export default class AnalysePage extends React.Component<AnalysePageProps, Analy
 
 		return (
 			<div className="analyse-page">
-				<p>
+				<p className="page-note">
 					To view a demo, select a file on your computer or use the "View" button on any demo stored on the
 					site.
 				</p>

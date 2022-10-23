@@ -4,12 +4,13 @@ import './Section.css';
 
 export interface SectionProps {
 	title: string;
-	children: any[];
+	children: any[] | any;
+	className?: string;
 }
 
-export function Section(props) {
+export function Section(props: SectionProps) {
 	return (
-		<section className={props.title}>
+		<section key={props.title} className={props.title + (props.className ? ' ' + props.className : '')}>
 			<div className="title">
 				<h3>
 					{props.title}

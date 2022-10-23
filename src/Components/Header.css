@@ -23,6 +23,22 @@ header {
     padding: 0;
     float: left;
     max-width: 220px;
+    position: relative;
+
+    &.beta {
+      margin-right: 20px;
+
+      &:after {
+        content: 'beta';
+        color: var(--highlight-primary);
+        text-transform: uppercase;
+        font-size: 12px;
+        position: absolute;
+        right: -15px;
+        top: 2px;
+        font-weight: bold;
+      }
+    }
   }
 
   a, a:visited {

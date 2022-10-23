@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-function format(input) {
+export function formatDuration(input) {
 	if (!input) {
-		return '-';
+		return '0:00';
 	}
 	const hours = Math.floor(input / 3600);
 	const minutes = Math.floor((input - (hours * 3600)) / 60);
-	const seconds = input - (hours * 3600) - (minutes * 60);
+	const seconds = Math.floor(input - (hours * 3600) - (minutes * 60));
 
 	const hourString = (hours < 10) ? "0" + hours : "" + hours;
 	const minuteString = (minutes < 10) ? "0" + minutes : "" + minutes;
@@ -25,7 +25,7 @@ export interface DurationProps {
 }
 
 export function Duration(props: DurationProps) {
-	const duration = format(props.duration);
+	const duration = formatDuration(props.duration);
 	return (
 		<span className={props.className||''}>{duration}</span>
 	);

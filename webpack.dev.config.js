@@ -58,6 +58,16 @@ module.exports = {
 					from: './node_modules/@demostf/parser-worker/dist/*.wasm',
 					to: '',
 					flatten: true,
+				},
+				{
+					from: 'node_modules/@demostf/edit/dist/*.js',
+					to: '',
+					flatten: true,
+				},
+				{
+					from: 'node_modules/@demostf/edit/dist/*.wasm',
+					to: '',
+					flatten: true,
 				}
 			]
 		}),

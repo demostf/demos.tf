@@ -83,6 +83,7 @@ function AppRouter({demoListProvider, demoProvider, user, auth, logoutHandler}: 
 					   element={<React.Suspense fallback={<Loading/>}><LoadableApiPage user={user}/></React.Suspense>}/>
 				<Route path='/viewer/:id' element={<AnalysePageRoute user={user}/>}/>
 				<Route path='/viewer' element={<AnalysePageRoute user={user}/>}/>
+				<Route path='/edit' element={<EditPageRoute user={user}/>}/>
 				<Route path='/:id'
 					   element={<DemoPageRoute demoProvider={demoProvider}/>}/>
 				<Route path='/' element={<ListPageRoute demoListProvider={demoListProvider}/>}/>
@@ -117,6 +118,14 @@ function AnalysePageRoute({user}: { user: User | null }) {
 		</React.Suspense>)
 }
 
+function EditPageRoute({user}: { user: User | null }) {
+	const match = useParams();
+	return (
+		<React.Suspense fallback={<Loading/>}>
+			<LoadableEditPage match={match}/>
+		</React.Suspense>)
+}
+
 function DemoPageRoute({demoProvider}: { demoProvider: DemoProvider }) {
 	const match = useParams();
 	const location = useLocation();
@@ -131,6 +140,7 @@ const getApiComponent = () => import('./Pages/APIPage');
 const getAboutComponent = () => import('./Pages/AboutPage');
 const getUploadComponent = () => import('./Pages/UploadPage');
 const getAnalyseComponent = () => import('./Pages/AnalysePage');
+const getEditComponent = () => import('./Pages/EditPage');
 
 const getLoadable = (loader) => {
 	return (<React.Suspense fallback={<Loading/>}>
@@ -142,4 +152,5 @@ const LoadableApiPage = React.lazy(getApiComponent);
 const LoadableAboutPage = React.lazy(getAboutComponent);
 const LoadableUploadPage = React.lazy(getUploadComponent);
 const LoadableAnalysePage = React.lazy(getAnalyseComponent);
+const LoadableEditPage = React.lazy(getEditComponent);
 

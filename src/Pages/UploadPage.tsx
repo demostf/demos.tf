@@ -18,22 +18,32 @@ export interface GetStringDataView extends DataView {
 	getString: (offset: number, length: number) => string;
 }
 
-function parseHeader(file, cb) {
-	const reader = new FileReader();
-
-	reader.onload = function () {
-		const view: GetStringDataView = new DataView(reader.result as ArrayBuffer) as GetStringDataView;
+export function parseHeader(file: File, cb: (head: DemoHead) => void) {
+	readFile(file).then(data => {
+		const view: GetStringDataView = new DataView(data) as GetStringDataView;
 		cb({
 			'type': view.getString(0, 8),
 			'server': view.getString(16, 260),
 			'nick': view.getString(276, 260),
 			'map': view.getString(536, 260),
 			'game': view.getString(796, 260),
-			'duration': view.getFloat32(1056, true)
+			'duration': view.getFloat32(1056, true),
+			'ticks': view.getUint32(1060, true),
 		});
-	};
+	})
+}
 
-	reader.readAsArrayBuffer(file);
+export function readFile(file: File): Promise<ArrayBuffer> {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+
+		reader.onload = function () {
+			resolve(reader.result as ArrayBuffer)
+		};
+		reader.onerror = reject;
+
+		reader.readAsArrayBuffer(file);
+	});
 }
 
 export interface DemoHead {
@@ -43,6 +53,7 @@ export interface DemoHead {
 	map: string;
 	game: string;
 	duration: number;
+	ticks: number;
 }
 
 export interface UploadPageState {
@@ -175,7 +186,8 @@ export default class UploadPage extends React.Component<UploadPageProps, UploadP
 				</section>
 				<Section title="API Key">
 					<pre>{AuthProvider.instance.user && AuthProvider.instance.user.key}</pre>
-					<p>This key is used by the plugin to authenticate you as the uploader and link the uploaded demo to your account</p>
+					<p>This key is used by the plugin to authenticate you as the uploader and link the uploaded demo to
+						your account</p>
 				</Section>
 
 				<PluginSection user={AuthProvider.instance.user}/>
