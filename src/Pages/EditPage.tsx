@@ -115,7 +115,7 @@ export default class EditPage extends React.Component<UploadPageProps, EditPageS
 					this.setState({loading: false});
 					downloadBuffer(result, this.state.demoName.replace('.dem', '_edited.dem'));
 				}, err => {
-					this.setState({loading: false});
+					this.setState({loading: false, error: `Error while processing demo`});
 					console.error("Error while editing demo");
 					throw err;
 				})
