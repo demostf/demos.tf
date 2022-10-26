@@ -48,6 +48,24 @@ export function edit(data: ArrayBuffer, options: EditOptions): Promise<ArrayBuff
 	});
 }
 
+export function count_ticks(data: ArrayBuffer): Promise<number> {
+	return new Promise((resolve, reject) => {
+		const worker = new Worker(new URL('../EditWorker.ts', import.meta.url));
+		worker.postMessage({
+			buffer: data,
+			count: true
+		}, [data]);
+		worker.onmessage = (event) => {
+			if (event.data.error) {
+				reject(event.data.error);
+				return;
+			} else if (event.data.ticks) {
+				resolve(event.data.ticks);
+			}
+		}
+	});
+}
+
 function downloadBuffer(arrayBuffer: ArrayBuffer, fileName: string) {
 	const a = document.createElement('a')
 	a.href = URL.createObjectURL(new Blob(
@@ -85,14 +103,29 @@ export default class EditPage extends React.Component<UploadPageProps, EditPageS
 	}
 
 	handleDemo(file) {
-		this.setState({demoName: file.name, demoFile: file});
+		this.setState({demoName: file.name, demoFile: file, loading: true});
 		parseHeader(file, head => {
 				if (head.type === 'HL2DEMO') {
-					this.setState({
-						demoInfo: head,
-						cut: {from: 0, to: head.ticks},
-						intervalPerTick: head.duration / head.ticks
-					});
+					if (head.ticks === 0) {
+						console.log("counting ticks");
+						readFile(file).then(count_ticks).then(ticks => {
+							console.log(ticks);
+							head.ticks = ticks;
+							this.setState({
+								demoInfo: head,
+								cut: {from: 0, to: ticks},
+								intervalPerTick: head.duration / ticks,
+								loading: false,
+							});
+						});
+					} else {
+						this.setState({
+							demoInfo: head,
+							cut: {from: 0, to: head.ticks},
+							intervalPerTick: head.duration / head.ticks,
+							loading: false,
+						});
+					}
 				} else {
 					this.setState({demoInfo: null});
 				}
