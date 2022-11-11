@@ -93,9 +93,6 @@ export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
 
 	searchUsers = async (query): Promise<SteamUser[]> => {
 		const selectedUsers = await Promise.all(this.props.filter['players[]'].map(steamId => this.playerProvider.getUser(steamId)));
-		if (query.length < 3) {
-			return selectedUsers;
-		}
 		const foundUsers = await this.playerProvider.search(query);
 		return foundUsers.concat(selectedUsers);
 	};
