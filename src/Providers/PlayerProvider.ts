@@ -6,7 +6,7 @@ export class PlayerProvider extends BaseProvider {
 	static userMap = new Map<SteamId, SteamUser>();
 
 	async search(query: string): Promise<SteamUser[]> {
-		if (query.length <= 2) {
+		if (query.length < 2) {
 			return [];
 		}
 		const users = await this.request('users/search', {query}) as SteamUser[];
