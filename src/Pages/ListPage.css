@@ -21,6 +21,10 @@
 		margin: 0;
 	}
 
+	td.title {
+		max-width: 0px;
+	}
+
 	td.date {
 		width: 120px;
 	}
