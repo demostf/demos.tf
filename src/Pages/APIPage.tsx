@@ -359,6 +359,12 @@ export default class APIPage extends React.Component<APIPageProps, {}> {
 						</li>
 					</ul>
 				</Section> : []}
+
+				<Section title="Database Dump">
+					<p>
+						If you're planning on analysing data from demos.tf, a public <a href="https://freezer.demos.tf/db/demostf.sql.gz">database dump</a> for PostgreSQL is available for download.
+					</p>
+				</Section>
 			</div>
 		);
 	}
