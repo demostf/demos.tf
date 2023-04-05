@@ -8,6 +8,9 @@ const mapAliases = new Map<string, string>([
 ]);
 
 function getMapBasename(map: string): string {
+	if (map.startsWith('cp_gullywash_f') && !map.startsWith('cp_gullywash_final')) {
+		return 'cp_gullywash_f6';
+	}
 	if (overWriteMapBoundaries[map]) {
 		return map;
 	}
