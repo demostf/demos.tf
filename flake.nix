@@ -32,6 +32,7 @@
           vips
           npmLd
           nodeLd
+          xcftools
         ];
       };
     });
