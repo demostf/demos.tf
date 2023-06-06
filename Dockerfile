@@ -1,4 +1,4 @@
-FROM node:16-stretch AS build
+FROM node:16-buster AS build
 WORKDIR /root/build
 RUN apt update && apt install -y git build-essential libpng16-16 libpng-dev xcftools webp nasm
 COPY package*.json ./

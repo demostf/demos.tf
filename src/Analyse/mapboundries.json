@@ -460,11 +460,11 @@
     }
   },
   "koth_proot_b4c": {
-    "boundaryMin": {
+    "boundary_min": {
       "x": -1791,
       "y": -3840
     },
-    "boundaryMax": {
+    "boundary_max": {
       "x": 1371,
       "y": 3840
     }
