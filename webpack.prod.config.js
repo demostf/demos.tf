@@ -43,6 +43,9 @@ module.exports = {
 						quality: "65-90",
 						speed: 4
 					},
+					gifsicle: {
+						enabled: false,
+					},
 					svgo: {
 						plugins: [
 							{
@@ -115,7 +118,7 @@ module.exports = {
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [
-					'image-webpack-loader'
+					'file-loader'
 				],
 				type: 'asset',
 			},

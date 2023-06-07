@@ -4,3 +4,4 @@ build
 *.cache
 Dockerfile
 .direnv
+result

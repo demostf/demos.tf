@@ -24,54 +24,65 @@
         inherit system overlays;
       };
       npmLd = pkgs.writeShellScriptBin "npm" ''
-        PATH="$PATH ${pkgs.nodejs-16_x}/bin" LD=$CC ${pkgs.nodejs-16_x}/bin/npm $@
+        PATH="$PATH ${pkgs.nodejs_20}/bin" LD=$CC ${pkgs.nodejs_20}/bin/npm $@
       '';
       nodeLd = pkgs.writeShellScriptBin "node" ''
-        LD=$CC ${pkgs.nodejs-16_x}/bin/node $@
+        LD=$CC ${pkgs.nodejs_20}/bin/node $@
       '';
       lib = pkgs.lib;
       src = lib.sources.sourceByRegex (lib.cleanSource ./.) ["package.*" "src(/.*)?" "tsconfig.json" ".*.config.js"];
+
+      buildImages = name: src: installPhase: pkgs.stdenv.mkDerivation {
+        name = "demos-tf-${name}";
+        version = "0.1.0";
+
+        inherit src installPhase;
+
+        nativeBuildInputs = with pkgs; [xcftools imagemagick];
+        buildPhase = with pkgs; ''
+          make
+        '';
+      };
+      nodeSource = nodejs: pkgs.runCommand "node-sources-${nodejs.version}"
+        { } ''
+        tar --no-same-owner --no-same-permissions -xf ${nodejs.src}
+        mv node-* $out
+      '';
     in rec {
-      packages = {
-        leveloverview = pkgs.stdenv.mkDerivation rec {
-          name = "demos-tf-leveloverview";
-          version = "0.1.0";
-
-          src = ./src/images/leveloverview;
-
-          nativeBuildInputs = with pkgs; [xcftools];
-          buildPhase = with pkgs; ''
-            cp -r ${node_modules}/node_modules ./node_modules
-            npm run build
-          '';
-
-          installPhase = ''
-            cp -r dist $out
-          '';
-        };
+      packages = rec {
+        level-overview = buildImages "level-overview" ./src/images/leveloverview ''
+          cp -r dist $out
+        '';
+        class-portraits = buildImages "class-portraits" ./src/images/class_portraits ''
+          mkdir $out
+          cp *.jpg *.png *.webp $out/
+        '';
         demos-tf = pkgs.npmlock2nix.v2.build {
           inherit src;
           installPhase = "cp -r build $out";
           buildCommands = [
-            "cd "
+            "cp -T -r ${level-overview} src/images/leveloverview/dist"
+            "cp -T -r ${class-portraits} src/images/class_portraits"
             "npm run build"
           ];
+          node_modules_attrs = {
+            buildInputs = with pkgs; [ vips ];
+            nativeBuildInputs = with pkgs; [ pkg-config python3 ];
+            postBuild = ''
+              npm rebuild sharp --nodedir=${nodeSource pkgs.nodejs_20}
+            '';
+          };
           nodejs = pkgs.nodejs_20;
         };
+        default = demos-tf;
       };
       devShells.default = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
-          autoconf
-          automake
-          libtool
           pkg-config
-          nasm
-          zlib
           python3
           vips
-          npmLd
-          nodeLd
           xcftools
+          nodejs_20
         ];
       };
     });

@@ -88,7 +88,7 @@ module.exports = {
 			{
 				test: /.*\.(gif|png|jpe?g|svg|webp)(\?.+)?$/i,
 				use: [
-					'image-webpack-loader'
+					'file-loader'
 				],
 				type: 'asset',
 			},
