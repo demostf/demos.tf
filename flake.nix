@@ -59,7 +59,11 @@
         '';
         demos-tf = pkgs.npmlock2nix.v2.build {
           inherit src;
-          installPhase = "cp -r build $out";
+          installPhase = ''
+            rm build/stats.json
+            rm build/*.map
+            cp -r build $out
+          '';
           buildCommands = [
             "cp -T -r ${level-overview} src/images/leveloverview/dist"
             "cp -T -r ${class-portraits} src/images/class_portraits"
