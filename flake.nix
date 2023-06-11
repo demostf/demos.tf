@@ -60,8 +60,8 @@
         demos-tf = pkgs.npmlock2nix.v2.build {
           inherit src;
           installPhase = ''
-            rm build/stats.json
-            rm build/*.map
+            # remove references to node_modules from source maps
+            nuke-refs build/*
             cp -r build $out
           '';
           buildCommands = [
@@ -69,6 +69,7 @@
             "cp -T -r ${class-portraits} src/images/class_portraits"
             "npm run build"
           ];
+          nativeBuildInputs = with pkgs; [ nukeReferences ];
           node_modules_attrs = {
             buildInputs = with pkgs; [ vips ];
             nativeBuildInputs = with pkgs; [ pkg-config python3 ];
@@ -79,6 +80,46 @@
           nodejs = pkgs.nodejs_20;
         };
         default = demos-tf;
+        entrypoint = pkgs.writeShellApplication {
+          name = "docker-entrypoint";
+          runtimeInputs = [
+           pkgs.envsubst
+           (pkgs.nginx.override {
+             modules = pkgs.nginx.modules ++ [pkgs.nginxModules.brotli];
+           })
+          ];
+          text = ''
+             export DOLLAR='$'
+
+             envsubst < /etc/nginx/upload.tmpl > /etc/nginx/upload.conf
+             for f in /etc/nginx/conf.d/*.tmpl
+             do
+                  envsubst < "$f" > "$f.conf"
+             done
+
+             exec nginx
+           '';
+        };
+        dockerImage = pkgs.dockerTools.buildImage {
+          name = "demostf/demos.tf";
+          tag = "latest";
+          contents = [
+            pkgs.fakeNss
+            entrypoint
+          ];
+          runAsRoot = ''
+            #!${pkgs.runtimeShell}
+            mkdir -p /etc/nginx/conf.d /usr/share/nginx/
+            mkdir -p /var/log/nginx/
+            cp ${./nginx.conf} /etc/nginx/nginx.conf
+            cp ${./upload.tmpl} /etc/nginx/upload.tmpl
+            cp ${./demostf.tmpl} /etc/nginx/conf.d/demostf.tmpl
+            cp -rL ${demos-tf} /usr/share/nginx/html
+          '';
+          config = {
+            Cmd = [ "${entrypoint}/bin/docker-entrypoint" ];
+          };
+        };
       };
       devShells.default = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
