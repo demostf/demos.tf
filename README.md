@@ -1,6 +1,6 @@
 # demos.tf
 
-[![CI](https://github.com/demostf/demos.tf/actions/workflows/build.yml/badge.svg)](https://github.com/demostf/demos.tf/actions/workflows/build.yml)
+## ⚠️ This has been superseeded by [demostf/frontend](https://github.com/demostf/frontend) ⚠️
 
 Frontend code for [demos.tf](http://demos.tf), see [the api code](https://github.com/demostf/api) for the backend.
 
