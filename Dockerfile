@@ -36,6 +36,7 @@ RUN apk add --no-cache --virtual .build-deps \
   brotli-dev
 
 # Reuse same cli arguments as the nginx:alpine image used to build
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') \
   tar -zxf nginx.tar.gz && \
   tar -xzf "${NGX_MODULE_PATH}.tar.gz" && \
